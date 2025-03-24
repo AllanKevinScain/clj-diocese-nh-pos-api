@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String  @id @default(uuid())
+  email     String
+  password  String
+  loginType String
+  name      String
+  city      String
+  createdAt String?
+  updatedAt String?
+}
+
+model Record {
+  id              String         @id @default(uuid())
+  typeOfRecord    String
+  courseNumber    Int
+  parishAcronym   String
+  recordNumber    Int
+  photo           String
+  candidateName   String
+  document        String
+  nickname        String
+  birthDate       String
+  candidatePhone  String
+  instagram       String
+  priest          String
+  parishChapel    String
+  spiritualLife   String
+  observationsDed String
+  disease         String
+  medication      String
+  allergy         String
+  dataConsent     Boolean
+  createdAt       String?
+  updatedAt       String?
+  recordPOSl      RecordPOSl[]
+  recordPOSll     RecordPOSll[]
+  recordWork      RecordWork[]
+  recordCouple    RecordCouple[]
+}
+
+model RecordPOSl {
+  id                      String @id @default(uuid())
+  godfatherName           String
+  godfatherPhone          String
+  godfatherEmail          String
+  affinityWithGodfather   String
+  attitudeCommunication   String
+  doctrineCommunication   String
+  godfatherResponsibility String
+  candidateSpirit         String
+  candidateDisposition    String
+  candidateParticipation  String
+  fatherSituation         String
+  motherSituation         String
+  livesWith               String
+  otherWho                String
+  parentsReligion         String
+  parentsComment          String
+  recordId                String
+  record                  Record @relation(fields: [recordId], references: [id])
+}
+
+model RecordPOSll {
+  id                      String  @id @default(uuid())
+  courseOneDone           String
+  motivationToParticipate String
+  reasonForCLJII          String
+  approachToChrist        String
+  acceptsChurchDoctrine   String
+  commitmentToCLJ         String
+  perseveranceInCommunity String
+  hideImportantInfo       Boolean
+  currentGroupFunction    String
+  parishChapelActivities  String
+  doingConfirmation       Boolean
+  groupObservations       String
+  recordId                String
+  record                  Record  @relation(fields: [recordId], references: [id])
+}
+
+model RecordWork {
+  id                     String  @id @default(uuid())
+  coursesDone            String
+  workedInWhichCourses   String
+  graceStateAwareness    String
+  notFalsifyData         Boolean
+  showLifeTestimony      String
+  currentGroupFunction   String
+  parishActivities       String
+  doingConfirmation      Boolean
+  instrument             String
+  reasonToWork           String
+  workPreference         String
+  willingToOtherFunction Boolean
+  parishIndication       String
+  recordId               String
+  record                 Record  @relation(fields: [recordId], references: [id])
+}
+
+model RecordCouple {
+  id                      String  @id @default(uuid())
+  workPreference          String
+  externalCouple          Boolean
+  cookCouple              Boolean
+  womanName               String
+  womanPhoto              String
+  womanDocument           String
+  womanNickname           String
+  womanPhone              String
+  womanInstagram          String
+  womanBirthDate          String
+  coursesDone             String
+  religiousWeddingDate    String
+  participatedInRetreat   Boolean
+  motivationToParticipate String
+  parishIndication        String
+  willingToOtherFunction  Boolean
+  recordId                String
+  record                  Record  @relation(fields: [recordId], references: [id])
+}

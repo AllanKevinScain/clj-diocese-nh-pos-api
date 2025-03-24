@@ -1,0 +1,10 @@
+# Ignorar saída do TypeScript
+/dist
+
+# Ignorar dependências do Node.js
+/node_modules
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+*.env

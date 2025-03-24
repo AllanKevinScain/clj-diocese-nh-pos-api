@@ -1,0 +1,31 @@
+import { z } from 'zod';
+import { prisma } from '../../database';
+import { HttpStatus } from '../../constants';
+import { handleZodError } from '../../helpers';
+import { Request, Response } from 'express';
+
+export const IdRecordPOSlSchema = z.object({
+  id: z.string().uuid(),
+});
+
+async function getRecordPOSlRepository(id: string) {
+  const prismaRequest = await prisma.record.findUnique({
+    where: { id },
+    include: {
+      recordPOSl: true,
+    },
+  });
+
+  return prismaRequest;
+}
+
+export async function getRecordPOSlController(req: Request, res: Response) {
+  try {
+    const { id } = IdRecordPOSlSchema.parse(req.params);
+    const repositoryRequest = await getRecordPOSlRepository(id);
+
+    res.status(HttpStatus.OK).send(repositoryRequest);
+  } catch (error) {
+    res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
+  }
+}
