@@ -5,21 +5,21 @@ import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { IdSchema } from '../../schemas';
 
-async function getRecordPOSlRepository(id: string) {
+async function getWorkRepository(id: string) {
   const prismaRequest = await prisma.record.findUnique({
     where: { id },
     include: {
-      recordPOSl: true,
+      recordWork: true,
     },
   });
 
   return prismaRequest;
 }
 
-export async function getRecordPOSlController(req: Request, res: Response) {
+export async function getWorkController(req: Request, res: Response) {
   try {
     const { id } = IdSchema.parse(req.params);
-    const repositoryRequest = await getRecordPOSlRepository(id);
+    const repositoryRequest = await getWorkRepository(id);
 
     res.status(HttpStatus.OK).send(repositoryRequest);
   } catch (error) {

@@ -23,7 +23,7 @@ import {
 } from '../controllers';
 
 /* trabalho */
-import { createWorkController } from '../controllers';
+import { createWorkController, getWorkController } from '../controllers';
 import { Router } from 'express';
 
 const routes = Router();
@@ -42,7 +42,7 @@ routes.delete('/record/register/posll/:id', deleteRecordPOSllController);
 
 // CRUD fixas trabalho
 routes.post('/record/register/work', createWorkController);
-routes.get('/record/register/work/:id', () => Promise.resolve());
+routes.get('/record/register/work/:id', getWorkController);
 routes.put('/record/register/work/:id', () => Promise.resolve());
 routes.delete('/record/register/work/:id', () => Promise.resolve());
 
