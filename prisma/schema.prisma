@@ -66,7 +66,7 @@ model RecordPOSl {
   parentsReligion         String
   parentsComment          String
   recordId                String
-  record                  Record @relation(fields: [recordId], references: [id])
+  record                  Record @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
 model RecordPOSll {
@@ -84,7 +84,7 @@ model RecordPOSll {
   doingConfirmation       Boolean
   groupObservations       String
   recordId                String
-  record                  Record  @relation(fields: [recordId], references: [id])
+  record                  Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
 model RecordWork {
@@ -103,7 +103,7 @@ model RecordWork {
   willingToOtherFunction Boolean
   parishIndication       String
   recordId               String
-  record                 Record  @relation(fields: [recordId], references: [id])
+  record                 Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
 model RecordCouple {
@@ -125,5 +125,5 @@ model RecordCouple {
   parishIndication        String
   willingToOtherFunction  Boolean
   recordId                String
-  record                  Record  @relation(fields: [recordId], references: [id])
+  record                  Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
