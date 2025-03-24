@@ -1,12 +1,8 @@
-import { z } from 'zod';
 import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
-
-export const IdSchema = z.object({
-  id: z.string().uuid(),
-});
+import { IdSchema } from '../../schemas';
 
 async function getUserRepository(id: string) {
   const prismaRequest = await prisma.user.findUnique({

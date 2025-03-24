@@ -3,7 +3,7 @@ import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
-import { IdRecordPOSlSchema } from './get';
+import { IdSchema } from '../../schemas';
 
 async function deleteRecordPOSlRepository(id: string) {
   const prismaRequest = await prisma.record.delete({
@@ -15,7 +15,7 @@ async function deleteRecordPOSlRepository(id: string) {
 
 export async function deleteRecordPOSlController(req: Request, res: Response) {
   try {
-    const { id } = IdRecordPOSlSchema.parse(req.params);
+    const { id } = IdSchema.parse(req.params);
     const repositoryRequest = await deleteRecordPOSlRepository(id);
 
     res.status(HttpStatus.OK).send(repositoryRequest);

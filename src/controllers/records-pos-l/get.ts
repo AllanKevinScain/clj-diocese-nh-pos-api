@@ -3,10 +3,7 @@ import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
-
-export const IdRecordPOSlSchema = z.object({
-  id: z.string().uuid(),
-});
+import { IdSchema } from '../../schemas';
 
 async function getRecordPOSlRepository(id: string) {
   const prismaRequest = await prisma.record.findUnique({
@@ -21,7 +18,7 @@ async function getRecordPOSlRepository(id: string) {
 
 export async function getRecordPOSlController(req: Request, res: Response) {
   try {
-    const { id } = IdRecordPOSlSchema.parse(req.params);
+    const { id } = IdSchema.parse(req.params);
     const repositoryRequest = await getRecordPOSlRepository(id);
 
     res.status(HttpStatus.OK).send(repositoryRequest);

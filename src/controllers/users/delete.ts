@@ -2,7 +2,7 @@ import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
-import { IdSchema } from './get';
+import { IdSchema } from '../../schemas';
 
 async function deleteUserRepository(id: string) {
   const prismaRequest = await prisma.user.delete({

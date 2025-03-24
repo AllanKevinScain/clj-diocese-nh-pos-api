@@ -3,14 +3,7 @@ import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
-
-export const UserSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-  loginType: z.enum(['admin', 'manager']),
-  name: z.string(),
-  city: z.string(),
-});
+import { UserSchema } from '../../schemas';
 
 type UserInfertypeSchema = z.infer<typeof UserSchema>;
 

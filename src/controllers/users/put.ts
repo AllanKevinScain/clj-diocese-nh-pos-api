@@ -4,8 +4,7 @@ import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { UserSchema } from './create';
-import { IdSchema } from './get';
+import { IdSchema, UserSchema } from '../../schemas';
 
 const UserPartialSchema = UserSchema.partial();
 
