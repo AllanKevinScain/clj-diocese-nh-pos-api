@@ -1,13 +1,13 @@
 import { z } from 'zod';
 import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
+import { HttpStatus, Record } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { RecordPOSlSchema, RecordSchema } from '../../schemas';
 
-export const TwoSchemas = RecordSchema.merge(RecordPOSlSchema);
+export const POSlTwoSchemas = RecordSchema.merge(RecordPOSlSchema);
 
-type TwoSchemasInfertypeSchema = z.infer<typeof TwoSchemas>;
+type TwoSchemasInfertypeSchema = z.infer<typeof POSlTwoSchemas>;
 
 async function createRecordPOSlRepository(params: TwoSchemasInfertypeSchema) {
   const record = RecordSchema.parse(params);
@@ -15,7 +15,7 @@ async function createRecordPOSlRepository(params: TwoSchemasInfertypeSchema) {
 
   const prismaRequest = await prisma.record.create({
     data: {
-      typeOfRecord: 'POSl',
+      typeOfRecord: Record.posl,
       ...record,
       recordPOSl: {
         create: recordPOSl,
@@ -27,7 +27,7 @@ async function createRecordPOSlRepository(params: TwoSchemasInfertypeSchema) {
 
 export async function createRecordPOSlController(req: Request, res: Response) {
   try {
-    const parsedRequest = TwoSchemas.parse(req.body);
+    const parsedRequest = POSlTwoSchemas.parse(req.body);
     const repositoryRequest = await createRecordPOSlRepository(parsedRequest);
 
     res.status(HttpStatus.OK).send(repositoryRequest);

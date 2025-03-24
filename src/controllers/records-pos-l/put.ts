@@ -4,10 +4,10 @@ import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { TwoSchemas } from './create';
+import { POSlTwoSchemas } from './create';
 import { IdSchema, RecordPOSlSchema, RecordSchema } from '../../schemas';
 
-const RecordPOSlPartialSchema = TwoSchemas.partial();
+const RecordPOSlPartialSchema = POSlTwoSchemas.partial();
 
 type RecordPOSlPartialInfertypeSchema = z.infer<typeof RecordPOSlPartialSchema>;
 
