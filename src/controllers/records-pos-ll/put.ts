@@ -5,30 +5,30 @@ import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { POSllTwoSchemas } from './create';
-import { IdSchema, RecordPOSlSchema, RecordSchema } from '../../schemas';
+import { IdSchema, RecordPOSllSchema, RecordSchema } from '../../schemas';
 
-const RecordPOSlPartialSchema = POSllTwoSchemas.partial();
+const RecordPOSllPartialSchema = POSllTwoSchemas.partial();
 
-type RecordPOSlPartialInfertypeSchema = z.infer<typeof RecordPOSlPartialSchema>;
+type RecordPOSllPartialInfertypeSchema = z.infer<typeof RecordPOSllPartialSchema>;
 
 type PutRepositoryParamsType = {
-  data: RecordPOSlPartialInfertypeSchema;
+  data: RecordPOSllPartialInfertypeSchema;
   id: string;
 };
 
-async function putRecordPOSlRepository(params: PutRepositoryParamsType) {
+async function putRecordPOSllRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
   const record = RecordSchema.partial().parse(data);
-  const recordPOSl = RecordPOSlSchema.partial().parse(data);
+  const recordPOSll = RecordPOSllSchema.partial().parse(data);
 
   const prismaRequest = await prisma.record.update({
     where: { id },
     data: {
       ...record,
-      recordPOSl: {
+      recordPOSll: {
         update: {
           where: { id: id },
-          data: recordPOSl,
+          data: recordPOSll,
         },
       },
     },
@@ -37,13 +37,13 @@ async function putRecordPOSlRepository(params: PutRepositoryParamsType) {
   return prismaRequest;
 }
 
-export async function putRecordPOSlController(req: Request, res: Response) {
+export async function putRecordPOSllController(req: Request, res: Response) {
   try {
     if (isEmpty(req.body)) res.status(HttpStatus.BAD_REQUEST).send();
 
     const { id } = IdSchema.parse(req.params);
-    const parsedRequestBody = RecordPOSlPartialSchema.parse(req.body);
-    const repositoryRequest = await putRecordPOSlRepository({ data: parsedRequestBody, id });
+    const parsedRequestBody = RecordPOSllPartialSchema.parse(req.body);
+    const repositoryRequest = await putRecordPOSllRepository({ data: parsedRequestBody, id });
 
     res.status(HttpStatus.OK).send(repositoryRequest);
   } catch (error) {

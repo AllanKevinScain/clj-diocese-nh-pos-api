@@ -15,7 +15,11 @@ import {
 } from '../controllers';
 
 /* pos2 */
-import { createRecordPOSllController, getRecordPOSllController } from '../controllers';
+import {
+  createRecordPOSllController,
+  getRecordPOSllController,
+  putRecordPOSllController,
+} from '../controllers';
 import { Router } from 'express';
 
 const routes = Router();
@@ -29,7 +33,7 @@ routes.delete('/record/register/posl/:id', deleteRecordPOSlController);
 // CRUD fixas pos 2
 routes.post('/record/register/posll', createRecordPOSllController);
 routes.get('/record/register/posll/:id', getRecordPOSllController);
-routes.put('/record/register/posll/:id', () => Promise.resolve());
+routes.put('/record/register/posll/:id', putRecordPOSllController);
 routes.delete('/record/register/posll/:id', () => Promise.resolve());
 
 // CRUD usuarios
