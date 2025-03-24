@@ -19,6 +19,7 @@ import {
   createRecordPOSllController,
   getRecordPOSllController,
   putRecordPOSllController,
+  deleteRecordPOSllController,
 } from '../controllers';
 import { Router } from 'express';
 
@@ -34,7 +35,7 @@ routes.delete('/record/register/posl/:id', deleteRecordPOSlController);
 routes.post('/record/register/posll', createRecordPOSllController);
 routes.get('/record/register/posll/:id', getRecordPOSllController);
 routes.put('/record/register/posll/:id', putRecordPOSllController);
-routes.delete('/record/register/posll/:id', () => Promise.resolve());
+routes.delete('/record/register/posll/:id', deleteRecordPOSllController);
 
 // CRUD usuarios
 routes.post('/user/register', createUserController);
