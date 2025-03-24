@@ -2,3 +2,6 @@ export * from './user.schema';
 export * from './single-id.schema';
 export * from './default-record.schema';
 export * from './pos-l-record.schema';
+export * from './pos-ll-record.schema';
+export * from './work-record.schema';
+export * from './couple-work-record.schema';
