@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { prisma } from '../../database';
-import { HttpStatus, Record } from '../../constants';
+import { HttpStatus, RecordCourses } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { RecordPOSlSchema, RecordSchema } from '../../schemas';
@@ -15,7 +15,7 @@ async function createRecordPOSlRepository(params: TwoSchemasInfertypeSchema) {
 
   const prismaRequest = await prisma.record.create({
     data: {
-      typeOfRecord: Record.posl,
+      typeOfRecord: RecordCourses.posl,
       ...record,
       recordPOSl: {
         create: recordPOSl,

@@ -27,7 +27,7 @@ async function putRecordPOSlRepository(params: PutRepositoryParamsType) {
       ...record,
       recordPOSl: {
         update: {
-          where: { id: id },
+          where: { id },
           data: recordPOSl,
         },
       },

@@ -27,7 +27,7 @@ async function putRecordPOSllRepository(params: PutRepositoryParamsType) {
       ...record,
       recordPOSll: {
         update: {
-          where: { id: id },
+          where: { id },
           data: recordPOSll,
         },
       },
