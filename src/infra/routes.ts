@@ -29,6 +29,14 @@ import {
   putWorkController,
   deleteWorkController,
 } from '../controllers';
+
+/* casal */
+import {
+  createCoupleController,
+  getCoupleController,
+  putCoupleController,
+  deleteCoupleController,
+} from '../controllers';
 import { Router } from 'express';
 
 const routes = Router();
@@ -50,6 +58,12 @@ routes.post('/record/register/work', createWorkController);
 routes.get('/record/register/work/:id', getWorkController);
 routes.put('/record/register/work/:id', putWorkController);
 routes.delete('/record/register/work/:id', deleteWorkController);
+
+// CRUD fixas trabalho
+routes.post('/record/register/couple', createCoupleController);
+routes.get('/record/register/couple/:id', getCoupleController);
+routes.put('/record/register/couple/:id', putCoupleController);
+routes.delete('/record/register/couple/:id', deleteCoupleController);
 
 // CRUD usuarios
 routes.post('/user/register', createUserController);

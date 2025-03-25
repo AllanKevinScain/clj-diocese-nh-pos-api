@@ -5,18 +5,21 @@ import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { IdSchema } from '../../schemas';
 
-async function deleteRecordPOSlRepository(id: string) {
-  const prismaRequest = await prisma.record.delete({
+async function getCoupleRepository(id: string) {
+  const prismaRequest = await prisma.record.findUnique({
     where: { id },
+    include: {
+      recordCouple: true,
+    },
   });
 
   return prismaRequest;
 }
 
-export async function deleteRecordPOSlController(req: Request, res: Response) {
+export async function getCoupleController(req: Request, res: Response) {
   try {
     const { id } = IdSchema.parse(req.params);
-    const repositoryRequest = await deleteRecordPOSlRepository(id);
+    const repositoryRequest = await getCoupleRepository(id);
 
     res.status(HttpStatus.OK).send(repositoryRequest);
   } catch (error) {
