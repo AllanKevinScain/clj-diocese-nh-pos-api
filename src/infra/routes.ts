@@ -4,6 +4,7 @@ import {
   deleteUserController,
   getUserController,
   putUserController,
+  listUsersController,
 } from '../controllers';
 
 /* pos1 */
@@ -70,5 +71,6 @@ routes.post('/user/register', createUserController);
 routes.get('/user/register/:id', getUserController);
 routes.put('/user/register/:id', putUserController);
 routes.delete('/user/register/:id', deleteUserController);
+routes.get('/users', listUsersController);
 
 export { routes };
