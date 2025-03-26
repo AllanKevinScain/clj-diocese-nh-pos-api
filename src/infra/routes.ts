@@ -39,8 +39,12 @@ import {
   deleteCoupleController,
 } from '../controllers';
 import { Router } from 'express';
+import {listRecordController} from '../controllers'
 
 const routes = Router();
+
+// listar fixas
+routes.get('/records/:typeOfRecord', listRecordController);
 
 // CRUD fixas pos 1
 routes.post('/record/register/posl', createRecordPOSlController);

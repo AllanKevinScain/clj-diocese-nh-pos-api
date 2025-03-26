@@ -1,4 +1,4 @@
-type RecordTypes = 'POSl' | 'POSll' | 'WORK' | 'COUPLE_WORK';
+export type RecordTypes = 'POSl' | 'POSll' | 'WORK' | 'COUPLE_WORK';
 type RecordKeys = 'posl' | 'posll' | 'work' | 'couple';
 
 export const RecordCourses: Record<RecordKeys, RecordTypes> = {
