@@ -39,12 +39,17 @@ import {
   deleteCoupleController,
 } from '../controllers';
 import { Router } from 'express';
-import {listRecordController} from '../controllers'
+import { listRecordController } from '../controllers';
+import { loginController } from '../controllers';
+import { authMiddleware } from '../controllers/login/middleware';
 
 const routes = Router();
 
+// login
+routes.post('/login', loginController);
+
 // listar fixas
-routes.get('/records/:typeOfRecord', listRecordController);
+routes.get('/records/:typeOfRecord', authMiddleware, listRecordController);
 
 // CRUD fixas pos 1
 routes.post('/record/register/posl', createRecordPOSlController);

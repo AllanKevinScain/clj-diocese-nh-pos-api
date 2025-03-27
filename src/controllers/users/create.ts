@@ -5,22 +5,16 @@ import { NextFunction, Request, Response } from 'express';
 import { UserSchema } from '../../schemas';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
+import { getUserByEmail } from '../login';
+import bcrypt from 'bcryptjs';
 
 type UserInfertypeSchema = z.infer<typeof UserSchema>;
 
-async function getUserByEmail(email: string) {
-  const prismaRequest = await prisma.user.findMany({
-    where: { email },
-  });
-
-  return prismaRequest;
-}
-
 async function createUserRepository(params: UserInfertypeSchema) {
-  const dateString = new Date().toISOString().split('T')[0];
+  const hashedPassword = await bcrypt.hash(params.password, 10);
 
   const prismaRequest = await prisma.user.create({
-    data: { ...params, createdAt: dateString, updatedAt: dateString },
+    data: { ...params, password: hashedPassword },
   });
 
   return prismaRequest;
