@@ -32,7 +32,11 @@ export async function loginController(req: Request, res: Response) {
 
     if (!passwordMatch) throw new Error('Credenciais inválidas');
 
-    const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
+    const token = jwt.sign(
+      { id: user.id, email: user.email, loginType: user.loginType },
+      SECRET_KEY,
+      { expiresIn: '1h' },
+    );
 
     res.status(HttpStatus.OK).send({ access_token: token });
   } catch (error) {
