@@ -28,7 +28,6 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
 
     const { token } = TokenSchema.parse({ token: tokenHeader });
 
-    console.log('🚀 ~ authMiddleware ~ token:', token);
     if (isEmpty(token)) throw new Error('Token não fornecido');
 
     const decoded = verifyToken(token);

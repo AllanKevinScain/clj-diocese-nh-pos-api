@@ -1,12 +1,23 @@
 import express from 'express';
 import cors from 'cors';
-import { routes } from './routes/routes';
+import { userRoutes } from './routes/user';
+import { poslRoutes } from './routes/pos-l';
+import { posllRoutes } from './routes/pos-ll';
+import { workRoutes } from './routes/work';
+import { coupleRoutes } from './routes/couple';
+import { coreRoutes } from './routes/core';
 
 const server = express();
 
 server.use(cors());
 server.use(express.json());
 
-server.use(routes);
+server.use('/user', userRoutes);
+server.use('/records/posl', poslRoutes);
+server.use('/records/posll', posllRoutes);
+server.use('/records/work', workRoutes);
+server.use('/records/couple', coupleRoutes);
+
+server.use(coreRoutes);
 
 export default server;
