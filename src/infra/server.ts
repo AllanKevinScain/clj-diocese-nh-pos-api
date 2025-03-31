@@ -6,6 +6,7 @@ import { posllRoutes } from './routes/pos-ll';
 import { workRoutes } from './routes/work';
 import { coupleRoutes } from './routes/couple';
 import { coreRoutes } from './routes/core';
+import { courseRoutes } from './routes/course';
 
 const server = express();
 
@@ -17,6 +18,7 @@ server.use('/records/posl', poslRoutes);
 server.use('/records/posll', posllRoutes);
 server.use('/records/work', workRoutes);
 server.use('/records/couple', coupleRoutes);
+server.use('/course', courseRoutes);
 
 server.use(coreRoutes);
 

@@ -1,9 +1,8 @@
-import { z } from 'zod';
 import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
-import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { IdSchema } from '../../schemas';
+import { unauthorizedException } from '../../exception';
 
 async function deleteRecordPOSlRepository(id: string) {
   const prismaRequest = await prisma.record.delete({
@@ -18,8 +17,10 @@ export async function deleteRecordPOSlController(req: Request, res: Response) {
     const { id } = IdSchema.parse(req.params);
     const repositoryRequest = await deleteRecordPOSlRepository(id);
 
-    res.status(HttpStatus.OK).send(repositoryRequest);
+    res.status(HttpStatus.OK).send({
+      message: `Fixa de ${repositoryRequest.candidateName}/${repositoryRequest.id} removida com sucesso!`,
+    });
   } catch (error) {
-    res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
+    res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });
   }
 }

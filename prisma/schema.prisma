@@ -18,6 +18,13 @@ model User {
   updatedAt String?
 }
 
+model Course {
+  id           String @id @default(uuid())
+  courseNumber Int
+  startDate    String
+  endDate      String
+}
+
 model Record {
   id              String         @id @default(uuid())
   typeOfRecord    String

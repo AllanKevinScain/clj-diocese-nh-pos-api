@@ -5,3 +5,4 @@ export * from './records-work';
 export * from './records-couple';
 export * from './record-list';
 export * from './login';
+export * from './courses';

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { UserSchema } from '../../schemas';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
@@ -20,7 +20,7 @@ async function createUserRepository(params: UserInfertypeSchema) {
   return prismaRequest;
 }
 
-export async function createUserController(req: Request, res: Response, next: NextFunction) {
+export async function createUserController(req: Request, res: Response) {
   try {
     const parsedRequest = UserSchema.parse(req.body);
     const userByEmail = await getUserByEmail(parsedRequest.email);
