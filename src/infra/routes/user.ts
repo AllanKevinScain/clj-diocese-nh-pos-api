@@ -13,11 +13,9 @@ import { authMiddleware, roleMiddleware } from '../../middleware';
 const routes = Router();
 
 routes.get('/', authMiddleware, roleMiddleware(['admin']), listUsersController);
-routes.post('/', authMiddleware, roleMiddleware([]), createUserController);
+routes.post('/', authMiddleware, roleMiddleware(['admin']), createUserController);
 routes.get('/:id', authMiddleware, roleMiddleware(['admin']), getUserController);
 routes.put('/:id', authMiddleware, roleMiddleware(['admin']), putUserController);
 routes.delete('/:id', authMiddleware, roleMiddleware(['admin']), deleteUserController);
-
-//list
 
 export { routes as userRoutes };
