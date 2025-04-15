@@ -3,24 +3,21 @@ import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
-import { CourseNumberSchema } from '../../schemas';
 
-async function listRecordsByCourseNumberRepository(courseNumber: number) {
-  const prismaRequest = await prisma.record.findMany({
-    where: { courseNumber },
-  });
+async function listCoursesRepository() {
+  const prismaRequest = await prisma.course.findMany();
 
   return prismaRequest;
 }
 
-export async function listRecordsByCourseNumberController(req: Request, res: Response) {
+export async function listCoursesController(_: Request, res: Response) {
   try {
-    const { courseNumber } = CourseNumberSchema.parse(req.params);
-
-    const repositoryRequest = await listRecordsByCourseNumberRepository(courseNumber);
-    if (isEmpty(repositoryRequest)) throw new Error('Nenhuma fixa encontrada para este curso!');
-
-    res.status(HttpStatus.OK).send(repositoryRequest);
+    const repositoryRequest = await listCoursesRepository();
+    if (isEmpty(repositoryRequest)) {
+      res.status(HttpStatus.NO_CONTENT).send([]);
+    } else {
+      res.status(HttpStatus.OK).send(repositoryRequest);
+    }
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });
   }

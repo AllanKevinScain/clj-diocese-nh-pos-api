@@ -3,16 +3,21 @@ import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
+import { CourseNumberSchema } from '../../schemas';
 
-async function listUsersRepository() {
-  const prismaRequest = await prisma.user.findMany();
+async function listRecordsByCourseNumberRepository(courseNumber: number) {
+  const prismaRequest = await prisma.record.findMany({
+    where: { courseNumber },
+  });
 
   return prismaRequest;
 }
 
-export async function listUsersController(_: Request, res: Response) {
+export async function listRecordsByCourseNumberController(req: Request, res: Response) {
   try {
-    const repositoryRequest = await listUsersRepository();
+    const { courseNumber } = CourseNumberSchema.parse(req.params);
+
+    const repositoryRequest = await listRecordsByCourseNumberRepository(Number(courseNumber));
     if (isEmpty(repositoryRequest)) {
       res.status(HttpStatus.NO_CONTENT).send([]);
     } else {

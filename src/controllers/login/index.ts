@@ -38,15 +38,13 @@ export async function loginController(req: Request, res: Response) {
       { expiresIn: '1h' },
     );
 
-    res
-      .status(HttpStatus.OK)
-      .send({
-        access_token: token,
-        id: user.id,
-        email: user.email,
-        loginType: user.loginType,
-        nome: user.name,
-      });
+    res.status(HttpStatus.OK).send({
+      accessToken: token,
+      id: user.id,
+      email: user.email,
+      loginType: user.loginType,
+      nome: user.name,
+    });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });
   }

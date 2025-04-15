@@ -20,6 +20,7 @@ model User {
 
 model Course {
   id           String @id @default(uuid())
+  typeOfCourse String @default("POSl")
   courseNumber Int
   startDate    String
   endDate      String

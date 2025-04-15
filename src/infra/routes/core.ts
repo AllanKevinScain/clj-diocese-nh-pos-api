@@ -8,14 +8,14 @@ const routes = Router();
 routes.post('/login', loginController);
 
 routes.get(
-  '/records/:typeOfRecord',
+  '/records-by-type/:typeOfRecord',
   authMiddleware,
   roleMiddleware(['admin', 'manager']),
   listRecordController,
 );
 
 routes.get(
-  '/courses/:courseNumber',
+  '/records-by-number/:courseNumber',
   authMiddleware,
   roleMiddleware(['admin']),
   listRecordsByCourseNumberController,
