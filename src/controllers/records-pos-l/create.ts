@@ -5,9 +5,9 @@ import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { RecordPOSlSchema, RecordSchema } from '../../schemas';
 
-export const POSlTwoSchemas = RecordSchema.merge(RecordPOSlSchema);
+export const POSlSchema = RecordSchema.merge(RecordPOSlSchema);
 
-type TwoSchemasInfertypeSchema = z.infer<typeof POSlTwoSchemas>;
+type TwoSchemasInfertypeSchema = z.infer<typeof POSlSchema>;
 
 async function createRecordPOSlRepository(params: TwoSchemasInfertypeSchema) {
   const record = RecordSchema.parse(params);
@@ -17,6 +17,7 @@ async function createRecordPOSlRepository(params: TwoSchemasInfertypeSchema) {
     data: {
       typeOfRecord: RecordCourses.posl,
       ...record,
+      recordNumber: Number(record.recordNumber),
       recordPOSl: {
         create: recordPOSl,
       },
@@ -27,7 +28,7 @@ async function createRecordPOSlRepository(params: TwoSchemasInfertypeSchema) {
 
 export async function createRecordPOSlController(req: Request, res: Response) {
   try {
-    const parsedRequest = POSlTwoSchemas.parse(req.body);
+    const parsedRequest = POSlSchema.parse(req.body);
     const repositoryRequest = await createRecordPOSlRepository(parsedRequest);
 
     res.status(HttpStatus.OK).send(repositoryRequest);

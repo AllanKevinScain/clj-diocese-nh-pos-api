@@ -9,14 +9,18 @@ export function handleZodError(error: unknown) {
     if (!isEmpty(issues)) {
       const errorMessages = issues.map((issue) => {
         const fieldPath = issue.path.join('.') || 'campo desconhecido';
+
+        console.log('🚀 ~ issues ~ zodError:', zodError);
         return `Erro no campo '${fieldPath}': ${issue.message}.`;
       });
 
       const detailedMessage = errorMessages.join(' ');
 
+      console.log('🚀 ~ detailedMessage ~ zodError:', zodError);
       return `Erro de validação: ${detailedMessage}`;
     }
   }
 
+  console.log('🚀 ~ error:', error);
   return error ?? 'Erro desconhecido de validação.';
 }

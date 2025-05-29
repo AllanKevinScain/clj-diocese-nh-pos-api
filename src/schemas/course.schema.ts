@@ -5,4 +5,5 @@ export const CourseSchema = z.object({
   courseNumber: z.number(),
   startDate: z.string(),
   endDate: z.string(),
+  typeOfCourse: z.enum(['POSl', 'POSll', 'WORK', 'COUPLE_WORK']),
 });

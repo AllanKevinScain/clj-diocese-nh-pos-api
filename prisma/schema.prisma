@@ -27,36 +27,37 @@ model Course {
 }
 
 model Record {
-  id              String         @id @default(uuid())
-  typeOfRecord    String
-  courseNumber    Int
-  parishAcronym   String
-  recordNumber    Int
-  photo           String
-  candidateName   String
-  document        String
-  nickname        String
-  birthDate       String
-  candidatePhone  String
-  instagram       String
-  priest          String
-  parishChapel    String
-  spiritualLife   String
-  observationsDed String
-  disease         String
-  medication      String
-  allergy         String
-  dataConsent     Boolean
-  createdAt       String?
-  updatedAt       String?
-  recordPOSl      RecordPOSl[]
-  recordPOSll     RecordPOSll[]
-  recordWork      RecordWork[]
-  recordCouple    RecordCouple[]
+  id                      String        @id @default(uuid())
+  typeOfRecord            String
+  courseNumber            Int
+  parishAcronym           String
+  recordNumber            Int
+  photo                   String
+  candidateName           String
+  document                String
+  nickname                String
+  birthDate               String
+  candidatePhone          String
+  instagram               String
+  priest                  String
+  parishChapel            String
+  spiritualLife           String
+  observationsCoordinator String        @default("")
+  observationsDed         String
+  disease                 String
+  medication              String
+  allergy                 String
+  dataConsent             Boolean
+  createdAt               String?
+  updatedAt               String?
+  recordPOSl              RecordPOSl?
+  recordPOSll             RecordPOSll?
+  recordWork              RecordWork?
+  recordCouple            RecordCouple?
 }
 
 model RecordPOSl {
-  id                      String @id @default(uuid())
+  id                      String  @id @default(uuid())
   godfatherName           String
   godfatherPhone          String
   godfatherEmail          String
@@ -72,9 +73,10 @@ model RecordPOSl {
   livesWith               String
   otherWho                String
   parentsReligion         String
+  otherReligion           String?
   parentsComment          String
-  recordId                String
-  record                  Record @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  recordId                String  @unique
+  record                  Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
 model RecordPOSll {
@@ -91,7 +93,7 @@ model RecordPOSll {
   parishChapelActivities  String
   doingConfirmation       Boolean
   groupObservations       String
-  recordId                String
+  recordId                String  @unique
   record                  Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
@@ -110,7 +112,7 @@ model RecordWork {
   workPreference         String
   willingToOtherFunction Boolean
   parishIndication       String
-  recordId               String
+  recordId               String  @unique
   record                 Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
@@ -132,6 +134,6 @@ model RecordCouple {
   motivationToParticipate String
   parishIndication        String
   willingToOtherFunction  Boolean
-  recordId                String
+  recordId                String  @unique
   record                  Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
