@@ -19,18 +19,30 @@ type PutRepositoryParamsType = {
 async function putRecordPOSlRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
   const record = RecordSchema.partial().parse(data);
-  const recordPOSl = RecordPOSlSchema.partial().parse(data);
+  const { recordId, ...recordPOSlToUpdate } = RecordPOSlSchema.partial().parse(data);
+
+  const existingRecordPOSl = await prisma.recordPOSl.findUnique({
+    where: { recordId },
+  });
+
+  if (existingRecordPOSl) {
+    const prismaRequest = await prisma.record.update({
+      where: { id },
+      data: {
+        ...record,
+        recordPOSl: { update: recordPOSlToUpdate },
+      },
+    });
+    return prismaRequest;
+  }
+
+  const recordPOSlToCreate = RecordPOSlSchema.parse(data);
 
   const prismaRequest = await prisma.record.update({
     where: { id },
     data: {
       ...record,
-      recordPOSl: {
-        update: {
-          where: { id },
-          data: recordPOSl,
-        },
-      },
+      recordPOSl: { create: recordPOSlToCreate },
     },
   });
 

@@ -8,14 +8,14 @@ datasource db {
 }
 
 model User {
-  id        String  @id @default(uuid())
+  id        String   @id @default(uuid())
   email     String
   password  String
   loginType String
   name      String
   city      String
-  createdAt String?
-  updatedAt String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Course {
@@ -48,8 +48,8 @@ model Record {
   medication              String
   allergy                 String
   dataConsent             Boolean
-  createdAt               String?
-  updatedAt               String?
+  createdAt               DateTime      @default(now())
+  updatedAt               DateTime      @default(now()) @updatedAt
   recordPOSl              RecordPOSl?
   recordPOSll             RecordPOSll?
   recordWork              RecordWork?

@@ -20,6 +20,6 @@ export const RecordSchema = z.object({
   medication: z.string(),
   allergy: z.string(),
   dataConsent: z.boolean(),
-  createdAt: z.string().optional(),
-  updatedAt: z.string().optional(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
 });

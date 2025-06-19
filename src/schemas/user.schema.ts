@@ -6,4 +6,6 @@ export const UserSchema = z.object({
   loginType: z.enum(['admin', 'manager']),
   name: z.string(),
   city: z.string(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
 });
