@@ -6,8 +6,6 @@ export const RecordCoupleSchema = z.object({
   externalCouple: z.boolean(),
   cookCouple: z.boolean(),
   womanName: z.string(),
-  womanPhoto: z.string(),
-  womanDocument: z.string(),
   womanNickname: z.string(),
   womanPhone: z.string(),
   womanInstagram: z.string(),

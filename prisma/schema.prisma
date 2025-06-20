@@ -32,9 +32,7 @@ model Record {
   courseNumber            Int
   parishAcronym           String
   recordNumber            Int
-  photo                   String
   candidateName           String
-  document                String
   nickname                String
   birthDate               String
   candidatePhone          String
@@ -44,8 +42,8 @@ model Record {
   spiritualLife           String
   observationsCoordinator String        @default("")
   observationsDed         String
-  disease                 String
-  medication              String
+  disease                 String?
+  medication              String?
   allergy                 String
   dataConsent             Boolean
   createdAt               DateTime      @default(now())
@@ -91,8 +89,7 @@ model RecordPOSll {
   hideImportantInfo       Boolean
   currentGroupFunction    String
   parishChapelActivities  String
-  doingConfirmation       Boolean
-  groupObservations       String
+  notConfirmationBecause  String?
   recordId                String  @unique
   record                  Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
@@ -106,7 +103,6 @@ model RecordWork {
   showLifeTestimony      String
   currentGroupFunction   String
   parishActivities       String
-  doingConfirmation      Boolean
   instrument             String
   reasonToWork           String
   workPreference         String
@@ -122,8 +118,6 @@ model RecordCouple {
   externalCouple          Boolean
   cookCouple              Boolean
   womanName               String
-  womanPhoto              String
-  womanDocument           String
   womanNickname           String
   womanPhone              String
   womanInstagram          String

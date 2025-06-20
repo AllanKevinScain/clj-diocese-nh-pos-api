@@ -6,9 +6,7 @@ export const RecordSchema = z.object({
   courseNumber: z.number().int(),
   parishAcronym: z.string(),
   recordNumber: z.number().int(),
-  photo: z.string(),
   candidateName: z.string(),
-  document: z.string(),
   nickname: z.string(),
   birthDate: z.string(),
   candidatePhone: z.string(),
@@ -21,8 +19,8 @@ export const RecordSchema = z.object({
   medication: z.string(),
   allergy: z.string(),
   dataConsent: z.boolean(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
 });
 
 export type RecordInfertypeSchema = z.infer<typeof RecordSchema>;

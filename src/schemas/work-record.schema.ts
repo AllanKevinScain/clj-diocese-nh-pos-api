@@ -9,7 +9,6 @@ export const RecordWorkSchema = z.object({
   showLifeTestimony: z.string(),
   currentGroupFunction: z.string(),
   parishActivities: z.string(),
-  doingConfirmation: z.boolean(),
   instrument: z.string(),
   reasonToWork: z.string(),
   workPreference: z.string(),
