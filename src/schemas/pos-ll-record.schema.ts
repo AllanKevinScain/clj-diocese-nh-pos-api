@@ -12,6 +12,7 @@ export const RecordPOSllSchema = z.object({
   hideImportantInfo: z.boolean(),
   currentGroupFunction: z.string(),
   parishChapelActivities: z.string(),
-  groupObservations: z.string(),
+  doingConfirmation: z.boolean().nullable(),
+  notConfirmationBecause: z.string().nullable(),
   recordId: z.string().optional(),
 });

@@ -5,20 +5,20 @@ import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { RecordPOSllSchema, RecordSchema } from '../../schemas';
 
-export const POSllTwoSchemas = RecordSchema.merge(RecordPOSllSchema);
+export const POSllTwoSchemas = RecordSchema.extend({ recordPOSll: RecordPOSllSchema });
 
 type TwoSchemasInfertypeSchema = z.infer<typeof POSllTwoSchemas>;
 
 async function createRecordPOSllRepository(params: TwoSchemasInfertypeSchema) {
-  const record = RecordSchema.parse(params);
-  const recordPOSll = RecordPOSllSchema.parse(params);
+  const { recordPOSll, ...record } = POSllTwoSchemas.parse(params);
+  const parseRrecordPOSll = RecordPOSllSchema.parse(recordPOSll);
 
   const prismaRequest = await prisma.record.create({
     data: {
       typeOfRecord: RecordCourses.posll,
       ...record,
       recordPOSll: {
-        create: recordPOSll,
+        create: parseRrecordPOSll,
       },
     },
   });

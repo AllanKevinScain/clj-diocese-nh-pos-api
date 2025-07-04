@@ -4,10 +4,9 @@ import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { POSllTwoSchemas } from './create';
 import { IdSchema, RecordPOSllSchema, RecordSchema } from '../../schemas';
 
-const RecordPOSllPartialSchema = POSllTwoSchemas.partial();
+const RecordPOSllPartialSchema = RecordSchema.partial().extend({ recordPOSll: RecordPOSllSchema });
 
 type RecordPOSllPartialInfertypeSchema = z.infer<typeof RecordPOSllPartialSchema>;
 
@@ -18,32 +17,18 @@ type PutRepositoryParamsType = {
 
 async function putRecordPOSllRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
-  const record = RecordSchema.partial().parse(data);
-  const recordPOSllToUpdate = RecordPOSllSchema.partial().parse(data);
-  console.log('🚀 ~ putRecordPOSllRepository ~ recordPOSllToUpdate:', recordPOSllToUpdate);
-
-  const existingRecordPosll = await prisma.recordPOSll.findUnique({
-    where: { recordId: recordPOSllToUpdate.recordId },
-  });
-
-  if (existingRecordPosll) {
-    const prismaRequest = await prisma.record.update({
-      where: { id },
-      data: {
-        ...record,
-        recordPOSll: { update: recordPOSllToUpdate },
-      },
-    });
-    return prismaRequest;
-  }
-
-  const recordPOSllToCreate = RecordPOSllSchema.parse(data);
+  const { recordPOSll, ...recordWithoutPOSll } = RecordPOSllPartialSchema.partial().parse(data);
+  const parsedRecordPOSll = RecordPOSllSchema.omit({ recordId: true }).partial().parse(recordPOSll);
 
   const prismaRequest = await prisma.record.update({
     where: { id },
     data: {
-      ...record,
-      recordPOSll: { create: recordPOSllToCreate },
+      ...recordWithoutPOSll,
+      ...(recordPOSll && {
+        recordPOSll: {
+          update: parsedRecordPOSll,
+        },
+      }),
     },
   });
 

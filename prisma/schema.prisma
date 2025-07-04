@@ -78,7 +78,7 @@ model RecordPOSl {
 }
 
 model RecordPOSll {
-  id                      String  @id @default(uuid())
+  id                      String   @id @default(uuid())
   courseOneDone           String
   motivationToParticipate String
   reasonForCLJII          String
@@ -89,9 +89,10 @@ model RecordPOSll {
   hideImportantInfo       Boolean
   currentGroupFunction    String
   parishChapelActivities  String
+  doingConfirmation       Boolean?
   notConfirmationBecause  String?
-  recordId                String  @unique
-  record                  Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  recordId                String   @unique
+  record                  Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
 model RecordWork {

@@ -17,8 +17,7 @@ type PutRepositoryParamsType = {
 
 export async function putRecordPOSlRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
-  const parsedRecord = RecordPOSlPartialSchema.partial().parse(data);
-  const { recordPOSl, ...recordWithoutPOSl } = parsedRecord;
+  const { recordPOSl, ...recordWithoutPOSl } = RecordPOSlPartialSchema.partial().parse(data);
   const parsedRecordPOSl = RecordPOSlSchema.omit({ recordId: true }).partial().parse(recordPOSl);
 
   const prismaRequest = await prisma.record.update({
