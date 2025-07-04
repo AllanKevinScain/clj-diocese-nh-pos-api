@@ -39,7 +39,7 @@ model Record {
   instagram               String
   priest                  String
   parishChapel            String
-  spiritualLife           String
+  spiritualLife           String[]
   observationsCoordinator String        @default("")
   observationsDed         String
   disease                 String?
@@ -55,7 +55,7 @@ model Record {
 }
 
 model RecordPOSl {
-  id                      String  @id @default(uuid())
+  id                      String   @id @default(uuid())
   godfatherName           String
   godfatherPhone          String
   godfatherEmail          String
@@ -68,13 +68,13 @@ model RecordPOSl {
   candidateParticipation  String
   fatherSituation         String
   motherSituation         String
-  livesWith               String
-  otherWho                String
-  parentsReligion         String
+  livesWith               String[]
+  otherWho                String?
+  parentsReligion         String?
   otherReligion           String?
   parentsComment          String
-  recordId                String  @unique
-  record                  Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  recordId                String   @unique
+  record                  Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
 model RecordPOSll {

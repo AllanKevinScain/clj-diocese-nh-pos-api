@@ -5,13 +5,14 @@ import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { RecordPOSlSchema, RecordSchema } from '../../schemas';
 
-export const POSlSchema = RecordSchema.merge(RecordPOSlSchema);
+export const POSlSchema = RecordSchema.extend({ recordPOSl: RecordPOSlSchema });
 
 type TwoSchemasInfertypeSchema = z.infer<typeof POSlSchema>;
 
 async function createRecordPOSlRepository(params: TwoSchemasInfertypeSchema) {
   const record = RecordSchema.parse(params);
-  const recordPOSl = RecordPOSlSchema.parse(params);
+  const recordPOSl = RecordPOSlSchema.parse(params.recordPOSl);
+  const { recordId, ...recordPOSlData } = recordPOSl;
 
   const prismaRequest = await prisma.record.create({
     data: {
@@ -19,7 +20,7 @@ async function createRecordPOSlRepository(params: TwoSchemasInfertypeSchema) {
       ...record,
       recordNumber: Number(record.recordNumber),
       recordPOSl: {
-        create: recordPOSl,
+        create: recordPOSlData,
       },
     },
   });
@@ -31,7 +32,9 @@ export async function createRecordPOSlController(req: Request, res: Response) {
     const parsedRequest = POSlSchema.parse(req.body);
     const repositoryRequest = await createRecordPOSlRepository(parsedRequest);
 
-    res.status(HttpStatus.OK).send(repositoryRequest);
+    res
+      .status(HttpStatus.OK)
+      .send({ message: 'Ficha criada com sucesso!', data: repositoryRequest });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
   }

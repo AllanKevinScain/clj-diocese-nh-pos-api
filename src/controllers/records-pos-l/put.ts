@@ -4,10 +4,9 @@ import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { POSlSchema } from './create';
 import { IdSchema, RecordPOSlSchema, RecordSchema } from '../../schemas';
 
-const RecordPOSlPartialSchema = POSlSchema.partial();
+const RecordPOSlPartialSchema = RecordSchema.extend({ recordPOSl: RecordPOSlSchema });
 
 type RecordPOSlPartialInfertypeSchema = z.infer<typeof RecordPOSlPartialSchema>;
 
@@ -16,33 +15,21 @@ type PutRepositoryParamsType = {
   id: string;
 };
 
-async function putRecordPOSlRepository(params: PutRepositoryParamsType) {
+export async function putRecordPOSlRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
-  const record = RecordSchema.partial().parse(data);
-  const { recordId, ...recordPOSlToUpdate } = RecordPOSlSchema.partial().parse(data);
-
-  const existingRecordPOSl = await prisma.recordPOSl.findUnique({
-    where: { recordId },
-  });
-
-  if (existingRecordPOSl) {
-    const prismaRequest = await prisma.record.update({
-      where: { id },
-      data: {
-        ...record,
-        recordPOSl: { update: recordPOSlToUpdate },
-      },
-    });
-    return prismaRequest;
-  }
-
-  const recordPOSlToCreate = RecordPOSlSchema.parse(data);
+  const parsedRecord = RecordPOSlPartialSchema.partial().parse(data);
+  const { recordPOSl, ...recordWithoutPOSl } = parsedRecord;
+  const parsedRecordPOSl = RecordPOSlSchema.omit({ recordId: true }).partial().parse(recordPOSl);
 
   const prismaRequest = await prisma.record.update({
     where: { id },
     data: {
-      ...record,
-      recordPOSl: { create: recordPOSlToCreate },
+      ...recordWithoutPOSl,
+      ...(recordPOSl && {
+        recordPOSl: {
+          update: parsedRecordPOSl,
+        },
+      }),
     },
   });
 
@@ -57,7 +44,10 @@ export async function putRecordPOSlController(req: Request, res: Response) {
     const parsedRequestBody = RecordPOSlPartialSchema.parse(req.body);
     const repositoryRequest = await putRecordPOSlRepository({ data: parsedRequestBody, id });
 
-    res.status(HttpStatus.OK).send(repositoryRequest);
+    res.status(HttpStatus.OK).send({
+      message: `A ficha de ${repositoryRequest.candidateName} foi atualizada`,
+      data: repositoryRequest,
+    });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
   }

@@ -30,7 +30,9 @@ export async function createRecordPOSllController(req: Request, res: Response) {
     const parsedRequest = POSllTwoSchemas.parse(req.body);
     const repositoryRequest = await createRecordPOSllRepository(parsedRequest);
 
-    res.status(HttpStatus.OK).send(repositoryRequest);
+    res
+      .status(HttpStatus.OK)
+      .send({ message: 'Ficha criada com sucesso!', data: repositoryRequest });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
   }

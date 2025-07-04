@@ -13,9 +13,11 @@ export const RecordPOSlSchema = z.object({
   candidateParticipation: z.string(),
   fatherSituation: z.string(),
   motherSituation: z.string(),
-  livesWith: z.string(),
-  otherWho: z.string(),
-  parentsReligion: z.string(),
   parentsComment: z.string(),
+  livesWith: z.array(z.string()),
+
+  // optional/null fields
   recordId: z.string().uuid().optional(),
+  otherWho: z.string().nullable(),
+  parentsReligion: z.string().nullable(),
 });

@@ -19,18 +19,31 @@ type PutRepositoryParamsType = {
 async function putRecordPOSllRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
   const record = RecordSchema.partial().parse(data);
-  const recordPOSll = RecordPOSllSchema.partial().parse(data);
+  const recordPOSllToUpdate = RecordPOSllSchema.partial().parse(data);
+  console.log('🚀 ~ putRecordPOSllRepository ~ recordPOSllToUpdate:', recordPOSllToUpdate);
+
+  const existingRecordPosll = await prisma.recordPOSll.findUnique({
+    where: { recordId: recordPOSllToUpdate.recordId },
+  });
+
+  if (existingRecordPosll) {
+    const prismaRequest = await prisma.record.update({
+      where: { id },
+      data: {
+        ...record,
+        recordPOSll: { update: recordPOSllToUpdate },
+      },
+    });
+    return prismaRequest;
+  }
+
+  const recordPOSllToCreate = RecordPOSllSchema.parse(data);
 
   const prismaRequest = await prisma.record.update({
     where: { id },
     data: {
       ...record,
-      recordPOSll: {
-        update: {
-          where: { id },
-          data: recordPOSll,
-        },
-      },
+      recordPOSll: { create: recordPOSllToCreate },
     },
   });
 
@@ -45,7 +58,10 @@ export async function putRecordPOSllController(req: Request, res: Response) {
     const parsedRequestBody = RecordPOSllPartialSchema.parse(req.body);
     const repositoryRequest = await putRecordPOSllRepository({ data: parsedRequestBody, id });
 
-    res.status(HttpStatus.OK).send(repositoryRequest);
+    res.status(HttpStatus.OK).send({
+      message: `A ficha de ${repositoryRequest.candidateName} foi atualizada`,
+      data: repositoryRequest,
+    });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
   }
