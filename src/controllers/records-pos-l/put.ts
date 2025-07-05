@@ -25,9 +25,7 @@ export async function putRecordPOSlRepository(params: PutRepositoryParamsType) {
     data: {
       ...recordWithoutPOSl,
       ...(recordPOSl && {
-        recordPOSl: {
-          update: parsedRecordPOSl,
-        },
+        recordPOSl: { update: parsedRecordPOSl },
       }),
     },
   });

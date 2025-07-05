@@ -4,10 +4,9 @@ import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { WorkTwoSchemas } from './create';
 import { IdSchema, RecordWorkSchema, RecordSchema } from '../../schemas';
 
-const WorkPartialSchema = WorkTwoSchemas.partial();
+const WorkPartialSchema = RecordSchema.extend({ recordWork: RecordWorkSchema });
 
 type WorkPartialInfertypeSchema = z.infer<typeof WorkPartialSchema>;
 
@@ -18,19 +17,16 @@ type PutRepositoryParamsType = {
 
 async function putWorkRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
-  const record = RecordSchema.partial().parse(data);
-  const Work = RecordWorkSchema.partial().parse(data);
+  const { recordWork, ...recordWithoutObject } = WorkPartialSchema.partial().parse(data);
+  const parsedRecordWork = RecordWorkSchema.omit({ recordId: true }).partial().parse(recordWork);
 
   const prismaRequest = await prisma.record.update({
     where: { id },
     data: {
-      ...record,
-      recordWork: {
-        update: {
-          where: { id },
-          data: Work,
-        },
-      },
+      ...recordWithoutObject,
+      ...(recordWork && {
+        recordWork: { update: parsedRecordWork },
+      }),
     },
   });
 

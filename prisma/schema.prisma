@@ -44,7 +44,7 @@ model Record {
   observationsDed         String
   disease                 String?
   medication              String?
-  allergy                 String
+  allergy                 String?
   dataConsent             Boolean
   createdAt               DateTime      @default(now())
   updatedAt               DateTime      @default(now()) @updatedAt
@@ -96,21 +96,25 @@ model RecordPOSll {
 }
 
 model RecordWork {
-  id                     String  @id @default(uuid())
-  coursesDone            String
+  id                     String   @id @default(uuid())
+  courseOneDone          String
+  courseTwoDone          String
+  courseThreeDone        String?
   workedInWhichCourses   String
   graceStateAwareness    String
   notFalsifyData         Boolean
   showLifeTestimony      String
   currentGroupFunction   String
   parishActivities       String
-  instrument             String
+  doingConfirmation      Boolean?
+  notConfirmationBecause String?
+  instrument             String?
   reasonToWork           String
   workPreference         String
   willingToOtherFunction Boolean
-  parishIndication       String
-  recordId               String  @unique
-  record                 Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  parishIndication       String[]
+  recordId               String   @unique
+  record                 Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
 model RecordCouple {

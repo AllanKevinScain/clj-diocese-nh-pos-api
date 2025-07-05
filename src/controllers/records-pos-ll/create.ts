@@ -5,7 +5,7 @@ import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { RecordPOSllSchema, RecordSchema } from '../../schemas';
 
-export const POSllTwoSchemas = RecordSchema.extend({ recordPOSll: RecordPOSllSchema });
+const POSllTwoSchemas = RecordSchema.extend({ recordPOSll: RecordPOSllSchema });
 
 type TwoSchemasInfertypeSchema = z.infer<typeof POSllTwoSchemas>;
 
@@ -17,9 +17,7 @@ async function createRecordPOSllRepository(params: TwoSchemasInfertypeSchema) {
     data: {
       typeOfRecord: RecordCourses.posll,
       ...record,
-      recordPOSll: {
-        create: parseRrecordPOSll,
-      },
+      recordPOSll: { create: parseRrecordPOSll },
     },
   });
   return prismaRequest;

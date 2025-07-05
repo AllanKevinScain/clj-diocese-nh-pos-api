@@ -5,21 +5,19 @@ import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { RecordWorkSchema, RecordSchema } from '../../schemas';
 
-export const WorkTwoSchemas = RecordSchema.merge(RecordWorkSchema);
+const WorkTwoSchemas = RecordSchema.extend({ recordWork: RecordWorkSchema });
 
 type TwoSchemasInfertypeSchema = z.infer<typeof WorkTwoSchemas>;
 
 async function createWorkRepository(params: TwoSchemasInfertypeSchema) {
-  const record = RecordSchema.parse(params);
-  const Work = RecordWorkSchema.parse(params);
+  const { recordWork, ...recordWithoutObject } = WorkTwoSchemas.parse(params);
+  const parseRecordWork = RecordWorkSchema.parse(recordWork);
 
   const prismaRequest = await prisma.record.create({
     data: {
       typeOfRecord: RecordCourses.work,
-      ...record,
-      recordWork: {
-        create: Work,
-      },
+      ...recordWithoutObject,
+      recordWork: { create: parseRecordWork },
     },
   });
   return prismaRequest;

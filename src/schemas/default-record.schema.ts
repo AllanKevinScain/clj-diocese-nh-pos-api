@@ -14,11 +14,13 @@ export const RecordSchema = z.object({
   parishChapel: z.string(),
   spiritualLife: z.array(z.string()),
   observationsDed: z.string(),
-  disease: z.string().nullish(),
-  medication: z.string().nullish(),
-  allergy: z.string(),
   dataConsent: z.boolean(),
   observationsCoordinator: z.string(),
+
+  // Campos não obrigatórios
+  disease: z.string().nullish(),
+  medication: z.string().nullish(),
+  allergy: z.string().nullish(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 });

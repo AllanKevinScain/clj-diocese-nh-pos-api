@@ -6,7 +6,7 @@ import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { IdSchema, RecordPOSllSchema, RecordSchema } from '../../schemas';
 
-const RecordPOSllPartialSchema = RecordSchema.partial().extend({ recordPOSll: RecordPOSllSchema });
+const RecordPOSllPartialSchema = RecordSchema.extend({ recordPOSll: RecordPOSllSchema });
 
 type RecordPOSllPartialInfertypeSchema = z.infer<typeof RecordPOSllPartialSchema>;
 
@@ -17,17 +17,15 @@ type PutRepositoryParamsType = {
 
 async function putRecordPOSllRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
-  const { recordPOSll, ...recordWithoutPOSll } = RecordPOSllPartialSchema.partial().parse(data);
+  const { recordPOSll, ...recordWithoutObject } = RecordPOSllPartialSchema.partial().parse(data);
   const parsedRecordPOSll = RecordPOSllSchema.omit({ recordId: true }).partial().parse(recordPOSll);
 
   const prismaRequest = await prisma.record.update({
     where: { id },
     data: {
-      ...recordWithoutPOSll,
+      ...recordWithoutObject,
       ...(recordPOSll && {
-        recordPOSll: {
-          update: parsedRecordPOSll,
-        },
+        recordPOSll: { update: parsedRecordPOSll },
       }),
     },
   });
