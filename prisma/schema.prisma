@@ -127,7 +127,7 @@ model RecordWork {
 }
 
 model RecordCouple {
-  id                      String  @id @default(uuid())
+  id                      String   @id @default(uuid())
   workPreference          String
   externalCouple          Boolean
   cookCouple              Boolean
@@ -136,12 +136,18 @@ model RecordCouple {
   womanPhone              String
   womanInstagram          String
   womanBirthDate          String
+  coursesOneDone          String?
+  coursesTwoDone          String?
+  coursesThreeDone        String?
   coursesDone             String
+  currentGroupFunction    String
+  participatedOtherGroups String
+  womanSpiritualLife      String[]
+  familyLife              String
   religiousWeddingDate    String
   participatedInRetreat   Boolean
   motivationToParticipate String
-  parishIndication        String
-  willingToOtherFunction  Boolean
-  recordId                String  @unique
-  record                  Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  parishIndication        String[]
+  recordId                String   @unique
+  record                  Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }

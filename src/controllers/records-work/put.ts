@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
+import { HttpStatus, RecordCourses } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
@@ -24,6 +24,7 @@ async function putWorkRepository(params: PutRepositoryParamsType) {
     where: { id },
     data: {
       ...recordWithoutObject,
+      typeOfRecord: RecordCourses.work,
       ...(recordWork && {
         recordWork: { update: parsedRecordWork },
       }),

@@ -15,8 +15,8 @@ async function createWorkRepository(params: TwoSchemasInfertypeSchema) {
 
   const prismaRequest = await prisma.record.create({
     data: {
-      typeOfRecord: RecordCourses.work,
       ...recordWithoutObject,
+      typeOfRecord: RecordCourses.work,
       recordWork: { create: parseRecordWork },
     },
   });

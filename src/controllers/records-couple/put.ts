@@ -1,13 +1,12 @@
 import { z } from 'zod';
 import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
+import { HttpStatus, RecordCourses } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { CoupleTwoSchemas } from './create';
 import { IdSchema, RecordCoupleSchema, RecordSchema } from '../../schemas';
 
-const CouplePartialSchema = CoupleTwoSchemas.partial();
+const CouplePartialSchema = RecordSchema.extend({ recordCouple: RecordCoupleSchema });
 
 type CouplePartialInfertypeSchema = z.infer<typeof CouplePartialSchema>;
 
@@ -18,19 +17,19 @@ type PutRepositoryParamsType = {
 
 async function putCoupleRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
-  const record = RecordSchema.partial().parse(data);
-  const Couple = RecordCoupleSchema.partial().parse(data);
+  const { recordCouple, ...recordWithoutCouple } = CouplePartialSchema.partial().parse(data);
+  const parsedRecordCouple = RecordCoupleSchema.omit({ recordId: true })
+    .partial()
+    .parse(recordCouple);
 
   const prismaRequest = await prisma.record.update({
     where: { id },
     data: {
-      ...record,
-      recordCouple: {
-        update: {
-          where: { id },
-          data: Couple,
-        },
-      },
+      ...recordWithoutCouple,
+      typeOfRecord: RecordCourses.couple,
+      ...(recordCouple && {
+        recordCouple: { update: parsedRecordCouple },
+      }),
     },
   });
 
@@ -45,7 +44,10 @@ export async function putCoupleController(req: Request, res: Response) {
     const parsedRequestBody = CouplePartialSchema.parse(req.body);
     const repositoryRequest = await putCoupleRepository({ data: parsedRequestBody, id });
 
-    res.status(HttpStatus.OK).send(repositoryRequest);
+    res.status(HttpStatus.OK).send({
+      message: `A ficha de ${repositoryRequest.candidateName} foi atualizada`,
+      data: repositoryRequest,
+    });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
   }

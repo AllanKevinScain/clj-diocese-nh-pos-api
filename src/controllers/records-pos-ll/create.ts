@@ -5,18 +5,18 @@ import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { RecordPOSllSchema, RecordSchema } from '../../schemas';
 
-const POSllTwoSchemas = RecordSchema.extend({ recordPOSll: RecordPOSllSchema });
+const POSllSchema = RecordSchema.extend({ recordPOSll: RecordPOSllSchema });
 
-type TwoSchemasInfertypeSchema = z.infer<typeof POSllTwoSchemas>;
+type TwoSchemasInfertypeSchema = z.infer<typeof POSllSchema>;
 
 async function createRecordPOSllRepository(params: TwoSchemasInfertypeSchema) {
-  const { recordPOSll, ...record } = POSllTwoSchemas.parse(params);
-  const parseRrecordPOSll = RecordPOSllSchema.parse(recordPOSll);
+  const { recordPOSll, ...recordWithoutObject } = POSllSchema.parse(params);
+  const parseRrecordPOSll = RecordPOSllSchema.omit({ recordId: true }).parse(recordPOSll);
 
   const prismaRequest = await prisma.record.create({
     data: {
+      ...recordWithoutObject,
       typeOfRecord: RecordCourses.posll,
-      ...record,
       recordPOSll: { create: parseRrecordPOSll },
     },
   });
@@ -25,7 +25,7 @@ async function createRecordPOSllRepository(params: TwoSchemasInfertypeSchema) {
 
 export async function createRecordPOSllController(req: Request, res: Response) {
   try {
-    const parsedRequest = POSllTwoSchemas.parse(req.body);
+    const parsedRequest = POSllSchema.parse(req.body);
     const repositoryRequest = await createRecordPOSllRepository(parsedRequest);
 
     res
