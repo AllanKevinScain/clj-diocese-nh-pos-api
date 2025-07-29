@@ -7,11 +7,14 @@ import { workRoutes } from './routes/work';
 import { coupleRoutes } from './routes/couple';
 import { coreRoutes } from './routes/core';
 import { courseRoutes } from './routes/course';
+import { authRoutes } from './routes/auth';
 
 const server = express();
 
 server.use(cors());
 server.use(express.json());
+
+server.use(authRoutes);
 
 server.use('/user', userRoutes);
 server.use('/records/posl', poslRoutes);

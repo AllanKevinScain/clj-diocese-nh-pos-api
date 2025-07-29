@@ -8,14 +8,23 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String
-  password  String
-  loginType String
-  name      String
-  city      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id           String        @id @default(uuid())
+  email        String        @unique
+  password     String
+  loginType    String
+  name         String
+  city         String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+  RefreshToken RefreshToken?
+}
+
+model RefreshToken {
+  id        String @id @default(uuid())
+  token     String @unique
+  expiresIn Int
+  userId    String @unique
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Course {
