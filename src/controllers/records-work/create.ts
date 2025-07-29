@@ -11,7 +11,7 @@ type TwoSchemasInfertypeSchema = z.infer<typeof WorkTwoSchemas>;
 
 async function createWorkRepository(params: TwoSchemasInfertypeSchema) {
   const { recordWork, ...recordWithoutObject } = WorkTwoSchemas.parse(params);
-  const parseRecordWork = RecordWorkSchema.parse(recordWork);
+  const parseRecordWork = RecordWorkSchema.omit({ recordId: true }).parse(recordWork);
 
   const prismaRequest = await prisma.record.create({
     data: {
@@ -28,7 +28,9 @@ export async function createWorkController(req: Request, res: Response) {
     const parsedRequest = WorkTwoSchemas.parse(req.body);
     const repositoryRequest = await createWorkRepository(parsedRequest);
 
-    res.status(HttpStatus.OK).send(repositoryRequest);
+    res
+      .status(HttpStatus.OK)
+      .send({ message: 'Ficha criada com sucesso!', data: repositoryRequest });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
   }

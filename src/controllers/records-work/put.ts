@@ -41,7 +41,10 @@ export async function putWorkController(req: Request, res: Response) {
     const parsedRequestBody = WorkPartialSchema.parse(req.body);
     const repositoryRequest = await putWorkRepository({ data: parsedRequestBody, id });
 
-    res.status(HttpStatus.OK).send(repositoryRequest);
+    res.status(HttpStatus.OK).send({
+      message: `A ficha de ${repositoryRequest.candidateName} foi atualizada`,
+      data: repositoryRequest,
+    });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
   }

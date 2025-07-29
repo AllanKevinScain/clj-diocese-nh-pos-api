@@ -8,9 +8,7 @@ import { IdSchema } from '../../schemas';
 async function getWorkRepository(id: string) {
   const prismaRequest = await prisma.record.findUnique({
     where: { id },
-    include: {
-      recordWork: true,
-    },
+    include: { recordWork: true },
   });
 
   return prismaRequest;

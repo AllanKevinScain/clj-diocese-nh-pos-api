@@ -8,9 +8,7 @@ import { IdSchema } from '../../schemas';
 async function getRecordPOSlRepository(id: string) {
   const prismaRequest = await prisma.record.findUnique({
     where: { id },
-    include: {
-      recordPOSl: true,
-    },
+    include: { recordPOSl: true },
   });
 
   return prismaRequest;
