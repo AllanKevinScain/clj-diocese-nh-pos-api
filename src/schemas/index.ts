@@ -5,8 +5,6 @@ export * from './pos-l-record.schema';
 export * from './pos-ll-record.schema';
 export * from './work-record.schema';
 export * from './couple-work-record.schema';
-export * from './type-record.schema';
 export * from './login.schema';
 export * from './token.schema';
 export * from './course.schema';
-export * from './single-course-number.schema';

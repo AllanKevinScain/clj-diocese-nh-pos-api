@@ -3,7 +3,6 @@ export * from './records-pos-l';
 export * from './records-pos-ll';
 export * from './records-work';
 export * from './records-couple';
-export * from './record-list';
 export * from './login';
 export * from './courses';
 export * from './record-search';
