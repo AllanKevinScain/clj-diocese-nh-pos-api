@@ -1,9 +1,14 @@
 import { Router } from 'express';
-import { listRecordController, listRecordsByCourseNumberController } from '../../controllers';
+import {
+  filterRecordsController,
+  listRecordController,
+  listRecordsByCourseNumberController,
+} from '../../controllers';
 import { authMiddleware, roleMiddleware } from '../../middleware';
 
 const routes = Router();
 
+// lista por tipo de ficha
 routes.get(
   '/records-by-type/:typeOfRecord',
   authMiddleware,
@@ -11,6 +16,7 @@ routes.get(
   listRecordController,
 );
 
+// lista por número de curso
 routes.get(
   '/records-by-number/:courseNumber',
   authMiddleware,
@@ -18,4 +24,12 @@ routes.get(
   listRecordsByCourseNumberController,
 );
 
-export { routes as coreRoutes };
+// filtro geral das fichas
+routes.get(
+  '/records-filter',
+  authMiddleware,
+  roleMiddleware(['admin', 'manager']),
+  filterRecordsController,
+);
+
+export { routes as listRoutes };
