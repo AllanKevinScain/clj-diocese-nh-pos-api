@@ -151,3 +151,16 @@ model RecordCouple {
   recordId                String   @unique
   record                  Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
+
+model PeapleCljThree {
+  id             String   @id @default(uuid())
+  candidatePhone String?
+  candidateName  String
+  instagram      String?
+  courseOne      String
+  courseTwo      String
+  courseThree    String
+  formations     String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
+}
