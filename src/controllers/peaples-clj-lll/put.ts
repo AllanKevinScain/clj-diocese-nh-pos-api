@@ -4,7 +4,7 @@ import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
-import { getCourseRepository } from './get';
+import { getPeapleCljThreeRepository } from './get';
 import { CourseSchema, IdSchema } from '../../schemas';
 
 const CoursePartialSchema = CourseSchema.partial();
@@ -35,7 +35,7 @@ export async function putCourseController(req: Request, res: Response) {
     const parsedRequestBody = CoursePartialSchema.parse(req.body);
     if (isEmpty(parsedRequestBody)) throw new Error('Dados inválidos!');
 
-    const currentCourseById = await getCourseRepository(id);
+    const currentCourseById = await getPeapleCljThreeRepository(id);
     if (isEmpty(currentCourseById)) throw new Error('Curso não encontrado!');
 
     const repositoryRequest = await putCourseRepository({ data: parsedRequestBody, id });

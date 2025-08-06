@@ -5,20 +5,20 @@ import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 import { IdSchema } from '../../schemas';
 
-export async function getCourseRepository(id: string) {
-  const prismaRequest = await prisma.course.findUnique({
+export async function getPeapleCljThreeRepository(id: string) {
+  const prismaRequest = await prisma.peapleCljThree.findUnique({
     where: { id },
   });
 
   return prismaRequest;
 }
 
-export async function getCourseController(req: Request, res: Response) {
+export async function getPeapleCljThreeController(req: Request, res: Response) {
   try {
     const { id } = IdSchema.parse(req.params);
 
-    const repositoryRequest = await getCourseRepository(id);
-    if (isEmpty(repositoryRequest)) throw new Error('Curso não encontrado!');
+    const repositoryRequest = await getPeapleCljThreeRepository(id);
+    if (isEmpty(repositoryRequest)) throw new Error('Informação não encontrada!');
 
     res.status(HttpStatus.OK).send(repositoryRequest);
   } catch (error) {

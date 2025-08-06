@@ -2,7 +2,7 @@ import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { IdSchema } from '../../schemas';
-import { getCourseRepository } from './get';
+import { getPeapleCljThreeRepository } from './get';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 
@@ -18,7 +18,7 @@ export async function deleteCourseController(req: Request, res: Response) {
   try {
     const { id } = IdSchema.parse(req.params);
 
-    const currentCourseById = await getCourseRepository(id);
+    const currentCourseById = await getPeapleCljThreeRepository(id);
     if (isEmpty(currentCourseById)) throw new Error('Course not found');
 
     const repositoryRequest = await deleteCourseRepository(id);
