@@ -1,7 +1,9 @@
 import {
   createPeapleCljThreeController,
+  deletePeapleCljThreeController,
   getPeapleCljThreeController,
   listPeapleCljThreeController,
+  putPeapleCljThreeController,
 } from '../../controllers';
 
 import { Router } from 'express';
@@ -16,8 +18,8 @@ routes.get(
   roleMiddleware(['admin', 'manager']),
   getPeapleCljThreeController,
 );
-// routes.put('/:id', authMiddleware, roleMiddleware(['admin']), putCourseController);
-// routes.delete('/:id', authMiddleware, roleMiddleware(['admin']), deleteCourseController);
+routes.put('/:id', authMiddleware, roleMiddleware(['admin']), putPeapleCljThreeController);
+routes.delete('/:id', authMiddleware, roleMiddleware(['admin']), deletePeapleCljThreeController);
 
 //list
 routes.get('/', authMiddleware, roleMiddleware(['admin', 'manager']), listPeapleCljThreeController);

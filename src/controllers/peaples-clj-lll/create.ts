@@ -3,9 +3,9 @@ import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { unauthorizedException } from '../../exception';
-import { PeapleCljThree } from '../../schemas';
+import { PeapleCljThreeSchema } from '../../schemas';
 
-type PeapleCljThreeInfertypeSchema = z.infer<typeof PeapleCljThree>;
+type PeapleCljThreeInfertypeSchema = z.infer<typeof PeapleCljThreeSchema>;
 
 async function createPeapleCljThreeRepository(data: PeapleCljThreeInfertypeSchema) {
   const prismaRequest = await prisma.peapleCljThree.create({ data });
@@ -14,7 +14,7 @@ async function createPeapleCljThreeRepository(data: PeapleCljThreeInfertypeSchem
 
 export async function createPeapleCljThreeController(req: Request, res: Response) {
   try {
-    const parsedRequest = PeapleCljThree.parse(req.body);
+    const parsedRequest = PeapleCljThreeSchema.parse(req.body);
     const repositoryRequest = await createPeapleCljThreeRepository(parsedRequest);
 
     res

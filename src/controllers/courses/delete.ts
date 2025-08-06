@@ -19,12 +19,12 @@ export async function deleteCourseController(req: Request, res: Response) {
     const { id } = IdSchema.parse(req.params);
 
     const currentCourseById = await getCourseRepository(id);
-    if (isEmpty(currentCourseById)) throw new Error('Course not found');
+    if (isEmpty(currentCourseById)) throw new Error('Curso não encontrado.');
 
     const repositoryRequest = await deleteCourseRepository(id);
 
     res.status(HttpStatus.OK).send({
-      message: `Curso ${repositoryRequest.courseNumber} removido com sucesso`,
+      message: `Curso ${repositoryRequest.courseNumber} removido com sucesso.s`,
     });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });

@@ -5,9 +5,9 @@ import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 import { getPeapleCljThreeRepository } from './get';
-import { CourseSchema, IdSchema } from '../../schemas';
+import { PeapleCljThreeSchema, IdSchema } from '../../schemas';
 
-const CoursePartialSchema = CourseSchema.partial();
+const CoursePartialSchema = PeapleCljThreeSchema.partial();
 
 type CoursePartialInfertypeSchema = z.infer<typeof CoursePartialSchema>;
 
@@ -16,9 +16,9 @@ type PutRepositoryParamsType = {
   id: string;
 };
 
-async function putCourseRepository(params: PutRepositoryParamsType) {
+async function putPeapleCljThreeRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
-  const prismaRequest = await prisma.course.update({
+  const prismaRequest = await prisma.peapleCljThree.update({
     where: { id },
     data,
   });
@@ -26,7 +26,7 @@ async function putCourseRepository(params: PutRepositoryParamsType) {
   return prismaRequest;
 }
 
-export async function putCourseController(req: Request, res: Response) {
+export async function putPeapleCljThreeController(req: Request, res: Response) {
   try {
     if (isEmpty(req.body)) res.status(HttpStatus.BAD_REQUEST).send();
 
@@ -36,13 +36,13 @@ export async function putCourseController(req: Request, res: Response) {
     if (isEmpty(parsedRequestBody)) throw new Error('Dados inválidos!');
 
     const currentCourseById = await getPeapleCljThreeRepository(id);
-    if (isEmpty(currentCourseById)) throw new Error('Curso não encontrado!');
+    if (isEmpty(currentCourseById)) throw new Error('Informação não encontrada!');
 
-    const repositoryRequest = await putCourseRepository({ data: parsedRequestBody, id });
+    const repositoryRequest = await putPeapleCljThreeRepository({ data: parsedRequestBody, id });
 
     res
       .status(HttpStatus.OK)
-      .send({ message: `Curso ${repositoryRequest.courseNumber} atualizado com sucesso!` });
+      .send({ message: `${repositoryRequest.candidateName} atualizado com sucesso!` });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });
   }

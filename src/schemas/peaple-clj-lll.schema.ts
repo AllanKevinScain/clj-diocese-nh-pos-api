@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const PeapleCljThree = z.object({
+export const PeapleCljThreeSchema = z.object({
   id: z.string().uuid().optional(),
   candidatePhone: z.string().nullish(),
   candidateName: z.string(),

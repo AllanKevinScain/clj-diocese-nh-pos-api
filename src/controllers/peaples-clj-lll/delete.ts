@@ -6,25 +6,25 @@ import { getPeapleCljThreeRepository } from './get';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 
-async function deleteCourseRepository(id: string) {
-  const prismaRequest = await prisma.course.delete({
+async function deletePeapleCljThreeRepository(id: string) {
+  const prismaRequest = await prisma.peapleCljThree.delete({
     where: { id },
   });
 
   return prismaRequest;
 }
 
-export async function deleteCourseController(req: Request, res: Response) {
+export async function deletePeapleCljThreeController(req: Request, res: Response) {
   try {
     const { id } = IdSchema.parse(req.params);
 
-    const currentCourseById = await getPeapleCljThreeRepository(id);
-    if (isEmpty(currentCourseById)) throw new Error('Course not found');
+    const currentPeapleById = await getPeapleCljThreeRepository(id);
+    if (isEmpty(currentPeapleById)) throw new Error('Informação não encontrada.');
 
-    const repositoryRequest = await deleteCourseRepository(id);
+    const repositoryRequest = await deletePeapleCljThreeRepository(id);
 
     res.status(HttpStatus.OK).send({
-      message: `Curso ${repositoryRequest.courseNumber} removido com sucesso`,
+      message: `${repositoryRequest.candidateName} removido da lista de jovens.`,
     });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });
