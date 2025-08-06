@@ -9,6 +9,7 @@ import { coupleRoutes } from './routes/couple';
 import { listRoutes } from './routes/list';
 import { courseRoutes } from './routes/course';
 import { authRoutes } from './routes/auth';
+import { peapleCljThreeRoutes } from './routes/peaple-clj-lll';
 
 const server = express();
 
@@ -29,5 +30,6 @@ server.use('/records/work', workRoutes);
 server.use('/records/couple', coupleRoutes);
 server.use('/course', courseRoutes);
 server.use('/list', listRoutes);
+server.use('/peaple-poslll', peapleCljThreeRoutes);
 
 export default server;

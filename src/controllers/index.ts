@@ -6,3 +6,4 @@ export * from './records-couple';
 export * from './login';
 export * from './courses';
 export * from './record-search';
+export * from './peaples-clj-lll';
