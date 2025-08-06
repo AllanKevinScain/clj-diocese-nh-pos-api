@@ -157,9 +157,9 @@ model PeapleCljThree {
   candidatePhone String?
   candidateName  String
   instagram      String?
-  courseOne      String
-  courseTwo      String
-  courseThree    String
+  courseOne      Int
+  courseTwo      Int
+  courseThree    Int
   formations     String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now()) @updatedAt
