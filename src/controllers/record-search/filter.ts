@@ -2,12 +2,6 @@ import { Prisma } from '@prisma/client';
 import { Request } from 'express';
 import { RecordSchema } from '../../schemas';
 import { searchRecords } from './search';
-import z from 'zod';
-
-const numberType = z.object({
-  courseNumber: z.coerce.number(),
-  recordNumber: z.coerce.number(),
-});
 
 const filterParamsSchema = RecordSchema.pick({
   parishAcronym: true,
@@ -18,7 +12,9 @@ const filterParamsSchema = RecordSchema.pick({
   instagram: true,
   priest: true,
   parishChapel: true,
-}).merge(numberType);
+  courseNumber: true,
+  recordNumber: true,
+});
 
 export function filterRecords(req: Request) {
   const filters = filterParamsSchema.partial().parse(req.query);
@@ -28,17 +24,11 @@ export function filterRecords(req: Request) {
   const where: Prisma.RecordWhereInput = {};
 
   if (filters.courseNumber !== undefined) {
-    const num = Number(filters.courseNumber);
-    if (!isNaN(num)) {
-      where.courseNumber = num;
-    }
+    where.courseNumber = { contains: filters.courseNumber, mode: 'insensitive' };
   }
 
   if (filters.recordNumber !== undefined) {
-    const num = Number(filters.recordNumber);
-    if (!isNaN(num)) {
-      where.recordNumber = num;
-    }
+    where.recordNumber = { contains: filters.recordNumber, mode: 'insensitive' };
   }
 
   if (filters.parishAcronym !== undefined) {

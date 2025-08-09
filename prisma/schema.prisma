@@ -30,7 +30,7 @@ model RefreshToken {
 model Course {
   id           String @id @default(uuid())
   typeOfCourse String @default("POSl")
-  courseNumber Int
+  courseNumber String
   startDate    String
   endDate      String
 }
@@ -38,9 +38,9 @@ model Course {
 model Record {
   id                      String        @id @default(uuid())
   typeOfRecord            String
-  courseNumber            Int
+  courseNumber            String
   parishAcronym           String
-  recordNumber            Int
+  recordNumber            String
   candidateName           String
   nickname                String
   birthDate               String

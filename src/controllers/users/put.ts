@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
-import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { IdSchema, UserSchema } from '../../schemas';

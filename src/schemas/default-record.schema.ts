@@ -2,9 +2,9 @@ import { z } from 'zod';
 
 export const RecordSchema = z.object({
   id: z.string().uuid().optional(),
-  courseNumber: z.number().int(),
+  courseNumber: z.string(),
   parishAcronym: z.string(),
-  recordNumber: z.number().int(),
+  recordNumber: z.string(),
   candidateName: z.string(),
   nickname: z.string(),
   birthDate: z.string(),

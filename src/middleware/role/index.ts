@@ -5,13 +5,14 @@ import { HttpStatus } from '../../constants';
 import { unauthorizedException } from '../../exception';
 
 import jwt from 'jsonwebtoken';
+import { LoginType } from '../../types';
 
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secret-key';
 
 interface VerifyTokenResponse {
   id: string;
   email: string;
-  loginType: 'admin' | 'manager';
+  loginType: LoginType;
 }
 
 function verifyRole(token: string): VerifyTokenResponse | null {
@@ -23,7 +24,7 @@ function verifyRole(token: string): VerifyTokenResponse | null {
   }
 }
 
-export function roleMiddleware(allowedRoles: string[]) {
+export function roleMiddleware(allowedRoles: LoginType[]) {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       const tokenHeader = req.headers.authorization?.split(' ')[1];

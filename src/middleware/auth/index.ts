@@ -5,13 +5,14 @@ import { HttpStatus } from '../../constants';
 import { unauthorizedException } from '../../exception';
 
 import jwt from 'jsonwebtoken';
+import { LoginType } from '../../types';
 
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secret-key';
 
 interface VerifyTokenResponse {
   id: string;
   email: string;
-  loginType: 'admin' | 'manager';
+  loginType: LoginType;
 }
 
 function verifyToken(token: string): VerifyTokenResponse | null {
