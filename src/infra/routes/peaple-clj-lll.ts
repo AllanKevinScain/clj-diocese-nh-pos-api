@@ -1,9 +1,9 @@
 import {
-  createPeapleCljThreeController,
-  deletePeapleCljThreeController,
-  getPeapleCljThreeController,
-  listPeapleCljThreeController,
-  putPeapleCljThreeController,
+  createPoslllController,
+  deletePoslllController,
+  getPoslllController,
+  listPoslllController,
+  putPoslllController,
 } from '../../controllers';
 
 import { Router } from 'express';
@@ -11,17 +11,12 @@ import { authMiddleware, roleMiddleware } from '../../middleware';
 
 const routes = Router();
 
-routes.post('/', authMiddleware, roleMiddleware(['admin']), createPeapleCljThreeController);
-routes.get(
-  '/:id',
-  authMiddleware,
-  roleMiddleware(['admin', 'manager']),
-  getPeapleCljThreeController,
-);
-routes.put('/:id', authMiddleware, roleMiddleware(['admin']), putPeapleCljThreeController);
-routes.delete('/:id', authMiddleware, roleMiddleware(['admin']), deletePeapleCljThreeController);
+routes.post('/', authMiddleware, roleMiddleware(['admin']), createPoslllController);
+routes.get('/:id', authMiddleware, roleMiddleware(['admin', 'manager']), getPoslllController);
+routes.put('/:id', authMiddleware, roleMiddleware(['admin']), putPoslllController);
+routes.delete('/:id', authMiddleware, roleMiddleware(['admin']), deletePoslllController);
 
 //list
-routes.get('/', authMiddleware, roleMiddleware(['admin', 'manager']), listPeapleCljThreeController);
+routes.get('/', authMiddleware, roleMiddleware(['admin', 'manager']), listPoslllController);
 
-export { routes as peapleCljThreeRoutes };
+export { routes as poslllRoutes };

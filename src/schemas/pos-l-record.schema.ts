@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
 export const RecordPOSlSchema = z.object({
+  id: z.string().uuid().optional(),
+
   godfatherName: z.string(),
   godfatherPhone: z.string(),
   godfatherEmail: z.string(),

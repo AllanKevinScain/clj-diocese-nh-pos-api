@@ -4,15 +4,15 @@ import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 
-async function listPeapleCljThreeRepository() {
-  const prismaRequest = await prisma.peapleCljThree.findMany();
+async function listPoslllRepository() {
+  const prismaRequest = await prisma.poslll.findMany();
 
   return prismaRequest;
 }
 
-export async function listPeapleCljThreeController(_: Request, res: Response) {
+export async function listPoslllController(_: Request, res: Response) {
   try {
-    const repositoryRequest = await listPeapleCljThreeRepository();
+    const repositoryRequest = await listPoslllRepository();
     if (isEmpty(repositoryRequest)) {
       res.status(HttpStatus.NO_CONTENT).send([]);
     } else {

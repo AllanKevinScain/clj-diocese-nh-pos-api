@@ -11,7 +11,7 @@ type TwoSchemasInfertypeSchema = z.infer<typeof POSllSchema>;
 
 async function createRecordPOSllRepository(params: TwoSchemasInfertypeSchema) {
   const { recordPOSll, ...recordWithoutObject } = POSllSchema.parse(params);
-  const parseRrecordPOSll = RecordPOSllSchema.omit({ recordId: true }).parse(recordPOSll);
+  const parseRrecordPOSll = RecordPOSllSchema.omit({ recordId: true, id: true }).parse(recordPOSll);
 
   const prismaRequest = await prisma.record.create({
     data: {

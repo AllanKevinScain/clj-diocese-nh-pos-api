@@ -11,7 +11,9 @@ type TwoSchemasInfertypeSchema = z.infer<typeof CoupleTwoSchemas>;
 
 async function createCoupleRepository(params: TwoSchemasInfertypeSchema) {
   const { recordCouple, ...recordWithoutObject } = CoupleTwoSchemas.parse(params);
-  const recordCoupleCreate = RecordCoupleSchema.omit({ recordId: true }).parse(recordCouple);
+  const recordCoupleCreate = RecordCoupleSchema.omit({ recordId: true, id: true }).parse(
+    recordCouple,
+  );
 
   const prismaRequest = await prisma.record.create({
     data: {

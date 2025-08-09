@@ -8,4 +8,4 @@ export * from './couple-work-record.schema';
 export * from './login.schema';
 export * from './token.schema';
 export * from './course.schema';
-export * from './peaple-clj-lll.schema';
+export * from './pos-lll.schema';

@@ -4,21 +4,21 @@ import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
-import { getPeapleCljThreeRepository } from './get';
-import { PeapleCljThreeSchema, IdSchema } from '../../schemas';
+import { getPoslllRepository } from './get';
+import { poslllSchema, IdSchema } from '../../schemas';
 
-const CoursePartialSchema = PeapleCljThreeSchema.partial();
+const PoslllPartialSchema = poslllSchema.partial();
 
-type CoursePartialInfertypeSchema = z.infer<typeof CoursePartialSchema>;
+type PoslllPartialInfertypeSchema = z.infer<typeof PoslllPartialSchema>;
 
 type PutRepositoryParamsType = {
-  data: CoursePartialInfertypeSchema;
+  data: PoslllPartialInfertypeSchema;
   id: string;
 };
 
-async function putPeapleCljThreeRepository(params: PutRepositoryParamsType) {
+async function putPoslllRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
-  const prismaRequest = await prisma.peapleCljThree.update({
+  const prismaRequest = await prisma.poslll.update({
     where: { id },
     data,
   });
@@ -26,19 +26,19 @@ async function putPeapleCljThreeRepository(params: PutRepositoryParamsType) {
   return prismaRequest;
 }
 
-export async function putPeapleCljThreeController(req: Request, res: Response) {
+export async function putPoslllController(req: Request, res: Response) {
   try {
     if (isEmpty(req.body)) res.status(HttpStatus.BAD_REQUEST).send();
 
     const { id } = IdSchema.parse(req.params);
 
-    const parsedRequestBody = CoursePartialSchema.parse(req.body);
+    const parsedRequestBody = PoslllPartialSchema.parse(req.body);
     if (isEmpty(parsedRequestBody)) throw new Error('Dados inválidos!');
 
-    const currentCourseById = await getPeapleCljThreeRepository(id);
+    const currentCourseById = await getPoslllRepository(id);
     if (isEmpty(currentCourseById)) throw new Error('Informação não encontrada!');
 
-    const repositoryRequest = await putPeapleCljThreeRepository({ data: parsedRequestBody, id });
+    const repositoryRequest = await putPoslllRepository({ data: parsedRequestBody, id });
 
     res
       .status(HttpStatus.OK)

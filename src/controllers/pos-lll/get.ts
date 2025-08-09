@@ -5,19 +5,19 @@ import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 import { IdSchema } from '../../schemas';
 
-export async function getPeapleCljThreeRepository(id: string) {
-  const prismaRequest = await prisma.peapleCljThree.findUnique({
+export async function getPoslllRepository(id: string) {
+  const prismaRequest = await prisma.poslll.findUnique({
     where: { id },
   });
 
   return prismaRequest;
 }
 
-export async function getPeapleCljThreeController(req: Request, res: Response) {
+export async function getPoslllController(req: Request, res: Response) {
   try {
     const { id } = IdSchema.parse(req.params);
 
-    const repositoryRequest = await getPeapleCljThreeRepository(id);
+    const repositoryRequest = await getPoslllRepository(id);
     if (isEmpty(repositoryRequest)) throw new Error('Informação não encontrada!');
 
     res.status(HttpStatus.OK).send(repositoryRequest);
