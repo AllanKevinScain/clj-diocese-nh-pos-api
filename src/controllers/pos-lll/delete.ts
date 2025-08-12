@@ -18,8 +18,8 @@ export async function deletePoslllController(req: Request, res: Response) {
   try {
     const { id } = IdSchema.parse(req.params);
 
-    const currentPeapleById = await getPoslllRepository(id);
-    if (isEmpty(currentPeapleById)) throw new Error('Informação não encontrada.');
+    const currentPoslllById = await getPoslllRepository(id);
+    if (isEmpty(currentPoslllById)) throw new Error('Informação não encontrada.');
 
     const repositoryRequest = await deletePoslllRepository(id);
 

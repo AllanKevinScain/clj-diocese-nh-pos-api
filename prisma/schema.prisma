@@ -129,8 +129,8 @@ model RecordWork {
 model RecordCouple {
   id                      String   @id @default(uuid())
   workPreference          String
-  externalCouple          Boolean
-  cookCouple              Boolean
+  externalCouple          Boolean?
+  cookCouple              Boolean?
   womanName               String
   womanNickname           String
   womanPhone              String

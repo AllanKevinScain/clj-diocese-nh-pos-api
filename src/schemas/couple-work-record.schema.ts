@@ -3,8 +3,8 @@ import { z } from 'zod';
 export const RecordCoupleSchema = z.object({
   id: z.string().uuid().optional(),
   workPreference: z.string(),
-  externalCouple: z.boolean(),
-  cookCouple: z.boolean(),
+  externalCouple: z.boolean().nullish(),
+  cookCouple: z.boolean().nullish(),
   womanName: z.string(),
   womanNickname: z.string(),
   womanPhone: z.string(),

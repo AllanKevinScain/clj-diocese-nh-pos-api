@@ -7,7 +7,10 @@ import { filterRecords } from './filter';
 export async function filterRecordsController(req: Request, res: Response) {
   try {
     const where = filterRecords(req);
-    const records = await prisma.record.findMany({ where });
+    const records = await prisma.record.findMany({
+      where,
+      include: { recordCouple: true, recordPOSl: true, recordPOSll: true, recordWork: true },
+    });
 
     res.status(HttpStatus.OK).send(records);
   } catch (error) {

@@ -9,7 +9,7 @@ import { coupleRoutes } from './routes/couple';
 import { listRoutes } from './routes/list';
 import { courseRoutes } from './routes/course';
 import { authRoutes } from './routes/auth';
-import { poslllRoutes } from './routes/peaple-clj-lll';
+import { poslllRoutes } from './routes/pos-lll';
 
 const server = express();
 
