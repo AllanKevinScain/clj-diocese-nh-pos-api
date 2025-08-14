@@ -11,7 +11,7 @@ const CouplePartialSchema = RecordSchema.extend({ recordCouple: RecordCoupleSche
 type CouplePartialInfertypeSchema = z.infer<typeof CouplePartialSchema>;
 
 type PutRepositoryParamsType = {
-  data: CouplePartialInfertypeSchema;
+  data: Partial<CouplePartialInfertypeSchema>;
   id: string;
 };
 
@@ -41,7 +41,7 @@ export async function putCoupleController(req: Request, res: Response) {
     if (isEmpty(req.body)) res.status(HttpStatus.BAD_REQUEST).send();
 
     const { id } = IdSchema.parse(req.params);
-    const parsedRequestBody = CouplePartialSchema.parse(req.body);
+    const parsedRequestBody = CouplePartialSchema.partial().parse(req.body);
     const repositoryRequest = await putCoupleRepository({ data: parsedRequestBody, id });
 
     res.status(HttpStatus.OK).send({

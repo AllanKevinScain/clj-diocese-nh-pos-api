@@ -11,7 +11,7 @@ const WorkPartialSchema = RecordSchema.extend({ recordWork: RecordWorkSchema });
 type WorkPartialInfertypeSchema = z.infer<typeof WorkPartialSchema>;
 
 type PutRepositoryParamsType = {
-  data: WorkPartialInfertypeSchema;
+  data: Partial<WorkPartialInfertypeSchema>;
   id: string;
 };
 
@@ -39,7 +39,7 @@ export async function putWorkController(req: Request, res: Response) {
     if (isEmpty(req.body)) res.status(HttpStatus.BAD_REQUEST).send();
 
     const { id } = IdSchema.parse(req.params);
-    const parsedRequestBody = WorkPartialSchema.parse(req.body);
+    const parsedRequestBody = WorkPartialSchema.partial().parse(req.body);
     const repositoryRequest = await putWorkRepository({ data: parsedRequestBody, id });
 
     res.status(HttpStatus.OK).send({

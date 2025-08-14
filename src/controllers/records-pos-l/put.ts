@@ -11,7 +11,7 @@ const RecordPOSlPartialSchema = RecordSchema.extend({ recordPOSl: RecordPOSlSche
 type RecordPOSlPartialInfertypeSchema = z.infer<typeof RecordPOSlPartialSchema>;
 
 type PutRepositoryParamsType = {
-  data: RecordPOSlPartialInfertypeSchema;
+  data: Partial<RecordPOSlPartialInfertypeSchema>;
   id: string;
 };
 
@@ -39,7 +39,7 @@ export async function putRecordPOSlController(req: Request, res: Response) {
     if (isEmpty(req.body)) res.status(HttpStatus.BAD_REQUEST).send();
 
     const { id } = IdSchema.parse(req.params);
-    const parsedRequestBody = RecordPOSlPartialSchema.parse(req.body);
+    const parsedRequestBody = RecordPOSlPartialSchema.partial().parse(req.body);
     const repositoryRequest = await putRecordPOSlRepository({ data: parsedRequestBody, id });
 
     res.status(HttpStatus.OK).send({
