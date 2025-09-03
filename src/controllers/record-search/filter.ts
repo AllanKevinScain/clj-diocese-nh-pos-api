@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 import { Request } from 'express';
 import { RecordSchema } from '../../schemas';
 import { searchRecords } from './search';
+import z from 'zod';
 
 const filterParamsSchema = RecordSchema.pick({
   parishAcronym: true,
@@ -14,7 +15,16 @@ const filterParamsSchema = RecordSchema.pick({
   parishChapel: true,
   courseNumber: true,
   recordNumber: true,
-});
+}).merge(
+  z.object({
+    typeOfRecord: z
+      .union([
+        z.enum(['POSl', 'POSll', 'WORK', 'COUPLE_WORK']),
+        z.array(z.enum(['POSl', 'POSll', 'WORK', 'COUPLE_WORK'])),
+      ])
+      .nullish(),
+  }),
+);
 
 export function filterRecords(req: Request) {
   const filters = filterParamsSchema.partial().parse(req.query);
@@ -61,6 +71,14 @@ export function filterRecords(req: Request) {
 
   if (filters.parishChapel !== undefined) {
     where.parishChapel = { contains: filters.parishChapel, mode: 'insensitive' };
+  }
+
+  if (filters.typeOfRecord !== undefined && filters.typeOfRecord !== null) {
+    if (Array.isArray(filters.typeOfRecord)) {
+      where.typeOfRecord = { in: filters.typeOfRecord };
+    } else {
+      where.typeOfRecord = { equals: filters.typeOfRecord };
+    }
   }
 
   return { ...where, OR };

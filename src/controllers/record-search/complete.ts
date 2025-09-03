@@ -21,6 +21,7 @@ export async function filterRecordsController(req: Request, res: Response) {
       isEmpty(where.instagram) &&
       isEmpty(where.priest) &&
       isEmpty(where.parishChapel) &&
+      isEmpty(where.typeOfRecord) &&
       isEmpty(where.OR);
 
     if (isSearcher) {
