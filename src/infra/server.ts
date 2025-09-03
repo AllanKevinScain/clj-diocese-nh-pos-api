@@ -10,14 +10,14 @@ import { listRoutes } from './routes/list';
 import { courseRoutes } from './routes/course';
 import { authRoutes } from './routes/auth';
 import { poslllRoutes } from './routes/pos-lll';
+import { workTableRoutes } from './routes/work-table';
 
 const server = express();
 
 server.use(cors());
 server.use(express.json());
 
-// Logging de requisições
-server.use((req, res, next) => {
+server.use((req, _, next) => {
   console.log(`🔁 ${req.method} ${req.originalUrl} - ${new Date().toISOString()}`);
   next();
 });
@@ -31,5 +31,6 @@ server.use('/records/couple', coupleRoutes);
 server.use('/course', courseRoutes);
 server.use('/list', listRoutes);
 server.use('/poslll', poslllRoutes);
+server.use('/work-table', workTableRoutes);
 
 export default server;

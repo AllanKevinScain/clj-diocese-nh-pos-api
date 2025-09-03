@@ -9,3 +9,5 @@ export * from './login.schema';
 export * from './token.schema';
 export * from './course.schema';
 export * from './pos-lll.schema';
+export * from './single-course-number.schema';
+export * from './work-table.schema';

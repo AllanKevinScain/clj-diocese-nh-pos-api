@@ -7,3 +7,4 @@ export * from './login';
 export * from './courses';
 export * from './record-search';
 export * from './pos-lll';
+export * from './work-table';

@@ -164,3 +164,39 @@ model Poslll {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now()) @updatedAt
 }
+
+model Community {
+  id          String            @id @default(uuid())
+  number      String
+  workTableId String
+  workTable   WorkTable         @relation(fields: [workTableId], references: [id], onDelete: Cascade)
+  members     CommunityMember[]
+}
+
+model CommunityMember {
+  id          String    @id @default(uuid())
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  recordId    String
+}
+
+model WorkTable {
+  id                       String      @id @default(uuid())
+  courseNumber             String      @unique
+  auxiliar                 String?
+  auxiliarLiturgy          String?
+  auxiliarSecretary        String?
+  bar                      String?
+  base                     String?
+  coordinator              String?
+  coupleKitchenCoordinator String?
+  coupleSafeToBe           String?
+  folkloreCoordinator      String?
+  kitchenSpiritual         String?
+  liturgy                  String?
+  secretary                String?
+  cleanWorkRecords         String[]
+  copeWorkRecords          String[]
+  kitchenWorkRecords       String[]
+  communities              Community[]
+}
