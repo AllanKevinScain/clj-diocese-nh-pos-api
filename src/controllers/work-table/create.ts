@@ -17,8 +17,8 @@ async function createWorkTableRepository(params: WorkTableInfertypeSchema) {
         create: communities.map((c) => ({
           number: c.number,
           members: {
-            create: c.members.map((memberId) => ({
-              recordId: memberId,
+            create: c.members.map((member) => ({
+              recordId: member.recordId,
             })),
           },
         })),

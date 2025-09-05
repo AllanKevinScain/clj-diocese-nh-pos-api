@@ -1,10 +1,14 @@
 import { z } from 'zod';
 
-export const communityMemberSchema = z.string().uuid();
+export const communityMemberSchema = z.object({
+  communityId: z.string().uuid(),
+  recordId: z.string().uuid(),
+});
 
 export const communitySchema = z.object({
   id: z.string().uuid().nullish(),
   number: z.string(),
+  workTableId: z.string().uuid(),
   members: z.array(communityMemberSchema),
 });
 

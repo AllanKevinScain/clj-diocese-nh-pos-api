@@ -7,7 +7,13 @@ import { CourseNumberSchema } from '../../schemas';
 async function getWorkTableRepository(courseNumber: string) {
   const prismaRequest = await prisma.workTable.findUnique({
     where: { courseNumber },
-    include: { communities: true },
+    include: {
+      communities: {
+        include: {
+          members: true,
+        },
+      },
+    },
   });
 
   return prismaRequest;
