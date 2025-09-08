@@ -11,6 +11,7 @@ import { courseRoutes } from './routes/course';
 import { authRoutes } from './routes/auth';
 import { poslllRoutes } from './routes/pos-lll';
 import { workTableRoutes } from './routes/work-table';
+import { recordByIdRoute } from './routes/record';
 
 const server = express();
 
@@ -24,6 +25,7 @@ server.use((req, _, next) => {
 
 server.use('/auth', authRoutes);
 server.use('/user', userRoutes);
+server.use('/record', recordByIdRoute);
 server.use('/records/posl', poslRoutes);
 server.use('/records/posll', posllRoutes);
 server.use('/records/work', workRoutes);

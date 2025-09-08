@@ -3,6 +3,7 @@ import {
   putWorkTableController,
   getWorkTableController,
   deleteWorkTableController,
+  getWorkTableArchiveDataController,
 } from '../../controllers';
 
 import { Router } from 'express';
@@ -23,6 +24,12 @@ routes.delete(
   authMiddleware,
   roleMiddleware(['manager', 'admin']),
   deleteWorkTableController,
+);
+routes.get(
+  '/archive-data/:courseNumber',
+  authMiddleware,
+  roleMiddleware(['manager', 'admin']),
+  getWorkTableArchiveDataController,
 );
 
 export { routes as workTableRoutes };

@@ -4,21 +4,25 @@ import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { IdSchema } from '../../schemas';
 
-export async function getWorkRepository(id: string) {
+async function getRecordByIdRepository(id: string) {
   const prismaRequest = await prisma.record.findUnique({
     where: { id },
-    include: { recordWork: true, recordCouple: true, recordPOSl: true, recordPOSll: true },
+    include: { recordPOSl: true, recordCouple: true, recordPOSll: true, recordWork: true },
   });
 
   return prismaRequest;
 }
 
-export async function getWorkController(req: Request, res: Response) {
+export async function getRecordByIdController(req: Request, res: Response) {
   try {
     const { id } = IdSchema.parse(req.params);
-    const repositoryRequest = await getWorkRepository(id);
+    const repositoryRequest = await getRecordByIdRepository(id);
 
-    res.status(HttpStatus.OK).send(repositoryRequest);
+    if (repositoryRequest !== null) {
+      res.status(HttpStatus.OK).send(repositoryRequest);
+    } else {
+      res.status(HttpStatus.NO_CONTENT).send({ message: 'Ficha não encontrada!' });
+    }
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
   }

@@ -4,6 +4,7 @@ export const poslllSchema = z.object({
   id: z.string().uuid().optional(),
   candidatePhone: z.string().nullish(),
   candidateName: z.string(),
+  parishChapel: z.string(),
   instagram: z.string().nullish(),
   courseOne: z.string(),
   courseTwo: z.string(),

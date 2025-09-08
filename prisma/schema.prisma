@@ -156,6 +156,7 @@ model Poslll {
   id             String   @id @default(uuid())
   candidatePhone String?
   candidateName  String
+  parishChapel   String   @default("Capela Santa Cecília")
   instagram      String?
   courseOne      String
   courseTwo      String
