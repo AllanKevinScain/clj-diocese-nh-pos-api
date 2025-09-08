@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 import { IdSchema } from '../../schemas';
 
 async function deleteRecordPOSllRepository(id: string) {
-  const prismaRequest = await prisma.record.delete({
+  const prismaRequest = await prisma.recordEntity.delete({
     where: { id },
   });
 

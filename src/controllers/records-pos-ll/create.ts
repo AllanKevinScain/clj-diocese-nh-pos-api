@@ -13,7 +13,7 @@ async function createRecordPOSllRepository(params: TwoSchemasInfertypeSchema) {
   const { recordPOSll, ...recordWithoutObject } = POSllSchema.parse(params);
   const parseRrecordPOSll = RecordPOSllSchema.omit({ recordId: true, id: true }).parse(recordPOSll);
 
-  const prismaRequest = await prisma.record.create({
+  const prismaRequest = await prisma.recordEntity.create({
     data: {
       ...recordWithoutObject,
       typeOfRecord: RecordCourses.posll,

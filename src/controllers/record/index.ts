@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 import { IdSchema } from '../../schemas';
 
 async function getRecordByIdRepository(id: string) {
-  const prismaRequest = await prisma.record.findUnique({
+  const prismaRequest = await prisma.recordEntity.findUnique({
     where: { id },
     include: { recordPOSl: true, recordCouple: true, recordPOSll: true, recordWork: true },
   });

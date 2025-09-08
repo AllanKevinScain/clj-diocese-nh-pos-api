@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 import { IdSchema } from '../../schemas';
 
 async function getCoupleRepository(id: string) {
-  const prismaRequest = await prisma.record.findUnique({
+  const prismaRequest = await prisma.recordEntity.findUnique({
     where: { id },
     include: {
       recordCouple: true,

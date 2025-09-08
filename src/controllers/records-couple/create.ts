@@ -15,7 +15,7 @@ async function createCoupleRepository(params: TwoSchemasInfertypeSchema) {
     recordCouple,
   );
 
-  const prismaRequest = await prisma.record.create({
+  const prismaRequest = await prisma.recordEntity.create({
     data: {
       ...recordWithoutObject,
       typeOfRecord: RecordCourses.couple,

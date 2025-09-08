@@ -35,7 +35,7 @@ model Course {
   endDate      String
 }
 
-model Record {
+model RecordEntity {
   id                      String        @id @default(uuid())
   typeOfRecord            String
   courseNumber            String
@@ -64,7 +64,7 @@ model Record {
 }
 
 model RecordPOSl {
-  id                      String   @id @default(uuid())
+  id                      String       @id @default(uuid())
   godfatherName           String
   godfatherPhone          String
   godfatherEmail          String
@@ -82,12 +82,12 @@ model RecordPOSl {
   parentsReligion         String?
   otherReligion           String?
   parentsComment          String
-  recordId                String   @unique
-  record                  Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  recordId                String       @unique
+  record                  RecordEntity @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
 model RecordPOSll {
-  id                      String   @id @default(uuid())
+  id                      String       @id @default(uuid())
   courseOneDone           String
   motivationToParticipate String
   reasonForCLJII          String
@@ -100,12 +100,12 @@ model RecordPOSll {
   parishChapelActivities  String
   doingConfirmation       Boolean?
   notConfirmationBecause  String?
-  recordId                String   @unique
-  record                  Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  recordId                String       @unique
+  record                  RecordEntity @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
 model RecordWork {
-  id                     String   @id @default(uuid())
+  id                     String       @id @default(uuid())
   courseOneDone          String
   courseTwoDone          String
   courseThreeDone        String?
@@ -122,12 +122,12 @@ model RecordWork {
   workPreference         String
   willingToOtherFunction Boolean
   parishIndication       String[]
-  recordId               String   @unique
-  record                 Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  recordId               String       @unique
+  record                 RecordEntity @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
 model RecordCouple {
-  id                      String   @id @default(uuid())
+  id                      String       @id @default(uuid())
   workPreference          String
   externalCouple          Boolean?
   cookCouple              Boolean?
@@ -148,8 +148,8 @@ model RecordCouple {
   participatedInRetreat   Boolean
   motivationToParticipate String
   parishIndication        String[]
-  recordId                String   @unique
-  record                  Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  recordId                String       @unique
+  record                  RecordEntity @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
 model Poslll {
@@ -170,7 +170,7 @@ model Community {
   id          String            @id @default(uuid())
   number      String
   workTableId String
-  workTable   WorkTable         @relation(fields: [workTableId], references: [id], onDelete: Cascade)
+  workTable   WorkTableEntity   @relation(fields: [workTableId], references: [id], onDelete: Cascade)
   members     CommunityMember[]
 }
 
@@ -181,7 +181,7 @@ model CommunityMember {
   recordId    String
 }
 
-model WorkTable {
+model WorkTableEntity {
   id                       String      @id @default(uuid())
   courseNumber             String      @unique
   auxiliar                 String?

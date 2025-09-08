@@ -10,7 +10,7 @@ type WorkTableInfertypeSchema = z.infer<typeof workTableSchema>;
 async function createWorkTableRepository(params: WorkTableInfertypeSchema) {
   const { communities, id: _, ...workTableObject } = workTableSchema.parse(params);
 
-  const prismaRequest = await prisma.workTable.create({
+  const prismaRequest = await prisma.workTableEntity.create({
     data: {
       ...workTableObject,
       communities: {

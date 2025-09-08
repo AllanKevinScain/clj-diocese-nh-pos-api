@@ -20,7 +20,7 @@ async function putWorkRepository(params: PutRepositoryParamsType) {
   const { recordWork, ...recordWithoutObject } = WorkPartialSchema.partial().parse(data);
   const parsedRecordWork = RecordWorkSchema.omit({ recordId: true }).partial().parse(recordWork);
 
-  const prismaRequest = await prisma.record.update({
+  const prismaRequest = await prisma.recordEntity.update({
     where: { id },
     data: {
       ...recordWithoutObject,

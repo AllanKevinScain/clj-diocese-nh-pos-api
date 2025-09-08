@@ -5,7 +5,8 @@
     "dev": "tsc-watch --onSuccess \"node ./dist/infra/index.js\"",
     "mig": "npx prisma migrate dev",
     "std": "npx prisma studio",
-    "build": "tsc",
+    "build": "tsc && prisma generate",
+    "vercel-build": "tsc && prisma generate",
     "start": "node ./dist/infra/index.js"
   },
   "repository": {

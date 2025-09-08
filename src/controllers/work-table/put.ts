@@ -17,7 +17,7 @@ async function putWorkTableRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
   const { communities, id: _, ...workTableObject } = workTableSchema.partial().parse(data);
 
-  const prismaRequest = await prisma.workTable.update({
+  const prismaRequest = await prisma.workTableEntity.update({
     where: { id },
     data: {
       ...workTableObject,

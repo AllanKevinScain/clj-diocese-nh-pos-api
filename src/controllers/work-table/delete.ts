@@ -5,7 +5,7 @@ import { IdSchema } from '../../schemas';
 import { unauthorizedException } from '../../exception';
 
 async function deleteWorkTableRepository(id: string) {
-  const prismaRequest = await prisma.workTable.delete({
+  const prismaRequest = await prisma.workTableEntity.delete({
     where: { id },
   });
 

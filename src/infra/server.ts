@@ -18,6 +18,10 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
+server.get('/', (_, res) => {
+  res.send({ message: '🚀 ~ api está em órbita!' });
+});
+
 server.use((req, _, next) => {
   console.log(`🔁 ${req.method} ${req.originalUrl} - ${new Date().toISOString()}`);
   next();

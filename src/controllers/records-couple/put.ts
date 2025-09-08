@@ -22,7 +22,7 @@ async function putCoupleRepository(params: PutRepositoryParamsType) {
     .partial()
     .parse(recordCouple);
 
-  const prismaRequest = await prisma.record.update({
+  const prismaRequest = await prisma.recordEntity.update({
     where: { id },
     data: {
       ...recordWithoutCouple,

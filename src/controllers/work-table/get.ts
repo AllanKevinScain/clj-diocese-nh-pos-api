@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 import { CourseNumberSchema } from '../../schemas';
 
 async function getWorkTableRepository(courseNumber: string) {
-  const prismaRequest = await prisma.workTable.findUnique({
+  const prismaRequest = await prisma.workTableEntity.findUnique({
     where: { courseNumber },
     include: {
       communities: {

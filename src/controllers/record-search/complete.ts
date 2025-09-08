@@ -25,11 +25,11 @@ export async function filterRecordsController(req: Request, res: Response) {
       isEmpty(where.OR);
 
     if (isSearcher) {
-      records = await prisma.record.findMany({
+      records = await prisma.recordEntity.findMany({
         include: { recordCouple: true, recordPOSl: true, recordPOSll: true, recordWork: true },
       });
     } else {
-      records = await prisma.record.findMany({
+      records = await prisma.recordEntity.findMany({
         where,
         include: { recordCouple: true, recordPOSl: true, recordPOSll: true, recordWork: true },
       });

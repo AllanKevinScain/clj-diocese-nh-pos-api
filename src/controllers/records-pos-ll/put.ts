@@ -20,7 +20,7 @@ async function putRecordPOSllRepository(params: PutRepositoryParamsType) {
   const { recordPOSll, ...recordWithoutObject } = RecordPOSllPartialSchema.partial().parse(data);
   const parsedRecordPOSll = RecordPOSllSchema.omit({ recordId: true }).partial().parse(recordPOSll);
 
-  const prismaRequest = await prisma.record.update({
+  const prismaRequest = await prisma.recordEntity.update({
     where: { id },
     data: {
       ...recordWithoutObject,

@@ -31,7 +31,7 @@ export function filterRecords(req: Request) {
 
   const OR = searchRecords(req);
 
-  const where: Prisma.RecordWhereInput = {};
+  const where: Prisma.RecordEntityWhereInput = {};
 
   if (filters.courseNumber !== undefined) {
     where.courseNumber = { contains: filters.courseNumber, mode: 'insensitive' };

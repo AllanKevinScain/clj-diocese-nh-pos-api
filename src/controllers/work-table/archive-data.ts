@@ -8,9 +8,9 @@ import { getWorkRepository } from '../records-work';
 import { getPoslllRepository } from '../pos-lll';
 import { concat } from 'lodash';
 import { RecordType } from '../../types';
-import { Prisma, WorkTable } from '@prisma/client';
+import { Prisma, WorkTableEntity } from '@prisma/client';
 
-async function cleanWorkRecordsFormatData(prismaRequest: WorkTable) {
+async function cleanWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
   const callMapCleanWorkRecords =
     prismaRequest?.cleanWorkRecords.map((recordId) => getWorkRepository(recordId ?? '')) || [];
   const cleanWorkRecords = await Promise.all(callMapCleanWorkRecords);
@@ -23,9 +23,10 @@ async function cleanWorkRecordsFormatData(prismaRequest: WorkTable) {
   });
 }
 
-async function copeWorkRecordsFormatData(prismaRequest: WorkTable) {
+async function copeWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
   const callMapCopeWorkRecords =
-    prismaRequest?.copeWorkRecords.map((recordId) => getWorkRepository(recordId ?? '')) || [];
+    prismaRequest?.copeWorkRecords.map((recordId: string) => getWorkRepository(recordId ?? '')) ||
+    [];
   const copeWorkRecords = await Promise.all(callMapCopeWorkRecords);
   return copeWorkRecords.map((record) => {
     const typeOfRecord = record?.typeOfRecord as RecordType;
@@ -36,9 +37,11 @@ async function copeWorkRecordsFormatData(prismaRequest: WorkTable) {
   });
 }
 
-async function kitchenWorkRecordsFormatData(prismaRequest: WorkTable) {
+async function kitchenWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
   const callMapKitchenWorkRecords =
-    prismaRequest?.kitchenWorkRecords.map((recordId) => getWorkRepository(recordId ?? '')) || [];
+    prismaRequest?.kitchenWorkRecords.map((recordId: string) =>
+      getWorkRepository(recordId ?? ''),
+    ) || [];
   const kitchenWorkRecords = await Promise.all(callMapKitchenWorkRecords);
   return kitchenWorkRecords.map((record) => {
     const typeOfRecord = record?.typeOfRecord as RecordType;
@@ -49,7 +52,7 @@ async function kitchenWorkRecordsFormatData(prismaRequest: WorkTable) {
   });
 }
 
-type CorrectCommunitiesWithRecordsType = Prisma.WorkTableGetPayload<{
+type CorrectCommunitiesWithRecordsType = Prisma.WorkTableEntityGetPayload<{
   include: { communities: { include: { members: true } } };
 }>;
 async function correctCommunitiesWithRecordsFormatData(
@@ -80,7 +83,7 @@ async function correctCommunitiesWithRecordsFormatData(
 }
 
 async function getWorkTableArchiveDataRepository(courseNumber: string) {
-  const prismaRequest = await prisma.workTable.findUnique({
+  const prismaRequest = await prisma.workTableEntity.findUnique({
     where: { courseNumber },
     include: {
       communities: {
