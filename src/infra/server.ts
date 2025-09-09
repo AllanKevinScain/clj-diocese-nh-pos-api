@@ -15,7 +15,7 @@ import { recordByIdRoute } from './routes/record';
 
 const server = express();
 
-server.use(cors());
+server.use(cors({ origin: '*' }));
 server.use(express.json());
 
 server.get('/', (_, res) => {
