@@ -6,7 +6,6 @@
     "mig": "npx prisma migrate dev",
     "std": "npx prisma studio",
     "build": "tsc && prisma generate",
-    "vercel-build": "tsc && prisma generate",
     "start": "node ./dist/infra/index.js"
   },
   "repository": {

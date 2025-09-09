@@ -1,8 +1,16 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "./dist/infra/index.js"
+      "src": "src/infra/index.ts",
+      "use": "@vercel/node"
+    }
+  ],
+
+  "routes": [
+    {
+      "src": "(.*)",
+      "dest": "src/infra/index.ts"
     }
   ]
 }
