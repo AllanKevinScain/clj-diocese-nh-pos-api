@@ -10,11 +10,16 @@ import { concat } from 'lodash';
 import { RecordType } from '../../types';
 import { Prisma, WorkTableEntity } from '@prisma/client';
 
+type RecordEntityType = Prisma.RecordEntityGetPayload<{
+  include: { recordCouple: true; recordPOSl: true; recordPOSll: true; recordWork: true };
+}>;
+
 async function cleanWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
   const callMapCleanWorkRecords =
-    prismaRequest?.cleanWorkRecords.map((recordId) => getWorkRepository(recordId ?? '')) || [];
+    prismaRequest?.cleanWorkRecords.map((recordId: string) => getWorkRepository(recordId ?? '')) ||
+    [];
   const cleanWorkRecords = await Promise.all(callMapCleanWorkRecords);
-  return cleanWorkRecords.map((record) => {
+  return cleanWorkRecords.map((record: RecordEntityType | null) => {
     const typeOfRecord = record?.typeOfRecord as RecordType;
     if (typeOfRecord === 'COUPLE_WORK') {
       return `Tios ${record?.candidateName} e ${record?.recordCouple?.womanName} - ${record?.parishChapel}`;
@@ -28,7 +33,7 @@ async function copeWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
     prismaRequest?.copeWorkRecords.map((recordId: string) => getWorkRepository(recordId ?? '')) ||
     [];
   const copeWorkRecords = await Promise.all(callMapCopeWorkRecords);
-  return copeWorkRecords.map((record) => {
+  return copeWorkRecords.map((record: RecordEntityType | null) => {
     const typeOfRecord = record?.typeOfRecord as RecordType;
     if (typeOfRecord === 'COUPLE_WORK') {
       return `Tios ${record?.candidateName} e ${record?.recordCouple?.womanName} - ${record?.parishChapel}`;
@@ -43,7 +48,7 @@ async function kitchenWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
       getWorkRepository(recordId ?? ''),
     ) || [];
   const kitchenWorkRecords = await Promise.all(callMapKitchenWorkRecords);
-  return kitchenWorkRecords.map((record) => {
+  return kitchenWorkRecords.map((record: RecordEntityType | null) => {
     const typeOfRecord = record?.typeOfRecord as RecordType;
     if (typeOfRecord === 'COUPLE_WORK') {
       return `Tios ${record?.candidateName} e ${record?.recordCouple?.womanName} - ${record?.parishChapel}`;
@@ -55,21 +60,26 @@ async function kitchenWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
 type CorrectCommunitiesWithRecordsType = Prisma.WorkTableEntityGetPayload<{
   include: { communities: { include: { members: true } } };
 }>;
+type CommunityType = Prisma.CommunityGetPayload<{
+  include: { members: true };
+}>;
+type MemberType = Prisma.CommunityMemberGetPayload<{}>;
+
 async function correctCommunitiesWithRecordsFormatData(
   prismaRequest: CorrectCommunitiesWithRecordsType,
 ) {
-  const communitiesMembers = prismaRequest?.communities.map((community) =>
-    community.members.map((member) => member.recordId),
+  const communitiesMembers = prismaRequest?.communities.map((community: CommunityType) =>
+    community.members.map((member: MemberType) => member.recordId),
   );
   const communitiesIds = concat(...(communitiesMembers || []));
   const callsMapCommunities =
-    communitiesIds.map((recordId) => getWorkRepository(recordId ?? '')) || [];
+    communitiesIds.map((recordId: string) => getWorkRepository(recordId ?? '')) || [];
   const communitiesRecords = await Promise.all(callsMapCommunities);
 
-  return prismaRequest?.communities.map((community) => {
+  return prismaRequest?.communities.map((community: CommunityType) => {
     return {
       ...community,
-      members: community.members.map((member) => {
+      members: community.members.map((member: MemberType) => {
         const findedMember = communitiesRecords.find((item) => item && item.id === member.recordId);
         const typeOfRecord = findedMember?.typeOfRecord as RecordType;
 
