@@ -57,6 +57,7 @@ model RecordEntity {
   dataConsent             Boolean
   createdAt               DateTime      @default(now())
   updatedAt               DateTime      @default(now()) @updatedAt
+  createdById             String
   recordPOSl              RecordPOSl?
   recordPOSll             RecordPOSll?
   recordWork              RecordWork?
