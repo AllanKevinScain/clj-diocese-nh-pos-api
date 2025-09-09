@@ -14,9 +14,14 @@ const routes = Router();
 routes.post('/', authMiddleware, roleMiddleware(['admin']), createCourseController);
 routes.get('/:id', authMiddleware, roleMiddleware(['admin']), getCourseController);
 routes.put('/:id', authMiddleware, roleMiddleware(['admin']), putCourseController);
-routes.delete('/:id', authMiddleware, roleMiddleware(['admin']), deleteCourseController);
+routes.delete('/:courseNumber', authMiddleware, roleMiddleware(['admin']), deleteCourseController);
 
 //list
-routes.get('/', authMiddleware, roleMiddleware(['admin']), listCoursesController);
+routes.get(
+  '/',
+  authMiddleware,
+  roleMiddleware(['manager', 'builder-manager', 'admin']),
+  listCoursesController,
+);
 
 export { routes as courseRoutes };

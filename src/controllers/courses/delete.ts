@@ -1,14 +1,20 @@
 import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
-import { IdSchema } from '../../schemas';
+import { CourseNumberSchema } from '../../schemas';
 import { getCourseRepository } from './get';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 
-async function deleteCourseRepository(id: string) {
+interface DeleteCourseRepositoryInterface {
+  courseNumber: string;
+  id: string;
+}
+
+async function deleteCourseRepository(props: DeleteCourseRepositoryInterface) {
+  const { id, courseNumber } = props;
   const prismaRequest = await prisma.course.delete({
-    where: { id },
+    where: { id, courseNumber },
   });
 
   return prismaRequest;
@@ -16,12 +22,15 @@ async function deleteCourseRepository(id: string) {
 
 export async function deleteCourseController(req: Request, res: Response) {
   try {
-    const { id } = IdSchema.parse(req.params);
+    const { courseNumber } = CourseNumberSchema.parse(req.params);
 
-    const currentCourseById = await getCourseRepository(id);
-    if (isEmpty(currentCourseById)) throw new Error('Curso não encontrado.');
+    const currentCourseBycourseNumber = await getCourseRepository(courseNumber);
+    if (isEmpty(currentCourseBycourseNumber)) throw new Error('Curso não encontrado.');
 
-    const repositoryRequest = await deleteCourseRepository(id);
+    const repositoryRequest = await deleteCourseRepository({
+      id: currentCourseBycourseNumber.id,
+      courseNumber: currentCourseBycourseNumber.courseNumber,
+    });
 
     res.status(HttpStatus.OK).send({
       message: `Curso ${repositoryRequest.courseNumber} removido com sucesso.s`,

@@ -11,24 +11,34 @@ import { authMiddleware, roleMiddleware } from '../../middleware';
 
 const routes = Router();
 
-routes.post('/', authMiddleware, roleMiddleware(['manager', 'admin']), createWorkTableController);
+routes.post(
+  '/',
+  authMiddleware,
+  roleMiddleware(['builder-manager', 'admin']),
+  createWorkTableController,
+);
 routes.get(
   '/:courseNumber',
   authMiddleware,
-  roleMiddleware(['manager', 'admin']),
+  roleMiddleware(['builder-manager', 'admin']),
   getWorkTableController,
 );
-routes.put('/:id', authMiddleware, roleMiddleware(['manager', 'admin']), putWorkTableController);
+routes.put(
+  '/:id',
+  authMiddleware,
+  roleMiddleware(['builder-manager', 'admin']),
+  putWorkTableController,
+);
 routes.delete(
   '/:id',
   authMiddleware,
-  roleMiddleware(['manager', 'admin']),
+  roleMiddleware(['builder-manager', 'admin']),
   deleteWorkTableController,
 );
 routes.get(
   '/archive-data/:courseNumber',
   authMiddleware,
-  roleMiddleware(['manager', 'admin']),
+  roleMiddleware(['builder-manager', 'admin']),
   getWorkTableArchiveDataController,
 );
 

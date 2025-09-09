@@ -13,11 +13,7 @@ const routes = Router();
 routes.post('/', authMiddleware, roleMiddleware(['manager', 'admin']), createRecordPOSlController);
 routes.get('/:id', authMiddleware, roleMiddleware(['manager', 'admin']), getRecordPOSlController);
 routes.put('/:id', authMiddleware, roleMiddleware(['manager', 'admin']), putRecordPOSlController);
-routes.delete(
-  '/:id',
-  authMiddleware,
-  roleMiddleware(['manager', 'admin']),
-  deleteRecordPOSlController,
-);
+
+routes.delete('/:id', authMiddleware, roleMiddleware(['admin']), deleteRecordPOSlController);
 
 export { routes as poslRoutes };
