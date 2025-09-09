@@ -6,7 +6,7 @@ import { CourseNumberSchema } from '../../schemas';
 
 import { getWorkRepository } from '../records-work';
 import { getPoslllRepository } from '../pos-lll';
-import { concat } from 'lodash';
+import { concat, isEmpty } from 'lodash';
 import { RecordType } from '../../types';
 import { Prisma, WorkTableEntity } from '@prisma/client';
 
@@ -169,8 +169,8 @@ export async function getWorkTableArchiveDataController(req: Request, res: Respo
     const { courseNumber } = CourseNumberSchema.parse(req.params);
     const repositoryRequest = await getWorkTableArchiveDataRepository(courseNumber);
 
-    if (repositoryRequest === null) {
-      res.status(HttpStatus.NO_CONTENT).send(repositoryRequest);
+    if (isEmpty(repositoryRequest)) {
+      res.status(HttpStatus.NO_CONTENT).send({});
     } else {
       res.status(HttpStatus.OK).send(repositoryRequest);
     }
