@@ -40,3 +40,24 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });
   }
 }
+
+export function authMiddlewareSpecial(req: Request, res: Response, next: NextFunction) {
+  try {
+    const authHeader = req.headers['authorization'];
+    if (isEmpty(authHeader)) throw new Error('Credenciais não fornecidas');
+
+    if (authHeader) {
+      const base64Credentials = authHeader.split(' ')[1];
+      const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
+
+      const [username, password] = credentials.split(':');
+      if (username === process.env.DEV_USER && password === process.env.DEV_PASSWORD) {
+        next();
+      } else {
+        throw new Error('Credenciais inválidas');
+      }
+    }
+  } catch (error) {
+    res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });
+  }
+}

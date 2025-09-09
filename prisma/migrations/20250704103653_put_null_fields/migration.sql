@@ -1,4 +1,0 @@
--- AlterTable
-ALTER TABLE "RecordPOSl" ALTER COLUMN "livesWith" DROP NOT NULL,
-ALTER COLUMN "otherWho" DROP NOT NULL,
-ALTER COLUMN "parentsReligion" DROP NOT NULL;
