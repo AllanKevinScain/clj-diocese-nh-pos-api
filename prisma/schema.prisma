@@ -33,6 +33,14 @@ model Course {
   courseNumber String
   startDate    String
   endDate      String
+
+  auxiliar                 String?
+  base                     String?
+  coordinator              String?
+  liturgy                  String?
+  secretary                String?
+  kitchenSpiritual         String?
+  coupleKitchenCoordinator String?
 }
 
 model RecordEntity {
@@ -158,6 +166,7 @@ model Poslll {
   candidatePhone String?
   candidateName  String
   parishChapel   String   @default("Capela Santa Cecília")
+  city           String
   instagram      String?
   courseOne      String
   courseTwo      String
@@ -183,22 +192,15 @@ model CommunityMember {
 }
 
 model WorkTableEntity {
-  id                       String      @id @default(uuid())
-  courseNumber             String      @unique
-  auxiliar                 String?
-  auxiliarLiturgy          String?
-  auxiliarSecretary        String?
-  bar                      String?
-  base                     String?
-  coordinator              String?
-  coupleKitchenCoordinator String?
-  coupleSafeToBe           String?
-  folkloreCoordinator      String?
-  kitchenSpiritual         String?
-  liturgy                  String?
-  secretary                String?
-  cleanWorkRecords         String[]
-  copeWorkRecords          String[]
-  kitchenWorkRecords       String[]
-  communities              Community[]
+  id                  String      @id @default(uuid())
+  courseNumber        String      @unique
+  auxiliarLiturgy     String?
+  auxiliarSecretary   String?
+  bar                 String?
+  coupleSafeToBe      String?
+  folkloreCoordinator String?
+  cleanWorkRecords    String[]
+  copeWorkRecords     String[]
+  kitchenWorkRecords  String[]
+  communities         Community[]
 }
