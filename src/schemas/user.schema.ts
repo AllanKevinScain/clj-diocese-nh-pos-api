@@ -5,7 +5,10 @@ export const UserSchema = z.object({
   password: z.string(),
   loginType: z.enum(['admin', 'manager', 'builder-manager']),
   name: z.string(),
+  coName: z.string().nullish(),
   city: z.string(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
 });
+
+export type UserInfertypeSchema = z.infer<typeof UserSchema>;
