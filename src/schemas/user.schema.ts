@@ -11,4 +11,9 @@ export const UserSchema = z.object({
   updatedAt: z.string().optional(),
 });
 
+export const UserPasswordSchema = UserSchema.pick({ password: true }).extend({
+  newPassword: z.string(),
+});
+
+export type UserPasswordInfertypeSchema = z.infer<typeof UserPasswordSchema>;
 export type UserInfertypeSchema = z.infer<typeof UserSchema>;
