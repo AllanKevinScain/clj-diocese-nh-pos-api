@@ -1,5 +1,5 @@
 export * from './create';
 export * from './get';
 export * from './put';
-export * from './delete';
+export * from './change-status';
 export * from './list';

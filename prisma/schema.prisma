@@ -15,6 +15,7 @@ model User {
   name         String
   city         String
   coName       String?
+  active       Boolean?      @default(true)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @default(now()) @updatedAt
   RefreshToken RefreshToken?
@@ -163,18 +164,17 @@ model RecordCouple {
 }
 
 model Poslll {
-  id             String   @id @default(uuid())
-  candidatePhone String?
-  candidateName  String
-  parishChapel   String   @default("Capela Santa Cecília")
-  city           String
-  instagram      String?
-  courseOne      String
-  courseTwo      String
-  courseThree    String
-  formations     String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @default(now()) @updatedAt
+  id            String   @id @default(uuid())
+  candidateName String
+  parishChapel  String   @default("Capela Santa Cecília")
+  instagram     String?
+  courseOne     String
+  courseTwo     String
+  courseThree   String
+  formations    String
+  active        Boolean? @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
 }
 
 model Community {

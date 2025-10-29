@@ -6,25 +6,39 @@ import { getPoslllRepository } from './get';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 
-async function deletePoslllRepository(id: string) {
-  const prismaRequest = await prisma.poslll.delete({
+interface PropsChangeActivationPoslllRepositoryInterface {
+  id: string;
+  active: boolean;
+}
+
+async function changeActivationPoslllRepository(
+  props: PropsChangeActivationPoslllRepositoryInterface,
+) {
+  const { id, active } = props;
+  const prismaRequest = await prisma.poslll.update({
     where: { id },
+    data: { active },
   });
 
   return prismaRequest;
 }
 
-export async function deletePoslllController(req: Request, res: Response) {
+export async function changeActivationPoslllController(req: Request, res: Response) {
   try {
     const { id } = IdSchema.parse(req.params);
 
     const currentPoslllById = await getPoslllRepository(id);
     if (isEmpty(currentPoslllById)) throw new Error('Informação não encontrada.');
 
-    const repositoryRequest = await deletePoslllRepository(id);
+    const repositoryRequest = await changeActivationPoslllRepository({
+      id,
+      active: !currentPoslllById.active,
+    });
 
     res.status(HttpStatus.OK).send({
-      message: `${repositoryRequest.candidateName} removido da lista de jovens.`,
+      message: `${repositoryRequest.candidateName} ${
+        !currentPoslllById.active ? 'ativado' : 'desativado'
+      } da lista de jovens.`,
     });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });

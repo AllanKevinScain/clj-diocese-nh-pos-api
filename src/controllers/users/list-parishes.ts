@@ -3,24 +3,27 @@ import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
-import { getRoleByRequisition } from '../../middleware';
 
-async function listPoslllRepository(showInactiveLines: boolean) {
-  const prismaRequest = await prisma.poslll.findMany({
-    where: {
-      active: showInactiveLines ? undefined : true,
+async function listRegisteredParishesRepository() {
+  const prismaRequest = await prisma.user.findMany({
+    select: {
+      coName: true,
+      id: true,
     },
-    orderBy: [{ active: 'desc' }, { candidateName: 'asc' }],
+    where: {
+      NOT: {
+        loginType: 'admin',
+        active: false,
+      },
+    },
   });
 
   return prismaRequest;
 }
 
-export async function listPoslllController(req: Request, res: Response) {
+export async function listRegisteredParishesController(_: Request, res: Response) {
   try {
-    const user = getRoleByRequisition(req);
-
-    const repositoryRequest = await listPoslllRepository(user?.loginType === 'admin');
+    const repositoryRequest = await listRegisteredParishesRepository();
     if (isEmpty(repositoryRequest)) {
       res.status(HttpStatus.NO_CONTENT).send([]);
     } else {

@@ -24,6 +24,12 @@ function verifyRole(token: string): VerifyTokenResponse | null {
   }
 }
 
+export function getRoleByRequisition(req: Request): VerifyTokenResponse | null {
+  const tokenHeader = req.headers.authorization?.split(' ')[1];
+  const { token } = TokenSchema.parse({ token: tokenHeader });
+  return verifyRole(token);
+}
+
 export function roleMiddleware(allowedRoles: LoginType[]) {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
