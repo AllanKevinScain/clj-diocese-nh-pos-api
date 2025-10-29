@@ -1,7 +1,7 @@
 /* user */
 import {
   createUserController,
-  deleteUserController,
+  changeActivationUserController,
   getUserController,
   putUserController,
   listUsersController,
@@ -16,7 +16,9 @@ const routes = Router();
 
 routes.post('/', authMiddleware, roleMiddleware(['admin']), createUserController);
 routes.put('/:id', authMiddleware, roleMiddleware(['admin']), putUserController);
-routes.delete('/:id', authMiddleware, roleMiddleware(['admin']), deleteUserController);
+
+// "delete"
+routes.patch('/:id', authMiddleware, roleMiddleware(['admin']), changeActivationUserController);
 
 routes.get(
   '/parishes',

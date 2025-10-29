@@ -3,7 +3,7 @@ import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
-import { getRoleByRequisition } from '../../middleware';
+import { getInfoByRequisition } from '../../middleware';
 
 async function listPoslllRepository(showInactiveLines: boolean) {
   const prismaRequest = await prisma.poslll.findMany({
@@ -18,9 +18,9 @@ async function listPoslllRepository(showInactiveLines: boolean) {
 
 export async function listPoslllController(req: Request, res: Response) {
   try {
-    const user = getRoleByRequisition(req);
+    const requesterInfo = getInfoByRequisition(req);
 
-    const repositoryRequest = await listPoslllRepository(user?.loginType === 'admin');
+    const repositoryRequest = await listPoslllRepository(requesterInfo?.loginType === 'admin');
     if (isEmpty(repositoryRequest)) {
       res.status(HttpStatus.NO_CONTENT).send([]);
     } else {

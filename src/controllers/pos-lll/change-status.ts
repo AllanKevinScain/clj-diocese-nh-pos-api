@@ -37,7 +37,7 @@ export async function changeActivationPoslllController(req: Request, res: Respon
 
     res.status(HttpStatus.OK).send({
       message: `${repositoryRequest.candidateName} ${
-        !currentPoslllById.active ? 'ativado' : 'desativado'
+        repositoryRequest.active ? 'ativado' : 'desativado'
       } da lista de jovens.`,
     });
   } catch (error) {

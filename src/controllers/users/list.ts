@@ -3,16 +3,24 @@ import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
+import { getInfoByRequisition } from '../../middleware';
 
-async function listUsersRepository() {
-  const prismaRequest = await prisma.user.findMany();
+async function listUsersRepository(showInactiveLines: boolean) {
+  const prismaRequest = await prisma.user.findMany({
+    where: {
+      active: showInactiveLines ? undefined : true,
+    },
+    orderBy: [{ active: 'desc' }, { name: 'asc' }],
+  });
 
   return prismaRequest;
 }
 
-export async function listUsersController(_: Request, res: Response) {
+export async function listUsersController(req: Request, res: Response) {
   try {
-    const repositoryRequest = await listUsersRepository();
+    const requesterInfo = getInfoByRequisition(req);
+
+    const repositoryRequest = await listUsersRepository(requesterInfo?.loginType === 'admin');
     if (isEmpty(repositoryRequest)) {
       res.status(HttpStatus.NO_CONTENT).send([]);
     } else {
