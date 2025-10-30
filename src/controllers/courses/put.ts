@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 import { getCourseRepository } from './get';
 import { CourseSchema, IdSchema } from '../../schemas';
+import { findCourseByDate, findCourseByNumberAndType } from './helpers';
 
 const CoursePartialSchema = CourseSchema.partial();
 
@@ -28,12 +29,27 @@ async function putCourseRepository(params: PutRepositoryParamsType) {
 
 export async function putCourseController(req: Request, res: Response) {
   try {
-    if (isEmpty(req.body)) res.status(HttpStatus.BAD_REQUEST).send();
-
-    const { id } = IdSchema.parse(req.params);
-
     const parsedRequestBody = CoursePartialSchema.parse(req.body);
     if (isEmpty(parsedRequestBody)) throw new Error('Dados inválidos!');
+
+    const { id } = IdSchema.parse(req.params);
+    if (isEmpty(id)) throw new Error('Nenhum registro foi fornecido!');
+
+    // validações específicas
+    await findCourseByDate(
+      {
+        startDate: parsedRequestBody.startDate,
+        endDate: parsedRequestBody.endDate,
+      },
+      id,
+    );
+    await findCourseByNumberAndType(
+      {
+        courseNumber: parsedRequestBody.courseNumber,
+        typeOfCourse: parsedRequestBody.typeOfCourse,
+      },
+      id,
+    );
 
     const currentCourseById = await getCourseRepository(id);
     if (isEmpty(currentCourseById)) throw new Error('Curso não encontrado!');

@@ -5,7 +5,11 @@ import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 
 async function listCoursesRepository() {
-  const prismaRequest = await prisma.course.findMany();
+  const prismaRequest = await prisma.course.findMany({
+    orderBy: {
+      startDate: 'desc',
+    },
+  });
 
   return prismaRequest;
 }

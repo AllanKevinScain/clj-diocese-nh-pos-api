@@ -20,7 +20,6 @@ async function createUserRepository(params: UserInfertypeSchema) {
 export async function createUserController(req: Request, res: Response) {
   try {
     const parsedRequest = UserSchema.parse(req.body);
-    console.log('🚀 ~ createUserController ~ parsedRequest:', parsedRequest);
     const userByEmail = await getUserByEmail(parsedRequest.email);
 
     if (!isEmpty(userByEmail)) throw new Error('Este email já foi cadastrado');

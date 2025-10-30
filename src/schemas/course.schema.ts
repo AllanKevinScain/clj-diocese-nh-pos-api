@@ -15,3 +15,5 @@ export const CourseSchema = z.object({
   kitchenSpiritual: z.string().uuid(),
   coupleKitchenCoordinator: z.string().uuid(),
 });
+
+export type CourseInfertypeSchema = z.infer<typeof CourseSchema>;

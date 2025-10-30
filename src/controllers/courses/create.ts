@@ -1,15 +1,14 @@
-import { z } from 'zod';
 import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { unauthorizedException } from '../../exception';
-import { CourseSchema } from '../../schemas';
+import { CourseInfertypeSchema, CourseSchema } from '../../schemas';
+import { findCourseByDate, findCourseByNumberAndType } from './helpers';
+import { isEmpty } from 'lodash';
 
-type CourseInfertypeSchema = z.infer<typeof CourseSchema>;
-
-async function createCourseRepository(params: CourseInfertypeSchema) {
+async function createCourseRepository(data: CourseInfertypeSchema) {
   const prismaRequest = await prisma.course.create({
-    data: { ...params },
+    data,
   });
 
   return prismaRequest;
@@ -17,8 +16,20 @@ async function createCourseRepository(params: CourseInfertypeSchema) {
 
 export async function createCourseController(req: Request, res: Response) {
   try {
-    const parsedRequest = CourseSchema.parse(req.body);
-    const repositoryRequest = await createCourseRepository(parsedRequest);
+    const parsedRequestBody = CourseSchema.parse(req.body);
+    if (isEmpty(parsedRequestBody)) throw new Error('Dados inválidos!');
+
+    // validações específicas
+    await findCourseByDate({
+      startDate: parsedRequestBody.startDate,
+      endDate: parsedRequestBody.endDate,
+    });
+    await findCourseByNumberAndType({
+      courseNumber: parsedRequestBody.courseNumber,
+      typeOfCourse: parsedRequestBody.typeOfCourse,
+    });
+
+    const repositoryRequest = await createCourseRepository(parsedRequestBody);
 
     res
       .status(HttpStatus.OK)

@@ -12,10 +12,10 @@ async function listRegisteredParishesRepository() {
     },
     where: {
       NOT: {
-        loginType: 'admin',
-        active: false,
+        OR: [{ loginType: 'admin' }, { active: false }],
       },
     },
+    distinct: ['coName'],
   });
 
   return prismaRequest;
