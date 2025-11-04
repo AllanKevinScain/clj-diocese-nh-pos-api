@@ -1,14 +1,11 @@
-import { z } from 'zod';
 import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
-import { UserSchema } from '../../schemas';
+import { UserInfertypeSchema, UserSchema } from '../../schemas';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 import { getUserByEmail } from '../login';
 import bcrypt from 'bcryptjs';
-
-type UserInfertypeSchema = z.infer<typeof UserSchema>;
 
 async function createUserRepository(params: UserInfertypeSchema) {
   const hashedPassword = await bcrypt.hash(params.password, 10);

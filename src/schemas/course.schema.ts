@@ -7,3 +7,5 @@ export const CourseSchema = z.object({
   endDate: z.string(),
   typeOfCourse: z.enum(['POSl', 'POSll', 'WORK', 'COUPLE_WORK']),
 });
+
+export type CourseInfertypeSchema = z.infer<typeof CourseSchema>;

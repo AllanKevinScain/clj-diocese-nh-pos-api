@@ -1,6 +1,6 @@
 import {
   createPoslllController,
-  deletePoslllController,
+  changeActivationPoslllController,
   getPoslllController,
   listPoslllController,
   putPoslllController,
@@ -14,7 +14,9 @@ const routes = Router();
 routes.post('/', authMiddleware, roleMiddleware(['admin']), createPoslllController);
 routes.get('/:id', authMiddleware, roleMiddleware(['admin']), getPoslllController);
 routes.put('/:id', authMiddleware, roleMiddleware(['admin']), putPoslllController);
-routes.delete('/:id', authMiddleware, roleMiddleware(['admin']), deletePoslllController);
+
+// "delete"
+routes.patch('/:id', authMiddleware, roleMiddleware(['admin']), changeActivationPoslllController);
 
 routes.get(
   '/',

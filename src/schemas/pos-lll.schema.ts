@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 export const poslllSchema = z.object({
   id: z.string().uuid().optional(),
-  candidatePhone: z.string().nullish(),
   candidateName: z.string(),
   parishChapel: z.string(),
   instagram: z.string().nullish(),
@@ -10,6 +9,6 @@ export const poslllSchema = z.object({
   courseTwo: z.string(),
   courseThree: z.string(),
   formations: z.string(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
 });
