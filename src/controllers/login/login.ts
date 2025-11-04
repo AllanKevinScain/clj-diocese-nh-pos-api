@@ -32,11 +32,7 @@ export async function loginController(req: Request, res: Response) {
 
     if (!passwordMatch) throw new Error('Credenciais inválidas');
 
-    const token = jwt.sign(
-      { id: user.id, email: user.email, loginType: user.loginType, nome: user.name },
-      SECRET_KEY,
-      { expiresIn: '1h' },
-    );
+    const token = jwt.sign({ ...user }, SECRET_KEY, { expiresIn: '1h' });
 
     await prisma.refreshToken.deleteMany({
       where: { userId: user.id },

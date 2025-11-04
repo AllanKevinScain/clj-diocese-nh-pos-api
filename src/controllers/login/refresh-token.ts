@@ -25,11 +25,7 @@ export async function refreshTokenController(req: Request, res: Response) {
 
     if (!user) throw new Error('Usuário não encontrado');
 
-    const token = jwt.sign(
-      { id: user.id, email: user.email, loginType: user.loginType, nome: user.name },
-      SECRET_KEY,
-      { expiresIn: '1h' },
-    );
+    const token = jwt.sign({ ...user }, SECRET_KEY, { expiresIn: '1h' });
 
     if (refreshTokenExpired) {
       await prisma.refreshToken.deleteMany({
