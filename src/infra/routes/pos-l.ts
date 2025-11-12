@@ -1,6 +1,6 @@
 import {
-  createRecordPOSlController,
-  putRecordPOSlController,
+  createRecordPoslController,
+  putRecordPoslController,
   deleteRecordPOSlController,
   getRecordPOSlController,
 } from '../../controllers';
@@ -10,9 +10,9 @@ import { authMiddleware, roleMiddleware } from '../../middleware';
 
 const routes = Router();
 
-routes.post('/', authMiddleware, roleMiddleware(['manager', 'admin']), createRecordPOSlController);
+routes.post('/', authMiddleware, roleMiddleware(['manager', 'admin']), createRecordPoslController);
 routes.get('/:id', authMiddleware, roleMiddleware(['manager', 'admin']), getRecordPOSlController);
-routes.put('/:id', authMiddleware, roleMiddleware(['manager', 'admin']), putRecordPOSlController);
+routes.put('/:id', authMiddleware, roleMiddleware(['manager', 'admin']), putRecordPoslController);
 
 routes.delete('/:id', authMiddleware, roleMiddleware(['admin']), deleteRecordPOSlController);
 

@@ -12,3 +12,5 @@ export const poslllSchema = z.object({
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
 });
+
+export type PoslllInfertypeSchema = z.infer<typeof poslllSchema>;

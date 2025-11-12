@@ -3,9 +3,7 @@ import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { unauthorizedException } from '../../exception';
-import { poslllSchema } from '../../schemas';
-
-type PoslllInfertypeSchema = z.infer<typeof poslllSchema>;
+import { PoslllInfertypeSchema, poslllSchema } from '../../schemas';
 
 async function createPoslllRepository(data: PoslllInfertypeSchema) {
   const prismaRequest = await prisma.poslll.create({ data });
