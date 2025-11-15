@@ -6,5 +6,6 @@
 
 */
 -- AlterTable
-ALTER TABLE "public"."Poslll" DROP COLUMN "candidatePhone",
-DROP COLUMN "city";
+ALTER TABLE "public"."Poslll"
+DROP COLUMN IF EXISTS "candidatePhone",
+DROP COLUMN IF EXISTS "city";

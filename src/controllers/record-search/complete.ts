@@ -20,13 +20,13 @@ export async function filterRecordsController(req: Request, res: Response) {
     const isSearcher =
       isEmpty(where.courseNumber) &&
       isEmpty(where.recordNumber) &&
-      isEmpty(where.parishAcronym) &&
+      // isEmpty(where.parishAcronym) &&
       isEmpty(where.candidateName) &&
       isEmpty(where.nickname) &&
       isEmpty(where.birthDate) &&
       isEmpty(where.candidatePhone) &&
-      isEmpty(where.instagram) &&
-      isEmpty(where.priest) &&
+      // isEmpty(where.instagram) &&
+      // isEmpty(where.priest) &&
       isEmpty(where.parishChapel) &&
       isEmpty(where.typeOfRecord) &&
       isEmpty(where.OR);
@@ -39,6 +39,7 @@ export async function filterRecordsController(req: Request, res: Response) {
         recordPOSll: true,
         recordWork: true,
       },
+      orderBy: { updatedAt: 'desc' },
     });
 
     res.status(HttpStatus.OK).send(records);

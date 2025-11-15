@@ -2,6 +2,7 @@ import type { ZodError } from 'zod';
 import { isEmpty } from 'lodash';
 
 export function handleZodError(error: unknown) {
+  console.log('🚀 ~ handleZodError ~ error:', error);
   if (error) {
     const zodError = error as ZodError;
     const { issues } = zodError;

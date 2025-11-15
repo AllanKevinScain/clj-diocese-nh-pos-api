@@ -1,11 +1,9 @@
-import { prisma } from '../../database';
+/* import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { CourseNumberSchema } from '../../schemas';
 
-import { getWorkRepository } from '../records-work';
-import { getPoslllRepository } from '../pos-lll';
 import { concat, isEmpty } from 'lodash';
 import { RecordType } from '../../types';
 import { Prisma, WorkTableEntity } from '@prisma/client';
@@ -15,9 +13,7 @@ type RecordEntityType = Prisma.RecordEntityGetPayload<{
 }>;
 
 async function cleanWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
-  const callMapCleanWorkRecords =
-    prismaRequest?.cleanWorkRecords.map((recordId: string) => getWorkRepository(recordId ?? '')) ||
-    [];
+  const callMapCleanWorkRecords: any[] = []; // prismaRequest?.cleanWorkRecords.map((recordId: string) => getWorkRepository(recordId ?? '')) ||
   const cleanWorkRecords = await Promise.all(callMapCleanWorkRecords);
   return cleanWorkRecords.map((record: RecordEntityType | null) => {
     const typeOfRecord = record?.typeOfRecord as RecordType;
@@ -29,9 +25,7 @@ async function cleanWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
 }
 
 async function copeWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
-  const callMapCopeWorkRecords =
-    prismaRequest?.copeWorkRecords.map((recordId: string) => getWorkRepository(recordId ?? '')) ||
-    [];
+  const callMapCopeWorkRecords: any[] = []; // prismaRequest?.copeWorkRecords.map((recordId: string) => getWorkRepository(recordId ?? '')) ||
   const copeWorkRecords = await Promise.all(callMapCopeWorkRecords);
   return copeWorkRecords.map((record: RecordEntityType | null) => {
     const typeOfRecord = record?.typeOfRecord as RecordType;
@@ -43,10 +37,10 @@ async function copeWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
 }
 
 async function kitchenWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
-  const callMapKitchenWorkRecords =
-    prismaRequest?.kitchenWorkRecords.map((recordId: string) =>
-      getWorkRepository(recordId ?? ''),
-    ) || [];
+  const callMapKitchenWorkRecords: any[] = [];
+  // prismaRequest?.kitchenWorkRecords.map((recordId: string) =>
+  //   getWorkRepository(recordId ?? ''),
+  // )
   const kitchenWorkRecords = await Promise.all(callMapKitchenWorkRecords);
   return kitchenWorkRecords.map((record: RecordEntityType | null) => {
     const typeOfRecord = record?.typeOfRecord as RecordType;
@@ -72,8 +66,7 @@ async function correctCommunitiesWithRecordsFormatData(
     community.members.map((member: MemberType) => member.recordId),
   );
   const communitiesIds = concat(...(communitiesMembers || []));
-  const callsMapCommunities =
-    communitiesIds.map((recordId: string) => getWorkRepository(recordId ?? '')) || [];
+  const callsMapCommunities: any[] = []; // communitiesIds.map((recordId: string) => getWorkRepository(recordId ?? ''))
   const communitiesRecords = await Promise.all(callsMapCommunities);
 
   return prismaRequest?.communities.map((community: CommunityType) => {
@@ -104,33 +97,33 @@ async function getWorkTableArchiveDataRepository(courseNumber: string) {
     },
   });
 
-  const [
-    coordinatorRecord,
-    baseRecord,
-    auxiliarRecord,
-    coupleSafeToBeRecord,
-    coupleKitchenCoordinatorRecord,
-    // kitchenSpiritualRecord,
-    // liturgyRecord,
-    // secretaryRecord,
-    // auxiliarLiturgyRecord,
-    // auxiliarSecretaryRecord,
-    // folkloreCoordinatorRecord,
-    // barRecord,
-  ] = await Promise.all([
-    // getPoslllRepository(prismaRequest?.coordinator ?? ''),
-    // getPoslllRepository(prismaRequest?.base ?? ''),
-    // getPoslllRepository(prismaRequest?.auxiliar ?? ''),
-    getWorkRepository(prismaRequest?.coupleSafeToBe ?? ''),
-    // getWorkRepository(prismaRequest?.coupleKitchenCoordinator ?? ''),
-    // getPoslllRepository(prismaRequest?.kitchenSpiritual ?? ''),
-    // getPoslllRepository(prismaRequest?.liturgy ?? ''),
-    // getPoslllRepository(prismaRequest?.secretary ?? ''),
-    getWorkRepository(prismaRequest?.auxiliarLiturgy ?? ''),
-    getWorkRepository(prismaRequest?.auxiliarSecretary ?? ''),
-    getWorkRepository(prismaRequest?.folkloreCoordinator ?? ''),
-    getWorkRepository(prismaRequest?.bar ?? ''),
-  ]);
+  // const [
+  // coordinatorRecord,
+  // baseRecord,
+  // auxiliarRecord,
+  // coupleSafeToBeRecord,
+  // coupleKitchenCoordinatorRecord,
+  // kitchenSpiritualRecord,
+  // liturgyRecord,
+  // secretaryRecord,
+  // auxiliarLiturgyRecord,
+  // auxiliarSecretaryRecord,
+  // folkloreCoordinatorRecord,
+  // barRecord,
+  // ] = await Promise.all([
+  // getPoslllRepository(prismaRequest?.coordinator ?? ''),
+  // getPoslllRepository(prismaRequest?.base ?? ''),
+  // getPoslllRepository(prismaRequest?.auxiliar ?? ''),
+  // getWorkRepository(prismaRequest?.coupleSafeToBe ?? ''),
+  // getWorkRepository(prismaRequest?.coupleKitchenCoordinator ?? ''),
+  // getPoslllRepository(prismaRequest?.kitchenSpiritual ?? ''),
+  // getPoslllRepository(prismaRequest?.liturgy ?? ''),
+  // getPoslllRepository(prismaRequest?.secretary ?? ''),
+  // getWorkRepository(prismaRequest?.auxiliarLiturgy ?? ''),
+  // getWorkRepository(prismaRequest?.auxiliarSecretary ?? ''),
+  // getWorkRepository(prismaRequest?.folkloreCoordinator ?? ''),
+  // getWorkRepository(prismaRequest?.bar ?? ''),
+  // ]);
 
   if (prismaRequest) {
     const cleanWorkRecords = await cleanWorkRecordsFormatData(prismaRequest);
@@ -140,9 +133,9 @@ async function getWorkTableArchiveDataRepository(courseNumber: string) {
 
     return {
       // pos lll
-      coordinator: `${coordinatorRecord?.candidateName} - paróquia`,
-      base: `${baseRecord?.candidateName} - paróquia`,
-      auxiliar: `${auxiliarRecord?.candidateName} - paróquia`,
+      // coordinator: `${coordinatorRecord?.candidateName} - paróquia`,
+      // base: `${baseRecord?.candidateName} - paróquia`,
+      // auxiliar: `${auxiliarRecord?.candidateName} - paróquia`,
       kitchenSpiritual: `Fulano - paróquia`,
       liturgy: `Fulano - paróquia`,
       secretary: `Fulano - paróquia`,
@@ -151,8 +144,8 @@ async function getWorkTableArchiveDataRepository(courseNumber: string) {
       // secretary: `${secretaryRecord?.candidateName} - paróquia`,
 
       // pos ll
-      coupleSafeToBe: `Tios ${coupleSafeToBeRecord?.candidateName} e ${coupleSafeToBeRecord?.recordCouple?.womanName} - ${coupleSafeToBeRecord?.parishChapel}`,
-      coupleKitchenCoordinator: `Tios ${coupleKitchenCoordinatorRecord?.candidateName} e ${coupleKitchenCoordinatorRecord?.recordCouple?.womanName} - ${coupleKitchenCoordinatorRecord?.parishChapel}`,
+      // coupleSafeToBe: `Tios ${coupleSafeToBeRecord?.candidateName} e ${coupleSafeToBeRecord?.recordCouple?.womanName} - ${coupleSafeToBeRecord?.parishChapel}`,
+      // coupleKitchenCoordinator: `Tios ${coupleKitchenCoordinatorRecord?.candidateName} e ${coupleKitchenCoordinatorRecord?.recordCouple?.womanName} - ${coupleKitchenCoordinatorRecord?.parishChapel}`,
       auxiliarLiturgy: `Fulano - lugar`,
       auxiliarSecretary: `Fulano - lugar`,
       folkloreCoordinator: `Fulano - lugar`,
@@ -185,3 +178,4 @@ export async function getWorkTableArchiveDataController(req: Request, res: Respo
     res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
   }
 }
+ */
