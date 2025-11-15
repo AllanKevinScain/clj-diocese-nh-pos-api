@@ -56,7 +56,6 @@ model RecordEntity {
   id             String        @id @default(uuid())
   typeOfRecord   TypeOfRecord? @default(POSl)
   courseNumber   String
-  // parishAcronym           String
   recordNumber   String
   candidateName  String
   nickname       String
@@ -64,16 +63,7 @@ model RecordEntity {
   candidatePhone String
   isWork         Boolean       @default(false)
   isCoupleWork   Boolean       @default(false)
-  // email                   String
-  // instagram               String
-  // priest                  String
   parishChapel   String
-  // spiritualLife           String[]
-  // observationsCoordinator String        @default("")
-  // observationsDed         String
-  // disease                 String?
-  // medication              String?
-  // allergy                 String?
   dataConsent    Boolean
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @default(now()) @updatedAt
@@ -90,87 +80,31 @@ model RecordPOSl {
   record                 RecordEntity @relation(fields: [recordId], references: [id], onDelete: Cascade)
   godfatherName          String
   godfatherPhone         String
-  // godfatherEmail          String
-  // affinityWithGodfather   String
-  // attitudeCommunication   String
-  // doctrineCommunication   String
-  // godfatherResponsibility String
   candidateSpirit        String
   candidateDisposition   String
   candidateParticipation String
-  // fatherSituation         String
-  // motherSituation         String
-  // livesWith               String[]
-  // otherWho                String?0
-  // parentsReligion         String?
-  // otherReligion           String?
-  // parentsComment          String
 }
 
 model RecordPOSll {
   id       String       @id @default(uuid())
   recordId String       @unique
   record   RecordEntity @relation(fields: [recordId], references: [id], onDelete: Cascade)
-  // courseOneDone           String
-  // motivationToParticipate String
-  // reasonForCLJII          String
-  // approachToChrist        String
-  // acceptsChurchDoctrine   String
-  // commitmentToCLJ         String
-  // perseveranceInCommunity String
-  // hideImportantInfo       Boolean
-  // currentGroupFunction    String
-  // parishChapelActivities  String
-  // doingConfirmation       Boolean?
-  // notConfirmationBecause  String?
 }
 
 model RecordWork {
   id       String       @id @default(uuid())
   recordId String       @unique
   record   RecordEntity @relation(fields: [recordId], references: [id], onDelete: Cascade)
-  // courseOneDone          String
-  // courseTwoDone          String
-  // courseThreeDone        String?
-  // workedInWhichCourses   String
-  // graceStateAwareness    String
-  // notFalsifyData         Boolean
-  // showLifeTestimony      String
-  // currentGroupFunction   String
-  // parishActivities       String
-  // doingConfirmation      Boolean?
-  // notConfirmationBecause String?
-  // instrument             String?
-  // reasonToWork           String
-  // workPreference         String
-  // willingToOtherFunction Boolean
-  // parishIndication       String[]
 }
 
 model RecordCouple {
   id             String       @id @default(uuid())
   recordId       String       @unique
   record         RecordEntity @relation(fields: [recordId], references: [id], onDelete: Cascade)
-  // workPreference          String
-  // externalCouple          Boolean?
-  // cookCouple              Boolean?
   womanName      String
   womanNickname  String
   womanPhone     String
-  // womanInstagram          String
   womanBirthDate String
-  // coursesOneDone          String?
-  // coursesTwoDone          String?
-  // coursesThreeDone        String?
-  // coursesDone             String
-  // currentGroupFunction    String
-  // participatedOtherGroups String
-  // womanSpiritualLife      String[]
-  // familyLife              String
-  // religiousWeddingDate    String
-  // participatedInRetreat   Boolean
-  // motivationToParticipate String
-  // parishIndication        String[]
 }
 
 model Poslll {
