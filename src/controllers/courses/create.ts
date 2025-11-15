@@ -3,12 +3,22 @@ import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { unauthorizedException } from '../../exception';
 import { CourseInfertypeSchema, CourseSchema } from '../../schemas';
-import { findCourseByDate, findCourseByNumberAndType } from './helpers';
+import { findCourseByDate } from './helpers';
 import { isEmpty } from 'lodash';
 
 async function createCourseRepository(data: CourseInfertypeSchema) {
+  const lastCourse = await prisma.course.findFirst({
+    where: { typeOfCourse: data.typeOfCourse },
+    orderBy: { courseNumber: 'desc' },
+  });
+
+  const nextNumber = lastCourse ? Number(lastCourse.courseNumber) + 1 : 1;
+
   const prismaRequest = await prisma.course.create({
-    data,
+    data: {
+      ...data,
+      courseNumber: nextNumber.toString(),
+    },
   });
 
   return prismaRequest;
@@ -23,10 +33,6 @@ export async function createCourseController(req: Request, res: Response) {
     await findCourseByDate({
       startDate: parsedRequestBody.startDate,
       endDate: parsedRequestBody.endDate,
-    });
-    await findCourseByNumberAndType({
-      courseNumber: parsedRequestBody.courseNumber,
-      typeOfCourse: parsedRequestBody.typeOfCourse,
     });
 
     const repositoryRequest = await createCourseRepository(parsedRequestBody);

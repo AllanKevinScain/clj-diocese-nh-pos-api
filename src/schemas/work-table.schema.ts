@@ -28,3 +28,5 @@ export const workTableSchema = z.object({
 
   communities: z.array(communitySchema).default([]),
 });
+
+export type WorkTableInfertypeSchema = z.infer<typeof workTableSchema>;

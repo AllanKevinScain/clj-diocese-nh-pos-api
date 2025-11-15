@@ -39,6 +39,7 @@ export async function filterRecordsController(req: Request, res: Response) {
         recordPOSll: true,
         recordWork: true,
       },
+      orderBy: { updatedAt: 'desc' },
     });
 
     res.status(HttpStatus.OK).send(records);

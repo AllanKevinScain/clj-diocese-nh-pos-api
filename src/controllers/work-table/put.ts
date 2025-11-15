@@ -1,12 +1,9 @@
-import { z } from 'zod';
 import { prisma } from '../../database';
-import { HttpStatus, RecordCourses } from '../../constants';
+import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { IdSchema, RecordWorkSchema, RecordSchema, workTableSchema } from '../../schemas';
-
-type WorkTableInfertypeSchema = z.infer<typeof workTableSchema>;
+import { IdSchema, workTableSchema, WorkTableInfertypeSchema } from '../../schemas';
 
 type PutRepositoryParamsType = {
   data: Partial<WorkTableInfertypeSchema>;

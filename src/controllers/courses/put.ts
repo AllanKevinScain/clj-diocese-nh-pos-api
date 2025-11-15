@@ -1,19 +1,14 @@
-import { z } from 'zod';
 import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 import { getCourseRepository } from './get';
-import { CourseSchema, IdSchema } from '../../schemas';
-import { findCourseByDate, findCourseByNumberAndType } from './helpers';
-
-const CoursePartialSchema = CourseSchema.partial();
-
-type CoursePartialInfertypeSchema = z.infer<typeof CoursePartialSchema>;
+import { CourseInfertypeSchema, CourseSchema, IdSchema } from '../../schemas';
+import { findCourseByDate } from './helpers';
 
 type PutRepositoryParamsType = {
-  data: CoursePartialInfertypeSchema;
+  data: Partial<CourseInfertypeSchema>;
   id: string;
 };
 
@@ -29,7 +24,7 @@ async function putCourseRepository(params: PutRepositoryParamsType) {
 
 export async function putCourseController(req: Request, res: Response) {
   try {
-    const parsedRequestBody = CoursePartialSchema.parse(req.body);
+    const parsedRequestBody = CourseSchema.partial().parse(req.body);
     if (isEmpty(parsedRequestBody)) throw new Error('Dados inválidos!');
 
     const { id } = IdSchema.parse(req.params);
@@ -40,13 +35,6 @@ export async function putCourseController(req: Request, res: Response) {
       {
         startDate: parsedRequestBody.startDate,
         endDate: parsedRequestBody.endDate,
-      },
-      id,
-    );
-    await findCourseByNumberAndType(
-      {
-        courseNumber: parsedRequestBody.courseNumber,
-        typeOfCourse: parsedRequestBody.typeOfCourse,
       },
       id,
     );

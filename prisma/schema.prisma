@@ -29,9 +29,15 @@ model RefreshToken {
   user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum TypeOfRecord {
+  POSl
+  POSll
+  POSlll
+}
+
 model Course {
-  id                       String @id @default(uuid())
-  typeOfCourse             String @default("POSl")
+  id                       String       @id @default(uuid())
+  typeOfCourse             TypeOfRecord @default(POSl)
   courseNumber             String
   startDate                String
   endDate                  String
@@ -42,12 +48,8 @@ model Course {
   secretary                String
   kitchenSpiritual         String
   coupleKitchenCoordinator String
-}
 
-enum TypeOfRecord {
-  POSl
-  POSll
-  POSlll
+  @@unique([typeOfCourse, courseNumber])
 }
 
 model RecordEntity {
@@ -172,17 +174,20 @@ model RecordCouple {
 }
 
 model Poslll {
-  id            String   @id @default(uuid())
-  candidateName String   @unique
-  parishChapel  String   @default("Novo Hamburgo")
-  instagram     String?
-  courseOne     String
-  courseTwo     String
-  courseThree   String
-  formations    String
-  active        Boolean? @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now()) @updatedAt
+  id             String   @id @default(uuid())
+  candidateName  String   @unique
+  parishChapel   String   @default("Novo Hamburgo")
+  courseOne      String
+  courseTwo      String
+  courseThree    String
+  formations     String
+  instagram      String?  @default("@cljdiocesenh")
+  instagramWoman String?  @default("@cljdiocesenh")
+  isCouple       Boolean? @default(false)
+
+  active    Boolean? @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Community {

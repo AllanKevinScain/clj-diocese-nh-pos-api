@@ -1,4 +1,3 @@
-import { z } from 'zod';
 import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';

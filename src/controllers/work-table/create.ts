@@ -1,11 +1,8 @@
-import { z } from 'zod';
 import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
-import { workTableSchema } from '../../schemas';
-
-type WorkTableInfertypeSchema = z.infer<typeof workTableSchema>;
+import { WorkTableInfertypeSchema, workTableSchema } from '../../schemas';
 
 async function createWorkTableRepository(params: WorkTableInfertypeSchema) {
   const { communities, id: _, ...workTableObject } = workTableSchema.parse(params);

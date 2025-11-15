@@ -20,31 +20,3 @@ export async function findCourseByDate(
     );
   }
 }
-
-export async function findCourseByNumberAndType(
-  data: Partial<Pick<CourseInfertypeSchema, 'courseNumber' | 'typeOfCourse'>>,
-  id?: string,
-) {
-  const existingCourse = await prisma.course.findFirst({
-    where: {
-      AND: [
-        { courseNumber: data.courseNumber },
-        { typeOfCourse: data.typeOfCourse },
-        { NOT: { id } },
-      ],
-    },
-  });
-
-  function typeNameMessage() {
-    if (data.typeOfCourse === 'POSll') return 'pós clj 2';
-    return 'pós clj 1';
-  }
-
-  if (existingCourse) {
-    throw new Error(
-      `Já existe um curso do tipo "${typeNameMessage()}" com o número ${
-        existingCourse.courseNumber
-      }.`,
-    );
-  }
-}

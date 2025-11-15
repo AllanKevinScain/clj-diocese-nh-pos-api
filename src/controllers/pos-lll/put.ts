@@ -1,18 +1,13 @@
-import { z } from 'zod';
 import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
 import { getPoslllRepository } from './get';
-import { poslllSchema, IdSchema } from '../../schemas';
-
-const PoslllPartialSchema = poslllSchema.partial();
-
-type PoslllPartialInfertypeSchema = z.infer<typeof PoslllPartialSchema>;
+import { IdSchema, PoslllInfertypeSchema, poslllSchema } from '../../schemas';
 
 type PutRepositoryParamsType = {
-  data: PoslllPartialInfertypeSchema;
+  data: Partial<PoslllInfertypeSchema>;
   id: string;
 };
 
@@ -32,7 +27,7 @@ export async function putPoslllController(req: Request, res: Response) {
 
     const { id } = IdSchema.parse(req.params);
 
-    const parsedRequestBody = PoslllPartialSchema.parse(req.body);
+    const parsedRequestBody = poslllSchema.partial().parse(req.body);
     if (isEmpty(parsedRequestBody)) throw new Error('Dados inválidos!');
 
     const currentCourseById = await getPoslllRepository(id);

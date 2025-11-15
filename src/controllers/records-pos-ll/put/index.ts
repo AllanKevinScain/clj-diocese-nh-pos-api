@@ -4,9 +4,9 @@ import { isEmpty } from 'lodash';
 import { HttpStatus } from '../../../constants';
 import {
   IdSchema,
+  RecordCoupleInfertype,
   RecordCoupleSchema,
   RecordPosllSchema,
-  RecordSchema,
   RecordWorkSchema,
 } from '../../../schemas';
 import { handleZodError } from '../../../helpers';
@@ -48,10 +48,14 @@ export async function putRecordPosllController(req: Request, res: Response) {
 
     const repositoryRequest = await chooseEntityCreateRecord({ dto, id, dtoType });
 
-    res.status(HttpStatus.OK).send({
-      message: `A ficha de ${repositoryRequest.candidateName} foi atualizada`,
-      data: repositoryRequest,
-    });
+    let message = `A ficha de ${repositoryRequest.candidateName} foi atualizada`;
+
+    if (repositoryRequest.isCoupleWork) {
+      const auxResponse = repositoryRequest as RecordCoupleInfertype;
+      message = `A ficha dos tios ${auxResponse.candidateName} e ${auxResponse.recordCouple.womanName} foi atualizada`;
+    }
+
+    res.status(HttpStatus.OK).send({ message, data: repositoryRequest });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
   }
