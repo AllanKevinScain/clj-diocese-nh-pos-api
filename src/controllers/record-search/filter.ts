@@ -35,10 +35,6 @@ export function filterRecords(req: Request) {
     where.recordNumber = { contains: filters.recordNumber, mode: 'insensitive' };
   }
 
-  // if (filters.parishAcronym !== undefined) {
-  //   where.parishAcronym = { contains: filters.parishAcronym, mode: 'insensitive' };
-  // }
-
   if (filters.candidateName !== undefined) {
     where.candidateName = { contains: filters.candidateName, mode: 'insensitive' };
   }
@@ -54,14 +50,6 @@ export function filterRecords(req: Request) {
   if (filters.candidatePhone !== undefined) {
     where.candidatePhone = { contains: filters.candidatePhone, mode: 'insensitive' };
   }
-
-  // if (filters.instagram !== undefined) {
-  //   where.instagram = { contains: filters.instagram, mode: 'insensitive' };
-  // }
-
-  // if (filters.priest !== undefined) {
-  //   where.priest = { contains: filters.priest, mode: 'insensitive' };
-  // }
 
   if (filters.parishChapel !== undefined) {
     where.parishChapel = { contains: filters.parishChapel, mode: 'insensitive' };
