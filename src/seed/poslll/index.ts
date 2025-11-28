@@ -60,11 +60,24 @@ export async function upsertPoslll() {
     {
       candidateName: 'Tios Taiane e Agostinho',
       parishChapel: 'NSL-CAN',
-      instagram: '@tay',
+      instagram: '@agostinho',
+      instagramWoman: '@tay',
       courseOne: '1',
       courseTwo: '2',
       courseThree: '3',
       formations: '12234',
+      isCouple: true,
+    },
+    {
+      candidateName: 'Tios Nica e Alexandre',
+      parishChapel: 'SP-GRA',
+      instagram: '@alexandre',
+      instagramWoman: '@nica',
+      courseOne: '1',
+      courseTwo: '2',
+      courseThree: '3',
+      formations: '12234',
+      isCouple: true,
     },
   ];
 

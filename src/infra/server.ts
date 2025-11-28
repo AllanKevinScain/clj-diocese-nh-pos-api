@@ -2,8 +2,9 @@ import express from 'express';
 import cors from 'cors';
 
 import { userRoutes } from './routes/user';
-import { poslRoutes } from './routes/pos-l';
-import { posllRoutes } from './routes/pos-ll';
+import { candidatePoslRoutes } from './routes/candidate-pos-l';
+import { candidatePosllRoutes } from './routes/candidate-pos-ll';
+import { candidatePoslllRoutes } from './routes/candidate-pos-lll';
 import { listRoutes } from './routes/list';
 import { courseRoutes } from './routes/course';
 import { authRoutes } from './routes/auth';
@@ -27,8 +28,9 @@ server.use((req, _, next) => {
 
 server.use('/auth', authRoutes);
 server.use('/user', userRoutes);
-server.use('/records/posl', poslRoutes);
-server.use('/records/posll', posllRoutes);
+server.use('/records/posl', candidatePoslRoutes);
+server.use('/records/posll', candidatePosllRoutes);
+server.use('/records/poslll', candidatePoslllRoutes);
 server.use('/records', genericRoutes);
 server.use('/course', courseRoutes);
 server.use('/list', listRoutes);

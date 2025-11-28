@@ -1,1 +1,2 @@
-export * from './get-record-by-id';
+export * from './get-record';
+export * from './delete-record';

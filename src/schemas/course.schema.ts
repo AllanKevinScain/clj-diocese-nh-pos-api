@@ -4,7 +4,7 @@ export const CourseSchema = z.object({
   id: z.string().uuid().optional(),
   startDate: z.string(),
   endDate: z.string(),
-  typeOfCourse: z.enum(['POSl', 'POSll', 'POSll']),
+  typeOfCourse: z.enum(['POSl', 'POSll', 'POSlll']),
   base: z.string().uuid(),
   auxiliar: z.string().uuid(),
   coordinator: z.string().uuid(),

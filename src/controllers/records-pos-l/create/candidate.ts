@@ -1,11 +1,13 @@
 import { prisma } from '../../../database';
-import { PoslSchema, RecordPoslSchema } from '../../../schemas';
+import { candidatePoslSchema, candidateSubRecordPoslSchema } from '../../../schemas';
 import { RecordWorkInterface } from '../../record-work';
 
 export async function createRecordPOSlRepository(props: RecordWorkInterface) {
   const { createdById, dto } = props;
-  const { recordPOSl, ...recordWithoutObject } = PoslSchema.parse(dto);
-  const recordPoslCreate = RecordPoslSchema.omit({ recordId: true, id: true }).parse(recordPOSl);
+  const { recordPOSl, ...recordWithoutObject } = candidatePoslSchema.parse(dto);
+  const recordPoslCreate = candidateSubRecordPoslSchema
+    .omit({ recordId: true, id: true })
+    .parse(recordPOSl);
 
   const prismaRequest = await prisma.recordEntity.create({
     data: {

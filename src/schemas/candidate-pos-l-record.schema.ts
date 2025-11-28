@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { RecordSchema } from './default-record.schema';
 
-export const RecordPoslSchema = z.object({
+export const candidateSubRecordPoslSchema = z.object({
   id: z.string().uuid().optional(),
 
   godfatherName: z.string(),
@@ -12,5 +12,6 @@ export const RecordPoslSchema = z.object({
   recordId: z.string().uuid().optional(),
 });
 
-export const PoslSchema = RecordSchema.extend({ recordPOSl: RecordPoslSchema });
-export type PoslInfertypeSchema = z.infer<typeof PoslSchema>;
+export const candidatePoslSchema = RecordSchema.extend({
+  recordPOSl: candidateSubRecordPoslSchema,
+});
