@@ -1,10 +1,10 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
 }
 
 model User {
@@ -70,6 +70,7 @@ model RecordEntity {
   createdById    String
   recordPOSl     RecordPOSl?
   recordPOSll    RecordPOSll?
+  recordPOSlll   RecordPOSlll?
   recordWork     RecordWork?
   recordCouple   RecordCouple?
 }
@@ -86,6 +87,12 @@ model RecordPOSl {
 }
 
 model RecordPOSll {
+  id       String       @id @default(uuid())
+  recordId String       @unique
+  record   RecordEntity @relation(fields: [recordId], references: [id], onDelete: Cascade)
+}
+
+model RecordPOSlll {
   id       String       @id @default(uuid())
   recordId String       @unique
   record   RecordEntity @relation(fields: [recordId], references: [id], onDelete: Cascade)

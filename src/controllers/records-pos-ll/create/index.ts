@@ -2,7 +2,7 @@ import { HttpStatus } from '../../../constants';
 import { getLoginInfo, handleZodError } from '../../../helpers';
 import {
   RecordCoupleSchema,
-  RecordPosllSchema,
+  candidatePosllSchema,
   RecordSchema,
   RecordWorkSchema,
 } from '../../../schemas';
@@ -37,7 +37,7 @@ export async function createRecordPosllController(req: Request, res: Response) {
       dto = RecordCoupleSchema.parse(req.body);
       dtoType = 'COUPLE_WORK';
     } else {
-      dto = RecordPosllSchema.parse(req.body);
+      dto = candidatePosllSchema.parse(req.body);
     }
 
     const repositoryRequest = await chooseEntityCreateRecord({

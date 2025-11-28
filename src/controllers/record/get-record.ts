@@ -5,7 +5,7 @@ import { IdSchema } from '../../schemas';
 import { getRecordById } from '../../services-helpers';
 import { isEmpty } from 'lodash';
 
-export async function getRecordByIdController(req: Request, res: Response) {
+export async function getRecordController(req: Request, res: Response) {
   try {
     const { id } = IdSchema.parse(req.params);
     const repositoryRequest = await getRecordById(id);

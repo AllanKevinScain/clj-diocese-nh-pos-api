@@ -1,21 +1,13 @@
-import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { IdSchema } from '../../schemas';
+import { deleteRecordById } from '../../services-helpers';
 
-async function deleteRecordPOSllRepository(id: string) {
-  const prismaRequest = await prisma.recordEntity.delete({
-    where: { id },
-  });
-
-  return prismaRequest;
-}
-
-export async function deleteRecordPOSllController(req: Request, res: Response) {
+export async function deleteRecordController(req: Request, res: Response) {
   try {
     const { id } = IdSchema.parse(req.params);
-    const repositoryRequest = await deleteRecordPOSllRepository(id);
+    const repositoryRequest = await deleteRecordById(id);
 
     res.status(HttpStatus.OK).send({
       message: `Fixa de ${repositoryRequest.candidateName}/${repositoryRequest.id} removida com sucesso!`,

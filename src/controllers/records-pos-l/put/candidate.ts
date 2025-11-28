@@ -1,14 +1,17 @@
 import { prisma } from '../../../database';
-import { PoslSchema, RecordPoslSchema } from '../../../schemas';
+import { candidateSubRecordPoslSchema, candidatePoslSchema } from '../../../schemas';
 import { RecordWorkPutInterface } from '../../record-work';
 
 export async function putRecordPOSlRepository(params: RecordWorkPutInterface) {
   const { dto, id } = params;
-  const { recordPOSl, ...recordWithoutPOSl } = PoslSchema.partial().parse(dto);
+  const { recordPOSl, ...recordWithoutPOSl } = candidatePoslSchema.partial().parse(dto);
 
   let parsedRecordPosl = {};
   if (recordPOSl) {
-    parsedRecordPosl = RecordPoslSchema.omit({ recordId: true }).partial().parse(recordPOSl);
+    parsedRecordPosl = candidateSubRecordPoslSchema
+      .omit({ recordId: true })
+      .partial()
+      .parse(recordPOSl);
   }
 
   const prismaRequest = await prisma.recordEntity.update({

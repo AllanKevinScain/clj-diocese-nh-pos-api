@@ -6,12 +6,12 @@ import {
   IdSchema,
   RecordCoupleInfertype,
   RecordCoupleSchema,
-  candidatePoslSchema,
+  candidatePoslllSchema,
   RecordWorkSchema,
 } from '../../../schemas';
 import { handleZodError } from '../../../helpers';
 import { RecordType } from '../../../types';
-import { putRecordPosllRepository } from './candidate';
+import { putRecordPoslllRepository } from './candidate';
 import { putCoupleRepository, putWorkRepository } from '../../record-work';
 import { getRecordById } from '../../../services-helpers';
 
@@ -21,10 +21,10 @@ async function chooseEntityCreateRecord(props: ChooseEntityPutRecordInterface) {
   if (dtoType === 'WORK') return putWorkRepository(rest);
   if (dtoType === 'COUPLE_WORK') return putCoupleRepository(rest);
 
-  return putRecordPosllRepository(rest);
+  return putRecordPoslllRepository(rest);
 }
 
-export async function putRecordPosllController(req: Request, res: Response) {
+export async function putRecordPoslllController(req: Request, res: Response) {
   try {
     if (isEmpty(req.body)) res.status(HttpStatus.BAD_REQUEST).send();
 
@@ -34,7 +34,7 @@ export async function putRecordPosllController(req: Request, res: Response) {
     const currentRecord = await getRecordById(id);
 
     let dto: unknown = {};
-    let dtoType: RecordType = 'POSll';
+    let dtoType: RecordType = 'POSlll';
 
     if (currentRecord?.isWork) {
       dto = RecordWorkSchema.partial().parse(req.body);
@@ -43,7 +43,7 @@ export async function putRecordPosllController(req: Request, res: Response) {
       dto = RecordCoupleSchema.partial().parse(req.body);
       dtoType = 'COUPLE_WORK';
     } else {
-      dto = candidatePoslSchema.partial().parse(req.body);
+      dto = candidatePoslllSchema.partial().parse(req.body);
     }
 
     const repositoryRequest = await chooseEntityCreateRecord({ dto, id, dtoType });

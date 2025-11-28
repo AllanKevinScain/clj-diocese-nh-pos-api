@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash';
 import { HttpStatus } from '../../../constants';
 import {
   IdSchema,
-  PoslSchema,
+  candidatePoslSchema,
   RecordCoupleInfertype,
   RecordCoupleSchema,
   RecordWorkSchema,
@@ -43,7 +43,7 @@ export async function putRecordPoslController(req: Request, res: Response) {
       dto = RecordCoupleSchema.partial().parse(req.body);
       dtoType = 'COUPLE_WORK';
     } else {
-      dto = PoslSchema.partial().parse(req.body);
+      dto = candidatePoslSchema.partial().parse(req.body);
     }
 
     const repositoryRequest = await chooseEntityCreateRecord({ dto, id, dtoType });
