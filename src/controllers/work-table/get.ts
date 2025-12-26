@@ -2,12 +2,13 @@ import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
-import { CourseNumberSchema } from '../../schemas';
+import { CourseIdSchema } from '../../schemas';
 
-async function getWorkTableRepository(courseNumber: string) {
+async function getWorkTableRepository(courseId: string) {
   const prismaRequest = await prisma.workTableEntity.findUnique({
-    where: { courseNumber },
+    where: { courseId },
     include: {
+      kitchenRecords: true,
       communities: {
         include: {
           members: true,
@@ -16,13 +17,34 @@ async function getWorkTableRepository(courseNumber: string) {
     },
   });
 
+  if (prismaRequest !== null) {
+    const { kitchenRecords, ...restPrismaRequest } = prismaRequest;
+
+    const cleanWorkRecords = kitchenRecords
+      .filter((item) => item.office === 'cleanWork')
+      .map((item) => item.recordId);
+    const copeWorkRecords = kitchenRecords
+      .filter((item) => item.office === 'copeWork')
+      .map((item) => item.recordId);
+    const kitchenWorkRecords = kitchenRecords
+      .filter((item) => item.office === 'kitchenWork')
+      .map((item) => item.recordId);
+
+    return {
+      ...restPrismaRequest,
+      cleanWorkRecords,
+      copeWorkRecords,
+      kitchenWorkRecords,
+    };
+  }
+
   return prismaRequest;
 }
 
 export async function getWorkTableController(req: Request, res: Response) {
   try {
-    const { courseNumber } = CourseNumberSchema.parse(req.params);
-    const repositoryRequest = await getWorkTableRepository(courseNumber);
+    const { courseId } = CourseIdSchema.parse(req.params);
+    const repositoryRequest = await getWorkTableRepository(courseId);
 
     if (repositoryRequest === null) {
       res.status(HttpStatus.NO_CONTENT).send(repositoryRequest);

@@ -2,9 +2,9 @@ import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { CourseNumberSchema } from '../../schemas';
-import { getCourseRepository } from './get';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
+import { getCourseById } from '../../services-helpers';
 
 interface DeleteCourseRepositoryInterface {
   courseNumber: string;
@@ -24,7 +24,7 @@ export async function deleteCourseController(req: Request, res: Response) {
   try {
     const { courseNumber } = CourseNumberSchema.parse(req.params);
 
-    const currentCourseBycourseNumber = await getCourseRepository(courseNumber);
+    const currentCourseBycourseNumber = await getCourseById(courseNumber);
     if (isEmpty(currentCourseBycourseNumber)) throw new Error('Curso não encontrado.');
 
     const repositoryRequest = await deleteCourseRepository({

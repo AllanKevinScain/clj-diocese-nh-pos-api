@@ -4,6 +4,7 @@ import {
   getPoslllController,
   listPoslllController,
   putPoslllController,
+  listPoslllByIdsController,
 } from '../../controllers';
 
 import { Router } from 'express';
@@ -23,6 +24,13 @@ routes.get(
   authMiddleware,
   roleMiddleware(['manager', 'builder-manager', 'admin']),
   listPoslllController,
+);
+
+routes.post(
+  '/list-records-by-ids',
+  authMiddleware,
+  roleMiddleware(['builder-manager', 'admin']),
+  listPoslllByIdsController,
 );
 
 export { routes as poslllRoutes };

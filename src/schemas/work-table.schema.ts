@@ -14,7 +14,7 @@ export const communitySchema = z.object({
 
 export const workTableSchema = z.object({
   id: z.string().uuid().nullish(),
-  courseNumber: z.string(),
+  courseId: z.string(),
 
   auxiliarLiturgy: z.string().uuid().nullish(),
   auxiliarSecretary: z.string().uuid().nullish(),

@@ -23,6 +23,8 @@ export async function loginController(req: Request, res: Response) {
     const parsedRequest = LoginSchema.parse(req.body);
     const user = await getUserByEmail(parsedRequest.email);
 
+    if (!user?.active) throw new Error('Usuário desativado!');
+
     const { email, password } = parsedRequest;
     if (isEmpty(email) || isEmpty(password)) throw new Error('E-mail e senha são obrigatórios');
 

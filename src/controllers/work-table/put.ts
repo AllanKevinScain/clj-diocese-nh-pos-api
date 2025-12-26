@@ -4,6 +4,7 @@ import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { IdSchema, workTableSchema, WorkTableInfertypeSchema } from '../../schemas';
+import { TypeOfficeWorkKitchenMember } from '@prisma/client';
 
 type PutRepositoryParamsType = {
   data: Partial<WorkTableInfertypeSchema>;
@@ -13,14 +14,37 @@ type PutRepositoryParamsType = {
 async function putWorkTableRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
   const { communities, id: _, ...workTableObject } = workTableSchema.partial().parse(data);
+  const { cleanWorkRecords, copeWorkRecords, kitchenWorkRecords, ...restWorkTable } =
+    workTableObject;
+
+  const cleanWork =
+    cleanWorkRecords?.map((item) => {
+      return { office: 'cleanWork' as TypeOfficeWorkKitchenMember, recordId: item };
+    }) || [];
+
+  const copeWork =
+    copeWorkRecords?.map((item) => {
+      return { office: 'copeWork' as TypeOfficeWorkKitchenMember, recordId: item };
+    }) || [];
+
+  const kitchenWork =
+    kitchenWorkRecords?.map((item) => {
+      return { office: 'kitchenWork' as TypeOfficeWorkKitchenMember, recordId: item };
+    }) || [];
 
   const prismaRequest = await prisma.workTableEntity.update({
     where: { id },
     data: {
-      ...workTableObject,
+      ...restWorkTable,
+      kitchenRecords: {
+        deleteMany: {},
+        createMany: {
+          data: [...cleanWork, ...copeWork, ...kitchenWork],
+        },
+      },
       ...(communities && {
         communities: {
-          deleteMany: {}, // limpa as antigas
+          deleteMany: {},
           create: communities.map((c) => ({
             number: c.number,
             members: {
@@ -33,6 +57,7 @@ async function putWorkTableRepository(params: PutRepositoryParamsType) {
       }),
     },
     include: {
+      kitchenRecords: true,
       communities: { include: { members: true } },
     },
   });
