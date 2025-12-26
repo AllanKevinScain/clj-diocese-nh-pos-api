@@ -28,7 +28,7 @@ export async function createRecordPosllController(req: Request, res: Response) {
 
     const parsedRecordRequest = RecordSchema.parse(req.body);
     let dto: unknown = {};
-    let dtoType: RecordType = 'POSl';
+    let dtoType: RecordType = 'POSll';
 
     if (parsedRecordRequest.isWork) {
       dto = RecordWorkSchema.parse(req.body);

@@ -3,9 +3,9 @@ import { HttpStatus } from '../../constants';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { unauthorizedException } from '../../exception';
-import { getCourseRepository } from './get';
 import { CourseInfertypeSchema, CourseSchema, IdSchema } from '../../schemas';
 import { findCourseByDate } from './helpers';
+import { getCourseById } from '../../services-helpers';
 
 type PutRepositoryParamsType = {
   data: Partial<CourseInfertypeSchema>;
@@ -39,7 +39,7 @@ export async function putCourseController(req: Request, res: Response) {
       id,
     );
 
-    const currentCourseById = await getCourseRepository(id);
+    const currentCourseById = await getCourseById(id);
     if (isEmpty(currentCourseById)) throw new Error('Curso não encontrado!');
 
     const repositoryRequest = await putCourseRepository({ data: parsedRequestBody, id });

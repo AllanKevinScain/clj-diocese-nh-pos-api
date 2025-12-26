@@ -3,13 +3,37 @@ import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { WorkTableInfertypeSchema, workTableSchema } from '../../schemas';
+import { TypeOfficeWorkKitchenMember } from '@prisma/client';
 
 async function createWorkTableRepository(params: WorkTableInfertypeSchema) {
   const { communities, id: _, ...workTableObject } = workTableSchema.parse(params);
+  const { cleanWorkRecords, copeWorkRecords, kitchenWorkRecords, ...restWorkTable } =
+    workTableObject;
+
+  const cleanWork =
+    cleanWorkRecords.map((item) => {
+      return { office: 'cleanWork' as TypeOfficeWorkKitchenMember, recordId: item };
+    }) || [];
+
+  const copeWork =
+    copeWorkRecords.map((item) => {
+      return { office: 'copeWork' as TypeOfficeWorkKitchenMember, recordId: item };
+    }) || [];
+
+  const kitchenWork =
+    kitchenWorkRecords.map((item) => {
+      return { office: 'kitchenWork' as TypeOfficeWorkKitchenMember, recordId: item };
+    }) || [];
 
   const prismaRequest = await prisma.workTableEntity.create({
     data: {
-      ...workTableObject,
+      ...restWorkTable,
+      kitchenRecords: {
+        createMany: {
+          skipDuplicates: true,
+          data: [...cleanWork, ...copeWork, ...kitchenWork],
+        },
+      },
       communities: {
         create: communities.map((c) => ({
           number: c.number,
@@ -22,6 +46,7 @@ async function createWorkTableRepository(params: WorkTableInfertypeSchema) {
       },
     },
     include: {
+      kitchenRecords: true,
       communities: { include: { members: true } },
     },
   });

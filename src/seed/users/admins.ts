@@ -30,7 +30,7 @@ export async function upsertAdminsUsers() {
     },
   ];
 
-  console.log('Total de itens admins:', data.length);
+  console.log('Total de itens administradores:', data.length);
   for (const item of data) {
     const hashedPassword = await bcrypt.hash('teste123!', 10);
     const res = await prisma.user.upsert({
@@ -40,5 +40,5 @@ export async function upsertAdminsUsers() {
     });
     console.log('Criado:', res.name);
   }
-  console.log('Users admins criados com sucesso! ✅');
+  console.log('Usuários administradores criados com sucesso! ✅');
 }

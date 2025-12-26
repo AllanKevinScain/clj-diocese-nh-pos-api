@@ -62,7 +62,7 @@ export async function upsertManagerUsers() {
     },
   ];
 
-  console.log('Total de itens managers:', data.length);
+  console.log('Total de itens gestores:', data.length);
   for (const item of data) {
     const hashedPassword = await bcrypt.hash('teste123!', 10);
     const res = await prisma.user.upsert({
@@ -72,5 +72,5 @@ export async function upsertManagerUsers() {
     });
     console.log('Criado:', res.coName);
   }
-  console.log('Users managers criados com sucesso! ✅');
+  console.log('Usuários gestores criados com sucesso! ✅');
 }

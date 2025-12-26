@@ -35,6 +35,12 @@ enum TypeOfRecord {
   POSlll
 }
 
+enum TypeOfficeWorkKitchenMember {
+  cleanWork
+  copeWork
+  kitchenWork
+}
+
 model Course {
   id                       String       @id @default(uuid())
   typeOfCourse             TypeOfRecord @default(POSl)
@@ -131,6 +137,13 @@ model Poslll {
   updatedAt DateTime @default(now()) @updatedAt
 }
 
+model CommunityMember {
+  id          String    @id @default(uuid())
+  recordId    String
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+}
+
 model Community {
   id          String            @id @default(uuid())
   number      String
@@ -139,23 +152,24 @@ model Community {
   members     CommunityMember[]
 }
 
-model CommunityMember {
-  id          String    @id @default(uuid())
-  communityId String
-  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+model KitchenMember {
+  id          String                      @id @default(uuid())
+  office      TypeOfficeWorkKitchenMember
   recordId    String
+  workTableId String
+  workTable   WorkTableEntity             @relation(fields: [workTableId], references: [id], onDelete: Cascade)
+
+  @@unique([workTableId, office, recordId])
 }
 
 model WorkTableEntity {
-  id                  String      @id @default(uuid())
-  courseNumber        String      @unique
+  id                  String          @id @default(uuid())
+  courseId            String          @unique
   auxiliarLiturgy     String?
   auxiliarSecretary   String?
   bar                 String?
   coupleSafeToBe      String?
   folkloreCoordinator String?
-  cleanWorkRecords    String[]
-  copeWorkRecords     String[]
-  kitchenWorkRecords  String[]
+  kitchenRecords      KitchenMember[]
   communities         Community[]
 }

@@ -18,7 +18,7 @@ export async function deleteWorkTableController(req: Request, res: Response) {
     const repositoryRequest = await deleteWorkTableRepository(id);
 
     res.status(HttpStatus.OK).send({
-      message: `Mesa de fundo do curso ${repositoryRequest.courseNumber} removida com sucesso!`,
+      message: `Mesa de fundo do curso ${repositoryRequest.courseId} removida com sucesso!`,
     });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });

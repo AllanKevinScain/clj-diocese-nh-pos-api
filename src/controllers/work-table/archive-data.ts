@@ -1,82 +1,49 @@
-/* import { prisma } from '../../database';
+import { prisma } from '../../database';
 import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
-import { CourseNumberSchema } from '../../schemas';
+import { CourseIdSchema } from '../../schemas';
 
 import { concat, isEmpty } from 'lodash';
-import { RecordType } from '../../types';
-import { Prisma, WorkTableEntity } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+import { getCourseById, getDinamicRecordById, getRecordById } from '../../services-helpers';
 
 type RecordEntityType = Prisma.RecordEntityGetPayload<{
   include: { recordCouple: true; recordPOSl: true; recordPOSll: true; recordWork: true };
 }>;
 
-async function cleanWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
-  const callMapCleanWorkRecords: any[] = []; // prismaRequest?.cleanWorkRecords.map((recordId: string) => getWorkRepository(recordId ?? '')) ||
-  const cleanWorkRecords = await Promise.all(callMapCleanWorkRecords);
-  return cleanWorkRecords.map((record: RecordEntityType | null) => {
-    const typeOfRecord = record?.typeOfRecord as RecordType;
-    if (typeOfRecord === 'COUPLE_WORK') {
-      return `Tios ${record?.candidateName} e ${record?.recordCouple?.womanName} - ${record?.parishChapel}`;
-    }
-    return `${record?.candidateName} - ${record?.parishChapel}`;
-  });
-}
-
-async function copeWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
-  const callMapCopeWorkRecords: any[] = []; // prismaRequest?.copeWorkRecords.map((recordId: string) => getWorkRepository(recordId ?? '')) ||
-  const copeWorkRecords = await Promise.all(callMapCopeWorkRecords);
-  return copeWorkRecords.map((record: RecordEntityType | null) => {
-    const typeOfRecord = record?.typeOfRecord as RecordType;
-    if (typeOfRecord === 'COUPLE_WORK') {
-      return `Tios ${record?.candidateName} e ${record?.recordCouple?.womanName} - ${record?.parishChapel}`;
-    }
-    return `${record?.candidateName} - ${record?.parishChapel}`;
-  });
-}
-
-async function kitchenWorkRecordsFormatData(prismaRequest: WorkTableEntity) {
-  const callMapKitchenWorkRecords: any[] = [];
-  // prismaRequest?.kitchenWorkRecords.map((recordId: string) =>
-  //   getWorkRepository(recordId ?? ''),
-  // )
+async function kitchenRecordsFormatData(kitchenRecords: string[]) {
+  const callMapKitchenWorkRecords =
+    kitchenRecords.map((recordId) => getRecordById(recordId ?? '')) || [];
   const kitchenWorkRecords = await Promise.all(callMapKitchenWorkRecords);
   return kitchenWorkRecords.map((record: RecordEntityType | null) => {
-    const typeOfRecord = record?.typeOfRecord as RecordType;
-    if (typeOfRecord === 'COUPLE_WORK') {
+    if (record?.isCoupleWork) {
       return `Tios ${record?.candidateName} e ${record?.recordCouple?.womanName} - ${record?.parishChapel}`;
     }
     return `${record?.candidateName} - ${record?.parishChapel}`;
   });
 }
 
-type CorrectCommunitiesWithRecordsType = Prisma.WorkTableEntityGetPayload<{
-  include: { communities: { include: { members: true } } };
-}>;
 type CommunityType = Prisma.CommunityGetPayload<{
   include: { members: true };
 }>;
 type MemberType = Prisma.CommunityMemberGetPayload<{}>;
 
-async function correctCommunitiesWithRecordsFormatData(
-  prismaRequest: CorrectCommunitiesWithRecordsType,
-) {
-  const communitiesMembers = prismaRequest?.communities.map((community: CommunityType) =>
+async function correctCommunitiesWithRecordsFormatData(communities: CommunityType[]) {
+  const communitiesMembers = communities.map((community: CommunityType) =>
     community.members.map((member: MemberType) => member.recordId),
   );
   const communitiesIds = concat(...(communitiesMembers || []));
-  const callsMapCommunities: any[] = []; // communitiesIds.map((recordId: string) => getWorkRepository(recordId ?? ''))
+  const callsMapCommunities = communitiesIds.map((recordId) => getRecordById(recordId ?? '')) || [];
   const communitiesRecords = await Promise.all(callsMapCommunities);
 
-  return prismaRequest?.communities.map((community: CommunityType) => {
+  return communities.map((community: CommunityType) => {
     return {
       ...community,
       members: community.members.map((member: MemberType) => {
         const findedMember = communitiesRecords.find((item) => item && item.id === member.recordId);
-        const typeOfRecord = findedMember?.typeOfRecord as RecordType;
 
-        if (typeOfRecord === 'COUPLE_WORK') {
+        if (findedMember?.isCoupleWork) {
           return `Tios ${findedMember?.candidateName} e ${findedMember?.recordCouple?.womanName} - ${findedMember?.parishChapel}`;
         }
         return `${findedMember?.candidateName} - ${findedMember?.parishChapel}`;
@@ -85,10 +52,11 @@ async function correctCommunitiesWithRecordsFormatData(
   });
 }
 
-async function getWorkTableArchiveDataRepository(courseNumber: string) {
+async function getWorkTableArchiveDataRepository(courseId: string) {
   const prismaRequest = await prisma.workTableEntity.findUnique({
-    where: { courseNumber },
+    where: { courseId },
     include: {
+      kitchenRecords: true,
       communities: {
         include: {
           members: true,
@@ -97,65 +65,81 @@ async function getWorkTableArchiveDataRepository(courseNumber: string) {
     },
   });
 
-  // const [
-  // coordinatorRecord,
-  // baseRecord,
-  // auxiliarRecord,
-  // coupleSafeToBeRecord,
-  // coupleKitchenCoordinatorRecord,
-  // kitchenSpiritualRecord,
-  // liturgyRecord,
-  // secretaryRecord,
-  // auxiliarLiturgyRecord,
-  // auxiliarSecretaryRecord,
-  // folkloreCoordinatorRecord,
-  // barRecord,
-  // ] = await Promise.all([
-  // getPoslllRepository(prismaRequest?.coordinator ?? ''),
-  // getPoslllRepository(prismaRequest?.base ?? ''),
-  // getPoslllRepository(prismaRequest?.auxiliar ?? ''),
-  // getWorkRepository(prismaRequest?.coupleSafeToBe ?? ''),
-  // getWorkRepository(prismaRequest?.coupleKitchenCoordinator ?? ''),
-  // getPoslllRepository(prismaRequest?.kitchenSpiritual ?? ''),
-  // getPoslllRepository(prismaRequest?.liturgy ?? ''),
-  // getPoslllRepository(prismaRequest?.secretary ?? ''),
-  // getWorkRepository(prismaRequest?.auxiliarLiturgy ?? ''),
-  // getWorkRepository(prismaRequest?.auxiliarSecretary ?? ''),
-  // getWorkRepository(prismaRequest?.folkloreCoordinator ?? ''),
-  // getWorkRepository(prismaRequest?.bar ?? ''),
-  // ]);
+  const course = await getCourseById(courseId);
 
-  if (prismaRequest) {
-    const cleanWorkRecords = await cleanWorkRecordsFormatData(prismaRequest);
-    const copeWorkRecords = await copeWorkRecordsFormatData(prismaRequest);
-    const kitchenWorkRecords = await kitchenWorkRecordsFormatData(prismaRequest);
-    const communities = await correctCommunitiesWithRecordsFormatData(prismaRequest);
+  if (prismaRequest && course) {
+    const { typeOfCourse, endDate, startDate, id, ...restCourse } = course;
+
+    const [
+      auxiliarData,
+
+      baseData,
+      coordinatorData,
+      coupleKitchenCoordinatorData,
+      kitchenSpiritualData,
+      liturgyData,
+      secretaryData,
+      auxiliarLiturgyData,
+      auxiliarSecretaryData,
+      barData,
+      coupleSafeToBeData,
+      folkloreCoordinatorData,
+    ] = await Promise.all([
+      getDinamicRecordById(restCourse.auxiliar),
+      getDinamicRecordById(restCourse.base),
+      getDinamicRecordById(restCourse.coordinator),
+      getDinamicRecordById(restCourse.coupleKitchenCoordinator),
+      getDinamicRecordById(restCourse.kitchenSpiritual),
+      getDinamicRecordById(restCourse.liturgy),
+      getDinamicRecordById(restCourse.secretary),
+      prismaRequest.auxiliarLiturgy
+        ? await getDinamicRecordById(prismaRequest.auxiliarLiturgy)
+        : null,
+      prismaRequest.auxiliarSecretary
+        ? await getDinamicRecordById(prismaRequest.auxiliarSecretary)
+        : null,
+      prismaRequest.bar ? await getDinamicRecordById(prismaRequest.bar) : null,
+      prismaRequest.coupleSafeToBe
+        ? await getDinamicRecordById(prismaRequest.coupleSafeToBe)
+        : null,
+      prismaRequest.folkloreCoordinator
+        ? await getDinamicRecordById(prismaRequest.folkloreCoordinator)
+        : null,
+    ]);
+
+    const cleanWorkRecords = await kitchenRecordsFormatData(
+      prismaRequest.kitchenRecords
+        .filter((item) => item.office === 'cleanWork')
+        .map((item) => item.recordId),
+    );
+    const copeWorkRecords = await kitchenRecordsFormatData(
+      prismaRequest.kitchenRecords
+        .filter((item) => item.office === 'copeWork')
+        .map((item) => item.recordId),
+    );
+    const kitchenWorkRecords = await kitchenRecordsFormatData(
+      prismaRequest.kitchenRecords
+        .filter((item) => item.office === 'kitchenWork')
+        .map((item) => item.recordId),
+    );
+    const communities = await correctCommunitiesWithRecordsFormatData(prismaRequest.communities);
 
     return {
-      // pos lll
-      // coordinator: `${coordinatorRecord?.candidateName} - paróquia`,
-      // base: `${baseRecord?.candidateName} - paróquia`,
-      // auxiliar: `${auxiliarRecord?.candidateName} - paróquia`,
-      kitchenSpiritual: `Fulano - paróquia`,
-      liturgy: `Fulano - paróquia`,
-      secretary: `Fulano - paróquia`,
-      // kitchenSpiritual: `${kitchenSpiritualRecord?.candidateName} - paróquia`,
-      // liturgy: `${liturgyRecord?.candidateName} - paróquia`,
-      // secretary: `${secretaryRecord?.candidateName} - paróquia`,
+      auxiliar: `${auxiliarData?.candidateName} - ${auxiliarData?.parishChapel}`,
+      base: `${baseData?.candidateName} - ${baseData?.parishChapel}`,
+      coordinator: `${coordinatorData?.candidateName} - ${coordinatorData?.parishChapel}`,
+      coupleKitchenCoordinator: `${coupleKitchenCoordinatorData?.candidateName} - ${coupleKitchenCoordinatorData?.parishChapel}`,
+      courseNumber: restCourse.courseNumber,
+      kitchenSpiritual: `${kitchenSpiritualData?.candidateName} - ${kitchenSpiritualData?.parishChapel}`,
+      liturgy: `${liturgyData?.candidateName} - ${liturgyData?.parishChapel}`,
+      secretary: `${secretaryData?.candidateName} - ${secretaryData?.parishChapel}`,
 
-      // pos ll
-      // coupleSafeToBe: `Tios ${coupleSafeToBeRecord?.candidateName} e ${coupleSafeToBeRecord?.recordCouple?.womanName} - ${coupleSafeToBeRecord?.parishChapel}`,
-      // coupleKitchenCoordinator: `Tios ${coupleKitchenCoordinatorRecord?.candidateName} e ${coupleKitchenCoordinatorRecord?.recordCouple?.womanName} - ${coupleKitchenCoordinatorRecord?.parishChapel}`,
-      auxiliarLiturgy: `Fulano - lugar`,
-      auxiliarSecretary: `Fulano - lugar`,
-      folkloreCoordinator: `Fulano - lugar`,
-      bar: `Fulano - lugar`,
-      // auxiliarLiturgy: `${auxiliarLiturgyRecord?.candidateName} - ${auxiliarLiturgyRecord?.parishChapel}`,
-      // auxiliarSecretary: `${auxiliarSecretaryRecord?.candidateName} - ${auxiliarSecretaryRecord?.parishChapel}`,
-      // folkloreCoordinator: `${folkloreCoordinatorRecord?.candidateName} - ${folkloreCoordinatorRecord?.parishChapel}`,
-      // bar: `${barRecord?.candidateName} - ${barRecord?.parishChapel}`,
+      auxiliarLiturgy: `${auxiliarLiturgyData?.candidateName} - ${auxiliarLiturgyData?.parishChapel}`,
+      auxiliarSecretary: `${auxiliarSecretaryData?.candidateName} - ${auxiliarSecretaryData?.parishChapel}`,
+      bar: `${barData?.candidateName} - ${barData?.parishChapel}`,
+      coupleSafeToBe: `${coupleSafeToBeData?.candidateName} - ${coupleSafeToBeData?.parishChapel}`,
+      folkloreCoordinator: `${folkloreCoordinatorData?.candidateName} - ${folkloreCoordinatorData?.parishChapel}`,
 
-      // arrays
       cleanWorkRecords,
       copeWorkRecords,
       kitchenWorkRecords,
@@ -166,8 +150,8 @@ async function getWorkTableArchiveDataRepository(courseNumber: string) {
 
 export async function getWorkTableArchiveDataController(req: Request, res: Response) {
   try {
-    const { courseNumber } = CourseNumberSchema.parse(req.params);
-    const repositoryRequest = await getWorkTableArchiveDataRepository(courseNumber);
+    const { courseId } = CourseIdSchema.parse(req.params);
+    const repositoryRequest = await getWorkTableArchiveDataRepository(courseId);
 
     if (isEmpty(repositoryRequest)) {
       res.status(HttpStatus.NO_CONTENT).send({});
@@ -178,4 +162,3 @@ export async function getWorkTableArchiveDataController(req: Request, res: Respo
     res.status(HttpStatus.BAD_REQUEST).send({ message: handleZodError(error) });
   }
 }
- */
