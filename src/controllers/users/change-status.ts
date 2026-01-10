@@ -41,6 +41,7 @@ export async function changeActivationUserController(req: Request, res: Response
       message: `Usuário ${repositoryRequest.email} ${
         repositoryRequest.active ? 'ativado' : 'desativado'
       } com sucesso`,
+      data: null,
     });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });

@@ -26,9 +26,10 @@ export async function createUserController(req: Request, res: Response) {
 
     const repositoryRequest = await createUserRepository(parsedRequest);
 
-    res
-      .status(HttpStatus.OK)
-      .send({ message: `Usuário ${repositoryRequest.name} criado com sucesso` });
+    res.status(HttpStatus.OK).send({
+      message: `Usuário ${repositoryRequest.name} criado com sucesso`,
+      data: null,
+    });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).json({ message: unauthorizedException(error) });
   }

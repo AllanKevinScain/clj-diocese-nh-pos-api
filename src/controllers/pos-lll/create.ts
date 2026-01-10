@@ -14,9 +14,10 @@ export async function createPoslllController(req: Request, res: Response) {
     const parsedRequest = poslllSchema.parse(req.body);
     const repositoryRequest = await createPoslllRepository(parsedRequest);
 
-    res
-      .status(HttpStatus.OK)
-      .send({ message: `${repositoryRequest.candidateName} adicionado a lista com sucesso!` });
+    res.status(HttpStatus.OK).send({
+      message: `${repositoryRequest.candidateName} adicionado a lista com sucesso!`,
+      data: null,
+    });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).json({ message: unauthorizedException(error) });
   }

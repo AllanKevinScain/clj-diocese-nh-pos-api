@@ -37,7 +37,7 @@ export async function putPoslllController(req: Request, res: Response) {
 
     res
       .status(HttpStatus.OK)
-      .send({ message: `${repositoryRequest.candidateName} atualizado com sucesso!` });
+      .send({ message: `${repositoryRequest.candidateName} atualizado com sucesso!`, data: null });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });
   }
