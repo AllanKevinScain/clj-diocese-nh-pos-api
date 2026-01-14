@@ -4,7 +4,7 @@ import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
 import { IdSchema, workTableSchema, WorkTableInfertypeSchema } from '../../schemas';
-import { TypeOfficeWorkKitchenMember } from '@prisma/client';
+import { RecordRole, RecordRoleType, TypeOfficeWorkKitchenMember } from '@prisma/client';
 
 type PutRepositoryParamsType = {
   data: Partial<WorkTableInfertypeSchema>;
@@ -61,6 +61,38 @@ async function putWorkTableRepository(params: PutRepositoryParamsType) {
       communities: { include: { members: true } },
     },
   });
+
+  const { auxiliarLiturgy, auxiliarSecretary, bar, coupleSafeToBe, folkloreCoordinator, courseId } =
+    prismaRequest;
+
+  const userRoles = [
+    { role: RecordRoleType.auxiliarLiturgy, recordId: auxiliarLiturgy },
+    { role: RecordRoleType.auxiliarSecretary, recordId: auxiliarSecretary },
+    { role: RecordRoleType.bar, recordId: bar },
+    { role: RecordRoleType.coupleSafeToBe, recordId: coupleSafeToBe },
+    { role: RecordRoleType.folkloreCoordinator, recordId: folkloreCoordinator },
+  ].filter((item) => !!item.recordId);
+
+  await Promise.all(
+    userRoles.map(async ({ recordId, role }) => {
+      await prisma.recordRole.deleteMany({
+        where: {
+          role,
+          courseId,
+        },
+      });
+
+      if (!recordId) return;
+      await prisma.recordRole.create({
+        data: {
+          role,
+          participantId: recordId,
+          courseId: prismaRequest.courseId,
+          workTableId: prismaRequest.id,
+        },
+      });
+    }),
+  );
 
   return prismaRequest;
 }
