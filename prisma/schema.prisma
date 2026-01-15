@@ -70,6 +70,7 @@ model Course {
   secretary                String
   kitchenSpiritual         String
   coupleKitchenCoordinator String
+  recordRoles              RecordRole[]
 
   @@unique([typeOfCourse, courseNumber])
 }
@@ -211,6 +212,7 @@ model RecordRole {
   courseId      String
   workTableId   String?
 
+  course      Course      @relation(fields: [courseId], references: [id], onDelete: Cascade)
   participant Participant @relation(fields: [participantId], references: [id])
 
   @@unique([participantId, role, courseId])

@@ -3,7 +3,8 @@ import { HttpStatus } from '../../constants';
 import { handleZodError } from '../../helpers';
 import { Request, Response } from 'express';
 import { WorkTableInfertypeSchema, workTableSchema } from '../../schemas';
-import { TypeOfficeWorkKitchenMember, RecordRoleType } from '@prisma/client';
+import { TypeOfficeWorkKitchenMember } from '@prisma/client';
+import { createRecordRoleByCreateWorkTableResponse } from './record-role';
 
 async function createWorkTableRepository(params: WorkTableInfertypeSchema) {
   const { communities, id: _, ...workTableObject } = workTableSchema.parse(params);
@@ -51,37 +52,7 @@ async function createWorkTableRepository(params: WorkTableInfertypeSchema) {
     },
   });
 
-  const {
-    id: workTableId,
-    courseId,
-    auxiliarLiturgy,
-    auxiliarSecretary,
-    bar,
-    coupleSafeToBe,
-    folkloreCoordinator,
-  } = prismaRequest;
-
-  const userRoles = [
-    { role: RecordRoleType.auxiliarLiturgy, recordId: auxiliarLiturgy },
-    { role: RecordRoleType.auxiliarSecretary, recordId: auxiliarSecretary },
-    { role: RecordRoleType.bar, recordId: bar },
-    { role: RecordRoleType.coupleSafeToBe, recordId: coupleSafeToBe },
-    { role: RecordRoleType.folkloreCoordinator, recordId: folkloreCoordinator },
-  ].filter((item) => !!item.recordId);
-
-  const upsertRoles = userRoles.map(({ recordId, role }) => {
-    if (!recordId) return;
-    return prisma.recordRole.create({
-      data: {
-        role,
-        participantId: recordId,
-        courseId,
-        workTableId,
-      },
-    });
-  });
-
-  await Promise.all(upsertRoles);
+  await createRecordRoleByCreateWorkTableResponse(prismaRequest);
 
   return prismaRequest;
 }

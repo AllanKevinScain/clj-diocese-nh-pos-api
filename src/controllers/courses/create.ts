@@ -5,7 +5,7 @@ import { unauthorizedException } from '../../exception';
 import { CourseInfertypeSchema, CourseSchema } from '../../schemas';
 import { findCourseByDate } from './helpers';
 import { isEmpty } from 'lodash';
-import { RecordRoleType } from '@prisma/client';
+import { createRecordRoleByCreateCourseResponse } from './record-role';
 
 async function createCourseRepository(data: CourseInfertypeSchema) {
   const lastCourse = await prisma.course.findFirst({
@@ -22,27 +22,7 @@ async function createCourseRepository(data: CourseInfertypeSchema) {
     },
   });
 
-  const { auxiliar, base, coordinator, coupleKitchenCoordinator, id: courseId } = prismaRequest;
-
-  const userRoles = [
-    { role: RecordRoleType.auxiliar, recordId: auxiliar },
-    { role: RecordRoleType.base, recordId: base },
-    { role: RecordRoleType.coordinator, recordId: coordinator },
-    { role: RecordRoleType.coupleKitchenCoordinator, recordId: coupleKitchenCoordinator },
-  ].filter((item) => !!item.recordId);
-
-  await Promise.all(
-    userRoles.map(async ({ recordId, role }) => {
-      if (!recordId) return;
-      await prisma.recordRole.create({
-        data: {
-          role,
-          participantId: recordId,
-          courseId,
-        },
-      });
-    }),
-  );
+  await createRecordRoleByCreateCourseResponse(prismaRequest);
 
   return prismaRequest;
 }

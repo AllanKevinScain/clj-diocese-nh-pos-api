@@ -6,6 +6,11 @@ import { PoslllInfertypeSchema, poslllSchema } from '../../schemas';
 
 async function createPoslllRepository(data: PoslllInfertypeSchema) {
   const prismaRequest = await prisma.poslll.create({ data });
+
+  if (prismaRequest) {
+    await prisma.participant.create({ data: { poslllId: prismaRequest.id } });
+  }
+
   return prismaRequest;
 }
 

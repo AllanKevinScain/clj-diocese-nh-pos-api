@@ -17,5 +17,10 @@ export async function createRecordPosllRepository(props: RecordWorkInterface) {
     },
     include: { recordPOSll: true },
   });
+
+  if (prismaRequest) {
+    await prisma.participant.create({ data: { recordId: prismaRequest.id } });
+  }
+
   return prismaRequest;
 }
