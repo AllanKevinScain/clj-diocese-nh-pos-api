@@ -8,7 +8,7 @@ export const communityMemberSchema = z.object({
 export const communitySchema = z.object({
   id: z.string().uuid().nullish(),
   number: z.string(),
-  workTableId: z.string().uuid(),
+  workTableId: z.string().uuid().nullish(),
   members: z.array(communityMemberSchema),
 });
 
