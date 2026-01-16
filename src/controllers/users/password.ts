@@ -46,7 +46,10 @@ export async function putPasswordUserController(req: Request, res: Response) {
 
     res
       .status(HttpStatus.OK)
-      .send({ message: `A senha de ${repositoryRequest.name} foi atualizado com sucesso` });
+      .send({
+        message: `A senha de ${repositoryRequest.name} foi atualizado com sucesso`,
+        data: null,
+      });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });
   }

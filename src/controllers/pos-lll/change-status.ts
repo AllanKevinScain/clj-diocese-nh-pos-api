@@ -39,6 +39,7 @@ export async function changeActivationPoslllController(req: Request, res: Respon
       message: `${repositoryRequest.candidateName} ${
         repositoryRequest.active ? 'ativado' : 'desativado'
       } da lista de jovens.`,
+      data: null,
     });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });

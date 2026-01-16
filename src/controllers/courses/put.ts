@@ -6,6 +6,7 @@ import { unauthorizedException } from '../../exception';
 import { CourseInfertypeSchema, CourseSchema, IdSchema } from '../../schemas';
 import { findCourseByDate } from './helpers';
 import { getCourseById } from '../../services-helpers';
+import { RecordRoleType } from '@prisma/client';
 
 type PutRepositoryParamsType = {
   data: Partial<CourseInfertypeSchema>;
@@ -18,6 +19,35 @@ async function putCourseRepository(params: PutRepositoryParamsType) {
     where: { id },
     data,
   });
+
+  const { auxiliar, base, coordinator, coupleKitchenCoordinator, id: courseId } = prismaRequest;
+
+  const userRoles = [
+    { role: RecordRoleType.auxiliar, recordId: auxiliar },
+    { role: RecordRoleType.base, recordId: base },
+    { role: RecordRoleType.coordinator, recordId: coordinator },
+    { role: RecordRoleType.coupleKitchenCoordinator, recordId: coupleKitchenCoordinator },
+  ].filter((item) => !!item.recordId);
+
+  await Promise.all(
+    userRoles.map(async ({ recordId, role }) => {
+      await prisma.recordRole.deleteMany({
+        where: {
+          role,
+          courseId,
+        },
+      });
+
+      if (!recordId) return;
+      await prisma.recordRole.create({
+        data: {
+          role,
+          participantId: recordId,
+          courseId,
+        },
+      });
+    }),
+  );
 
   return prismaRequest;
 }

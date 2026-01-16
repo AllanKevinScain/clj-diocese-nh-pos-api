@@ -34,6 +34,7 @@ export async function deleteCourseController(req: Request, res: Response) {
 
     res.status(HttpStatus.OK).send({
       message: `Curso ${repositoryRequest.courseNumber} removido com sucesso.s`,
+      data: null,
     });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });

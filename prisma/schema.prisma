@@ -35,6 +35,22 @@ enum TypeOfRecord {
   POSlll
 }
 
+enum RecordRoleType {
+  base
+  auxiliar
+  coordinator
+  liturgy
+  secretary
+  kitchenSpiritual
+  coupleKitchenCoordinator
+  auxiliarLiturgy
+  auxiliarSecretary
+  bar
+  coupleSafeToBe
+  folkloreCoordinator
+  kitchen
+}
+
 enum TypeOfficeWorkKitchenMember {
   cleanWork
   copeWork
@@ -54,8 +70,21 @@ model Course {
   secretary                String
   kitchenSpiritual         String
   coupleKitchenCoordinator String
+  recordRoles              RecordRole[]
 
   @@unique([typeOfCourse, courseNumber])
+}
+
+model Participant {
+  id String @id @default(uuid())
+
+  recordId String?
+  poslllId String?
+
+  record RecordEntity? @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  poslll Poslll?       @relation(fields: [poslllId], references: [id], onDelete: Cascade)
+
+  recordRoles RecordRole[]
 }
 
 model RecordEntity {
@@ -79,6 +108,7 @@ model RecordEntity {
   recordPOSlll   RecordPOSlll?
   recordWork     RecordWork?
   recordCouple   RecordCouple?
+  participants   Participant[]
 }
 
 model RecordPOSl {
@@ -112,25 +142,26 @@ model RecordWork {
 
 model RecordCouple {
   id             String       @id @default(uuid())
-  recordId       String       @unique
-  record         RecordEntity @relation(fields: [recordId], references: [id], onDelete: Cascade)
   womanName      String
   womanNickname  String
   womanPhone     String
   womanBirthDate String
+  recordId       String       @unique
+  record         RecordEntity @relation(fields: [recordId], references: [id], onDelete: Cascade)
 }
 
 model Poslll {
-  id             String   @id @default(uuid())
-  candidateName  String   @unique
-  parishChapel   String   @default("Novo Hamburgo")
+  id             String        @id @default(uuid())
+  candidateName  String        @unique
+  parishChapel   String        @default("Novo Hamburgo")
   courseOne      String
   courseTwo      String
   courseThree    String
   formations     String
-  instagram      String?  @default("@cljdiocesenh")
-  instagramWoman String?  @default("@cljdiocesenh")
-  isCouple       Boolean? @default(false)
+  instagram      String?       @default("@cljdiocesenh")
+  instagramWoman String?       @default("@cljdiocesenh")
+  isCouple       Boolean?      @default(false)
+  participants   Participant[]
 
   active    Boolean? @default(true)
   createdAt DateTime @default(now())
@@ -172,4 +203,18 @@ model WorkTableEntity {
   folkloreCoordinator String?
   kitchenRecords      KitchenMember[]
   communities         Community[]
+}
+
+model RecordRole {
+  id            String         @id @default(uuid())
+  participantId String
+  role          RecordRoleType
+  courseId      String
+  workTableId   String?
+
+  course      Course      @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  participant Participant @relation(fields: [participantId], references: [id])
+
+  @@unique([participantId, role, courseId])
+  @@index([role, courseId])
 }

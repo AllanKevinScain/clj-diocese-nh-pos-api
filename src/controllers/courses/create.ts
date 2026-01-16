@@ -5,6 +5,7 @@ import { unauthorizedException } from '../../exception';
 import { CourseInfertypeSchema, CourseSchema } from '../../schemas';
 import { findCourseByDate } from './helpers';
 import { isEmpty } from 'lodash';
+import { createRecordRoleByCreateCourseResponse } from './record-role';
 
 async function createCourseRepository(data: CourseInfertypeSchema) {
   const lastCourse = await prisma.course.findFirst({
@@ -20,6 +21,8 @@ async function createCourseRepository(data: CourseInfertypeSchema) {
       courseNumber: nextNumber.toString(),
     },
   });
+
+  await createRecordRoleByCreateCourseResponse(prismaRequest);
 
   return prismaRequest;
 }

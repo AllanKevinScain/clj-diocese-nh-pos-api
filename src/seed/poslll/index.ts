@@ -82,8 +82,16 @@ export async function upsertPoslll() {
   ];
 
   console.log('Total de itens pós lll:', data.length);
-  await prisma.poslll.createMany({
-    data,
-  });
+  await Promise.all(
+    data.map(async (data) => {
+      const request = await prisma.poslll.create({
+        data,
+      });
+      if (request) {
+        await prisma.participant.create({ data: { poslllId: request.id } });
+      }
+    }),
+  );
+
   console.log('Pós lll criados com sucesso! ✅');
 }

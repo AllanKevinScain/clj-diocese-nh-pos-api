@@ -41,9 +41,10 @@ export async function putUserController(req: Request, res: Response) {
 
     const repositoryRequest = await putUserRepository({ data: parsedRequestBody, id });
 
-    res
-      .status(HttpStatus.OK)
-      .send({ message: `O usuário ${repositoryRequest.name} foi atualizado com sucesso` });
+    res.status(HttpStatus.OK).send({
+      message: `O usuário ${repositoryRequest.name} foi atualizado com sucesso`,
+      data: null,
+    });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });
   }
