@@ -1,5 +1,5 @@
-import { prisma } from '../../database';
-import { PoslllInfertypeSchema } from '../../schemas';
+import { prisma } from '@/database';
+import type { PoslllInfertypeSchema } from '@/schemas';
 
 export async function upsertPoslll() {
   const data: PoslllInfertypeSchema[] = [

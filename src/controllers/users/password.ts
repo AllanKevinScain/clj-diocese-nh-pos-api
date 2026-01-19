@@ -1,11 +1,14 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { Request, Response } from 'express';
-import { isEmpty } from 'lodash';
-import { IdSchema, UserPasswordSchema, UserPasswordInfertypeSchema } from '../../schemas';
-import { unauthorizedException } from '../../exception';
-import { getUserRepository } from './get';
 import bcrypt from 'bcryptjs';
+import type { Request, Response } from 'express';
+import { isEmpty } from 'lodash';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import type { UserPasswordInfertypeSchema} from '@/schemas';
+import { IdSchema,UserPasswordSchema } from '@/schemas';
+
+import { getUserRepository } from './get';
 
 type PutRepositoryParamsType = {
   data: UserPasswordInfertypeSchema;
@@ -44,12 +47,10 @@ export async function putPasswordUserController(req: Request, res: Response) {
 
     const repositoryRequest = await putPasswordUserRepository({ data: parsedRequestBody, id });
 
-    res
-      .status(HttpStatus.OK)
-      .send({
-        message: `A senha de ${repositoryRequest.name} foi atualizado com sucesso`,
-        data: null,
-      });
+    res.status(HttpStatus.OK).send({
+      message: `A senha de ${repositoryRequest.name} foi atualizado com sucesso`,
+      data: null,
+    });
   } catch (error) {
     res.status(HttpStatus.BAD_REQUEST).send({ message: unauthorizedException(error) });
   }

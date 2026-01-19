@@ -1,5 +1,5 @@
-import { Request } from 'express';
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
+import type { Request } from 'express';
 
 export function searchRecords(req: Request): Prisma.RecordEntityWhereInput[] | undefined {
   const { search } = req.query;

@@ -1,12 +1,12 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { handleZodError } from '../../helpers';
-import { Request, Response } from 'express';
-import { CourseIdSchema } from '../../schemas';
-
+import type { Prisma } from '@prisma/client';
+import type { Request, Response } from 'express';
 import { concat, isEmpty } from 'lodash';
-import { Prisma } from '@prisma/client';
-import { getCourseById, getDinamicRecordById, getRecordById } from '../../services-helpers';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { handleZodError } from '@/helpers';
+import { CourseIdSchema } from '@/schemas';
+import { getCourseById, getDinamicRecordById, getRecordById } from '@/services-helpers';
 
 type RecordEntityType = Prisma.RecordEntityGetPayload<{
   include: { recordCouple: true; recordPOSl: true; recordPOSll: true; recordWork: true };
@@ -68,7 +68,13 @@ async function getWorkTableArchiveDataRepository(courseId: string) {
   const course = await getCourseById(courseId);
 
   if (prismaRequest && course) {
-    const { typeOfCourse, endDate, startDate, id, ...restCourse } = course;
+    const {
+      typeOfCourse: _typeOfCourse,
+      endDate: _endDate,
+      startDate: _startDate,
+      id: _id,
+      ...restCourse
+    } = course;
 
     const [
       auxiliarData,

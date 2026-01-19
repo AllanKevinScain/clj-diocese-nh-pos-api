@@ -1,7 +1,7 @@
-import { createRecordPosllController, putRecordPosllController } from '../../controllers';
-
 import { Router } from 'express';
-import { authMiddleware, roleMiddleware } from '../../middleware';
+
+import { createRecordPosllController, putRecordPosllController } from '@/controllers';
+import { authMiddleware, roleMiddleware } from '@/middleware';
 
 const routes = Router();
 

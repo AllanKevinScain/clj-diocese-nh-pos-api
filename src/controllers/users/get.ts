@@ -1,9 +1,10 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { Request, Response } from 'express';
-import { IdSchema } from '../../schemas';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { unauthorizedException } from '../../exception';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import { IdSchema } from '@/schemas';
 
 export async function getUserRepository(id: string) {
   const prismaRequest = await prisma.user.findUnique({

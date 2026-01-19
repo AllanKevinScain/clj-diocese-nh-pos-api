@@ -1,8 +1,9 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { handleZodError } from '../../helpers';
-import { Request, Response } from 'express';
-import { CourseIdSchema } from '../../schemas';
+import type { Request, Response } from 'express';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { handleZodError } from '@/helpers';
+import { CourseIdSchema } from '@/schemas';
 
 async function getWorkTableRepository(courseId: string) {
   const prismaRequest = await prisma.workTableEntity.findUnique({

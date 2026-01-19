@@ -1,9 +1,10 @@
-import { Request, Response } from 'express';
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { unauthorizedException } from '../../exception';
 import dayjs from 'dayjs';
+import type { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
 
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secret-key';
 

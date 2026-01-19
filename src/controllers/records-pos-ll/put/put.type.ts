@@ -1,5 +1,6 @@
-import { RecordType } from '../../../types';
-import { RecordWorkPutInterface } from '../../record-work';
+import type { RecordType } from '@/types';
+
+import type { RecordWorkPutInterface } from '../../record-work';
 
 export interface ChooseEntityPutRecordInterface extends RecordWorkPutInterface {
   dtoType: RecordType;

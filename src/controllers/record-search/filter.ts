@@ -1,8 +1,10 @@
-import { Prisma } from '@prisma/client';
-import { Request } from 'express';
-import { RecordSchema } from '../../schemas';
-import { searchRecords } from './search';
+import type { Prisma } from '@prisma/client';
+import type { Request } from 'express';
 import z from 'zod';
+
+import { RecordSchema } from '@/schemas';
+
+import { searchRecords } from './search';
 
 const filterParamsSchema = RecordSchema.pick({
   candidateName: true,

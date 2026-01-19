@@ -1,9 +1,10 @@
-import { HttpStatus } from '../../constants';
-import { handleZodError } from '../../helpers';
-import { Request, Response } from 'express';
-import { IdSchema } from '../../schemas';
-import { getRecordById } from '../../services-helpers';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
+
+import { HttpStatus } from '@/constants';
+import { handleZodError } from '@/helpers';
+import { IdSchema } from '@/schemas';
+import { getRecordById } from '@/services-helpers';
 
 export async function getRecordController(req: Request, res: Response) {
   try {

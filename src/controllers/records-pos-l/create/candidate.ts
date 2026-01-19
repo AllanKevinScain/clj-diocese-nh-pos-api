@@ -1,6 +1,7 @@
-import { prisma } from '../../../database';
-import { candidatePoslSchema, candidateSubRecordPoslSchema } from '../../../schemas';
-import { RecordWorkInterface } from '../../record-work';
+import { prisma } from '@/database';
+import { candidatePoslSchema, candidateSubRecordPoslSchema } from '@/schemas';
+
+import type { RecordWorkInterface } from '../../record-work';
 
 export async function createRecordPOSlRepository(props: RecordWorkInterface) {
   const { createdById, dto } = props;

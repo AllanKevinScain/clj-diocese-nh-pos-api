@@ -1,6 +1,7 @@
-import { prisma } from '../../../database';
-import { RecordCoupleSchema, SubRecordCoupleSchema } from '../../../schemas';
-import { RecordWorkInterface } from '../record-work.type';
+import { prisma } from '@/database';
+import { RecordCoupleSchema, SubRecordCoupleSchema } from '@/schemas';
+
+import type { RecordWorkInterface } from '../record-work.type';
 
 export async function createCoupleRepository(props: RecordWorkInterface) {
   const { createdById, dto } = props;

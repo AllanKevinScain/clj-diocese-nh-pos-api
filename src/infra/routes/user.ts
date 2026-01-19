@@ -1,16 +1,16 @@
 /* user */
+import { Router } from 'express';
+
 import {
-  createUserController,
   changeActivationUserController,
+  createUserController,
   getUserController,
-  putUserController,
+  listRegisteredParishesController,
   listUsersController,
   putPasswordUserController,
-  listRegisteredParishesController,
-} from '../../controllers';
-
-import { Router } from 'express';
-import { authMiddleware, authMiddlewareSpecial, roleMiddleware } from '../../middleware';
+  putUserController,
+} from '@/controllers';
+import { authMiddleware, authMiddlewareSpecial, roleMiddleware } from '@/middleware';
 
 const routes = Router();
 

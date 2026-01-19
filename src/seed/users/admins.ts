@@ -1,6 +1,7 @@
-import { prisma } from '../../database';
-import { UserInfertypeSchema } from '../../schemas';
 import bcrypt from 'bcryptjs';
+
+import { prisma } from '@/database';
+import type { UserInfertypeSchema } from '@/schemas';
 
 export async function upsertAdminsUsers() {
   const data: UserInfertypeSchema[] = [

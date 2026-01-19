@@ -1,9 +1,10 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { unauthorizedException } from '../../exception';
-import { IdsSchema } from '../../schemas';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import { IdsSchema } from '@/schemas';
 
 async function listPoslllByIdsRepository(ids: string[]) {
   const prismaRequest = await prisma.poslll.findMany({

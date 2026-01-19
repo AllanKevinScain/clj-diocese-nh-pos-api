@@ -1,4 +1,5 @@
-import { prisma } from '../database';
+import { prisma } from '@/database';
+
 import { upsertPoslll } from './poslll';
 import { upsertAdminsUsers, upsertBuilderManagerUsers, upsertManagerUsers } from './users';
 

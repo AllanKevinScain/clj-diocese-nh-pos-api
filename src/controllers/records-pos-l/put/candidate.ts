@@ -1,6 +1,7 @@
-import { prisma } from '../../../database';
-import { candidateSubRecordPoslSchema, candidatePoslSchema } from '../../../schemas';
-import { RecordWorkPutInterface } from '../../record-work';
+import { prisma } from '@/database';
+import { candidatePoslSchema, candidateSubRecordPoslSchema } from '@/schemas';
+
+import type { RecordWorkPutInterface } from '../../record-work';
 
 export async function putRecordPOSlRepository(params: RecordWorkPutInterface) {
   const { dto, id } = params;

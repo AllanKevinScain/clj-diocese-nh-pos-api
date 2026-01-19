@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { RecordSchema } from './default-record.schema';
 
 export const SubRecordCoupleSchema = z.object({

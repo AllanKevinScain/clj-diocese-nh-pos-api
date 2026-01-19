@@ -1,6 +1,7 @@
 import type { Request } from 'express';
 import jwt from 'jsonwebtoken';
-import { LoginType } from '../../types';
+
+import type { LoginType } from '@/types';
 
 interface TokenPayload {
   id: string;
