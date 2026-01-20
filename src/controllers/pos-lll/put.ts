@@ -1,10 +1,13 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { unauthorizedException } from '../../exception';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import type { PoslllInfertypeSchema} from '@/schemas';
+import { IdSchema, poslllSchema } from '@/schemas';
+
 import { getPoslllRepository } from './get';
-import { IdSchema, PoslllInfertypeSchema, poslllSchema } from '../../schemas';
 
 type PutRepositoryParamsType = {
   data: Partial<PoslllInfertypeSchema>;

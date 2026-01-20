@@ -1,16 +1,16 @@
-import express from 'express';
 import cors from 'cors';
+import express from 'express';
 
-import { userRoutes } from './routes/user';
+import { authRoutes } from './routes/auth';
 import { candidatePoslRoutes } from './routes/candidate-pos-l';
 import { candidatePosllRoutes } from './routes/candidate-pos-ll';
 import { candidatePoslllRoutes } from './routes/candidate-pos-lll';
-import { listRoutes } from './routes/list';
 import { courseRoutes } from './routes/course';
-import { authRoutes } from './routes/auth';
-import { poslllRoutes } from './routes/pos-lll';
-import { workTableRoutes } from './routes/work-table';
 import { genericRoutes } from './routes/generic';
+import { listRoutes } from './routes/list';
+import { poslllRoutes } from './routes/pos-lll';
+import { userRoutes } from './routes/user';
+import { workTableRoutes } from './routes/work-table';
 
 const server = express();
 

@@ -1,13 +1,13 @@
+import { Router } from 'express';
+
 import {
   createWorkTableController,
-  putWorkTableController,
-  getWorkTableController,
   deleteWorkTableController,
   getWorkTableArchiveDataController,
-} from '../../controllers';
-
-import { Router } from 'express';
-import { authMiddleware, roleMiddleware } from '../../middleware';
+  getWorkTableController,
+  putWorkTableController,
+} from '@/controllers';
+import { authMiddleware, roleMiddleware } from '@/middleware';
 
 const routes = Router();
 

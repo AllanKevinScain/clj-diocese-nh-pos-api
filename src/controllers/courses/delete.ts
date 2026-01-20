@@ -1,10 +1,11 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { Request, Response } from 'express';
-import { CourseNumberSchema } from '../../schemas';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { unauthorizedException } from '../../exception';
-import { getCourseById } from '../../services-helpers';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import { CourseNumberSchema } from '@/schemas';
+import { getCourseById } from '@/services-helpers';
 
 interface DeleteCourseRepositoryInterface {
   courseNumber: string;

@@ -1,11 +1,13 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { Request, Response } from 'express';
-import { IdSchema } from '../../schemas';
-import { getUserRepository } from './get';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { unauthorizedException } from '../../exception';
-import { getInfoByRequisition } from '../../middleware';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import { getInfoByRequisition } from '@/middleware';
+import { IdSchema } from '@/schemas';
+
+import { getUserRepository } from './get';
 
 interface PropsChangeActivationUserRepositoryInterface {
   id: string;

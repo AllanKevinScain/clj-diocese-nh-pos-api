@@ -1,14 +1,14 @@
+import { Router } from 'express';
+
 import {
-  createPoslllController,
   changeActivationPoslllController,
+  createPoslllController,
   getPoslllController,
+  listPoslllByIdsController,
   listPoslllController,
   putPoslllController,
-  listPoslllByIdsController,
-} from '../../controllers';
-
-import { Router } from 'express';
-import { authMiddleware, roleMiddleware } from '../../middleware';
+} from '@/controllers';
+import { authMiddleware, roleMiddleware } from '@/middleware';
 
 const routes = Router();
 

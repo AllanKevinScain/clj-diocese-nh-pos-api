@@ -1,11 +1,11 @@
-import { isEmpty } from 'lodash';
-import { TokenSchema } from '../../schemas';
-import { NextFunction, Request, Response } from 'express';
-import { HttpStatus } from '../../constants';
-import { unauthorizedException } from '../../exception';
-
+import type { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { LoginType } from '../../types';
+import { isEmpty } from 'lodash';
+
+import { HttpStatus } from '@/constants';
+import { unauthorizedException } from '@/exception';
+import { TokenSchema } from '@/schemas';
+import type { LoginType } from '@/types';
 
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secret-key';
 
@@ -16,11 +16,7 @@ interface VerifyTokenResponse {
 }
 
 function verifyToken(token: string): VerifyTokenResponse | null {
-  try {
-    return jwt.verify(token, SECRET_KEY) as VerifyTokenResponse;
-  } catch (error) {
-    throw error;
-  }
+  return jwt.verify(token, SECRET_KEY) as VerifyTokenResponse;
 }
 
 export function authMiddleware(req: Request, res: Response, next: NextFunction) {

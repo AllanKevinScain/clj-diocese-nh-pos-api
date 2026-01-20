@@ -1,13 +1,13 @@
+import { Router } from 'express';
+
 import {
   createCourseController,
-  getCourseController,
-  putCourseController,
   deleteCourseController,
+  getCourseController,
   listCoursesController,
-} from '../../controllers';
-
-import { Router } from 'express';
-import { authMiddleware, roleMiddleware } from '../../middleware';
+  putCourseController,
+} from '@/controllers';
+import { authMiddleware, roleMiddleware } from '@/middleware';
 
 const routes = Router();
 

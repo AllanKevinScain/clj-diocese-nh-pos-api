@@ -1,13 +1,16 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { handleZodError } from '../../helpers';
-import { Request, Response } from 'express';
-import { WorkTableInfertypeSchema, workTableSchema } from '../../schemas';
-import { TypeOfficeWorkKitchenMember } from '@prisma/client';
+import type { TypeOfficeWorkKitchenMember } from '@prisma/client';
+import type { Request, Response } from 'express';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { handleZodError } from '@/helpers';
+import type { WorkTableInfertypeSchema } from '@/schemas';
+import { workTableSchema } from '@/schemas';
+
 import { createRecordRoleByCreateWorkTableResponse } from './record-role';
 
 async function createWorkTableRepository(params: WorkTableInfertypeSchema) {
-  const { communities, id: _, ...workTableObject } = workTableSchema.parse(params);
+  const { communities, id: _id, ...workTableObject } = workTableSchema.parse(params);
   const { cleanWorkRecords, copeWorkRecords, kitchenWorkRecords, ...restWorkTable } =
     workTableObject;
 

@@ -1,10 +1,12 @@
-import { Request, Response } from 'express';
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { unauthorizedException } from '../../exception';
-import { filterRecords } from './filter';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { getLoginInfo } from '../../helpers';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import { getLoginInfo } from '@/helpers';
+
+import { filterRecords } from './filter';
 
 export async function filterRecordsController(req: Request, res: Response) {
   try {

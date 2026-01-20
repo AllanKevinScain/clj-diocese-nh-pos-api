@@ -1,5 +1,5 @@
-import type { ZodError } from 'zod';
 import { isEmpty } from 'lodash';
+import type { ZodError } from 'zod';
 
 export function handleZodError(error: unknown) {
   console.log('🚀 ~ handleZodError ~ error:', error);

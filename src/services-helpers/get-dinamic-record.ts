@@ -1,4 +1,4 @@
-import { prisma } from '../database';
+import { prisma } from '@/database';
 
 export async function getDinamicRecordById(id: string) {
   const normalRecord = await prisma.recordEntity.findUnique({

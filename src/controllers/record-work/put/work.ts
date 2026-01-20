@@ -1,6 +1,7 @@
-import { prisma } from '../../../database';
-import { RecordWorkSchema, SubRecordWorkSchema } from '../../../schemas';
-import { RecordWorkPutInterface } from '../record-work.type';
+import { prisma } from '@/database';
+import { RecordWorkSchema, SubRecordWorkSchema } from '@/schemas';
+
+import type { RecordWorkPutInterface } from '../record-work.type';
 
 export async function putWorkRepository(params: RecordWorkPutInterface) {
   const { dto, id } = params;

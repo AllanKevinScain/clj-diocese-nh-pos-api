@@ -1,12 +1,13 @@
-import { prisma } from '../../database';
-import { Request, Response } from 'express';
-import { LoginSchema } from '../../schemas';
-import { isEmpty } from 'lodash';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { HttpStatus } from '../../constants';
-import { unauthorizedException } from '../../exception';
 import dayjs from 'dayjs';
+import type { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import { isEmpty } from 'lodash';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import { LoginSchema } from '@/schemas';
 
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secret-key';
 

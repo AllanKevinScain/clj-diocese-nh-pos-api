@@ -1,9 +1,10 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { unauthorizedException } from '../../exception';
-import { getInfoByRequisition } from '../../middleware';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import { getInfoByRequisition } from '@/middleware';
 
 async function listUsersRepository(showInactiveLines: boolean) {
   const prismaRequest = await prisma.user.findMany({

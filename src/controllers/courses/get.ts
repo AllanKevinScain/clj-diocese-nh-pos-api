@@ -1,9 +1,10 @@
-import { HttpStatus } from '../../constants';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { unauthorizedException } from '../../exception';
-import { IdSchema } from '../../schemas';
-import { getCourseById } from '../../services-helpers';
+
+import { HttpStatus } from '@/constants';
+import { unauthorizedException } from '@/exception';
+import { IdSchema } from '@/schemas';
+import { getCourseById } from '@/services-helpers';
 
 export async function getCourseController(req: Request, res: Response) {
   try {

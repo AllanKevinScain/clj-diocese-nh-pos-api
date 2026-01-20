@@ -1,11 +1,11 @@
-import { isEmpty } from 'lodash';
-import { TokenSchema } from '../../schemas';
-import { NextFunction, Request, Response } from 'express';
-import { HttpStatus } from '../../constants';
-import { unauthorizedException } from '../../exception';
-
+import type { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { LoginType } from '../../types';
+import { isEmpty } from 'lodash';
+
+import { HttpStatus } from '@/constants';
+import { unauthorizedException } from '@/exception';
+import { TokenSchema } from '@/schemas';
+import type { LoginType } from '@/types';
 
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secret-key';
 
@@ -16,12 +16,8 @@ interface VerifyTokenResponse {
 }
 
 function verifyRole(token: string): VerifyTokenResponse | null {
-  try {
-    const decoded = jwt.verify(token, SECRET_KEY) as VerifyTokenResponse;
-    return decoded;
-  } catch (error) {
-    throw error;
-  }
+  const decoded = jwt.verify(token, SECRET_KEY) as VerifyTokenResponse;
+  return decoded;
 }
 
 export function getInfoByRequisition(req: Request): VerifyTokenResponse | null {

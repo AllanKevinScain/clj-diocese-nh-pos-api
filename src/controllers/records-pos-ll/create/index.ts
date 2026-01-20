@@ -1,16 +1,18 @@
-import { HttpStatus } from '../../../constants';
-import { getLoginInfo, handleZodError } from '../../../helpers';
+import type { Request, Response } from 'express';
+
+import { HttpStatus } from '@/constants';
+import { getLoginInfo, handleZodError } from '@/helpers';
 import {
-  RecordCoupleSchema,
   candidatePosllSchema,
+  RecordCoupleSchema,
   RecordSchema,
   RecordWorkSchema,
-} from '../../../schemas';
-import { RecordType } from '../../../types';
-import { ChooseEntityCreateRecordInterface } from './create.type';
-import { Request, Response } from 'express';
-import { createRecordPosllRepository } from './candidate';
+} from '@/schemas';
+import type { RecordType } from '@/types';
+
 import { createCoupleRepository, createWorkRepository } from '../../record-work';
+import { createRecordPosllRepository } from './candidate';
+import type { ChooseEntityCreateRecordInterface } from './create.type';
 
 async function chooseEntityCreateRecord(props: ChooseEntityCreateRecordInterface) {
   const { dtoType, ...rest } = props;

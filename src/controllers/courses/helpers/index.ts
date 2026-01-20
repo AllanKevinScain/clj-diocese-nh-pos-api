@@ -1,5 +1,5 @@
-import { prisma } from '../../../database';
-import { CourseInfertypeSchema } from '../../../schemas';
+import { prisma } from '@/database';
+import type { CourseInfertypeSchema } from '@/schemas';
 
 export async function findCourseByDate(
   data: Partial<Pick<CourseInfertypeSchema, 'startDate' | 'endDate'>>,

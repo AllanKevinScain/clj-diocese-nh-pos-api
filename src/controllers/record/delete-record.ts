@@ -1,8 +1,9 @@
-import { HttpStatus } from '../../constants';
-import { handleZodError } from '../../helpers';
-import { Request, Response } from 'express';
-import { IdSchema } from '../../schemas';
-import { deleteRecordById } from '../../services-helpers';
+import type { Request, Response } from 'express';
+
+import { HttpStatus } from '@/constants';
+import { handleZodError } from '@/helpers';
+import { IdSchema } from '@/schemas';
+import { deleteRecordById } from '@/services-helpers';
 
 export async function deleteRecordController(req: Request, res: Response) {
   try {

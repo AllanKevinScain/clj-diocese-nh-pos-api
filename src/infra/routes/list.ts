@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { filterRecordsController } from '../../controllers';
-import { authMiddleware, roleMiddleware } from '../../middleware';
+
+import { filterRecordsController } from '@/controllers';
+import { authMiddleware, roleMiddleware } from '@/middleware';
 
 const routes = Router();
 

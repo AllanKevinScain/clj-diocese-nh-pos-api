@@ -1,10 +1,13 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { Request, Response } from 'express';
-import { unauthorizedException } from '../../exception';
-import { CourseInfertypeSchema, CourseSchema } from '../../schemas';
-import { findCourseByDate } from './helpers';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import type { CourseInfertypeSchema} from '@/schemas';
+import { CourseSchema } from '@/schemas';
+
+import { findCourseByDate } from './helpers';
 import { createRecordRoleByCreateCourseResponse } from './record-role';
 
 async function createCourseRepository(data: CourseInfertypeSchema) {

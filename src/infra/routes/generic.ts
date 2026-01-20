@@ -1,11 +1,11 @@
-import {
-  getRecordController,
-  deleteRecordController,
-  listRecordByCourseIdController,
-} from '../../controllers';
-
 import { Router } from 'express';
-import { authMiddleware, roleMiddleware } from '../../middleware';
+
+import {
+  deleteRecordController,
+  getRecordController,
+  listRecordByCourseIdController,
+} from '@/controllers';
+import { authMiddleware, roleMiddleware } from '@/middleware';
 
 const routes = Router();
 

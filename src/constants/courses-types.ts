@@ -1,4 +1,4 @@
-import { RecordKeys, RecordType } from '../types';
+import type { RecordKeys, RecordType } from '@/types';
 
 export const RecordCourses: Record<RecordKeys, RecordType> = {
   posl: 'POSl',

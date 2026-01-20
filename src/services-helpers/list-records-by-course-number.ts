@@ -1,4 +1,4 @@
-import { prisma } from '../database';
+import { prisma } from '@/database';
 
 export async function listRecordsByCourseNumber(courseNumber: string) {
   const prismaRequest = await prisma.recordEntity.findMany({

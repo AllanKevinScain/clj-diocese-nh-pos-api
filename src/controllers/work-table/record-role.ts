@@ -1,5 +1,7 @@
-import { RecordRoleType, WorkTableEntity } from '@prisma/client';
-import { prisma } from '../../database';
+import type { WorkTableEntity } from '@prisma/client';
+import { RecordRoleType } from '@prisma/client';
+
+import { prisma } from '@/database';
 
 export async function createRecordRoleByCreateWorkTableResponse(prismaRequest: WorkTableEntity) {
   if (!prismaRequest) return;

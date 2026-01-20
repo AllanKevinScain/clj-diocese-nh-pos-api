@@ -1,6 +1,7 @@
-import { prisma } from '../../../database';
-import { RecordWorkSchema, SubRecordWorkSchema } from '../../../schemas';
-import { RecordWorkInterface } from '../record-work.type';
+import { prisma } from '@/database';
+import { RecordWorkSchema, SubRecordWorkSchema } from '@/schemas';
+
+import type { RecordWorkInterface } from '../record-work.type';
 
 export async function createWorkRepository(props: RecordWorkInterface) {
   const { createdById, dto } = props;

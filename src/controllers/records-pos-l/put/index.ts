@@ -1,19 +1,16 @@
-import { Request, Response } from 'express';
-import { ChooseEntityPutRecordInterface } from './put.type';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { HttpStatus } from '../../../constants';
-import {
-  IdSchema,
-  candidatePoslSchema,
-  RecordCoupleInfertype,
-  RecordCoupleSchema,
-  RecordWorkSchema,
-} from '../../../schemas';
-import { handleZodError } from '../../../helpers';
-import { RecordType } from '../../../types';
-import { putRecordPOSlRepository } from './candidate';
+
+import { HttpStatus } from '@/constants';
+import { handleZodError } from '@/helpers';
+import type { RecordCoupleInfertype } from '@/schemas';
+import { candidatePoslSchema, IdSchema, RecordCoupleSchema, RecordWorkSchema } from '@/schemas';
+import { getRecordById } from '@/services-helpers';
+import type { RecordType } from '@/types';
+
 import { putCoupleRepository, putWorkRepository } from '../../record-work';
-import { getRecordById } from '../../../services-helpers';
+import { putRecordPOSlRepository } from './candidate';
+import type { ChooseEntityPutRecordInterface } from './put.type';
 
 async function chooseEntityCreateRecord(props: ChooseEntityPutRecordInterface) {
   const { dtoType, ...rest } = props;

@@ -1,2 +1,2 @@
-export * from './http-status';
 export * from './courses-types';
+export * from './http-status';

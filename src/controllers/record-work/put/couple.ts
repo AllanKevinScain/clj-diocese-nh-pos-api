@@ -1,6 +1,7 @@
-import { prisma } from '../../../database';
-import { RecordCoupleSchema, SubRecordCoupleSchema } from '../../../schemas';
-import { RecordWorkPutInterface } from '../record-work.type';
+import { prisma } from '@/database';
+import { RecordCoupleSchema, SubRecordCoupleSchema } from '@/schemas';
+
+import type { RecordWorkPutInterface } from '../record-work.type';
 
 export async function putCoupleRepository(params: RecordWorkPutInterface) {
   const { dto, id } = params;

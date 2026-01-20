@@ -1,12 +1,15 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { Request, Response } from 'express';
-import { isEmpty } from 'lodash';
-import { unauthorizedException } from '../../exception';
-import { CourseInfertypeSchema, CourseSchema, IdSchema } from '../../schemas';
-import { findCourseByDate } from './helpers';
-import { getCourseById } from '../../services-helpers';
 import { RecordRoleType } from '@prisma/client';
+import type { Request, Response } from 'express';
+import { isEmpty } from 'lodash';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import type { CourseInfertypeSchema} from '@/schemas';
+import { CourseSchema, IdSchema } from '@/schemas';
+import { getCourseById } from '@/services-helpers';
+
+import { findCourseByDate } from './helpers';
 
 type PutRepositoryParamsType = {
   data: Partial<CourseInfertypeSchema>;

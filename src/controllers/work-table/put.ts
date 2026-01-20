@@ -1,10 +1,13 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { handleZodError } from '../../helpers';
-import { Request, Response } from 'express';
+import type { TypeOfficeWorkKitchenMember } from '@prisma/client';
+import { RecordRoleType } from '@prisma/client';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { IdSchema, workTableSchema, WorkTableInfertypeSchema } from '../../schemas';
-import { RecordRole, RecordRoleType, TypeOfficeWorkKitchenMember } from '@prisma/client';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { handleZodError } from '@/helpers';
+import type { WorkTableInfertypeSchema } from '@/schemas';
+import { IdSchema, workTableSchema } from '@/schemas';
 
 type PutRepositoryParamsType = {
   data: Partial<WorkTableInfertypeSchema>;
@@ -13,7 +16,7 @@ type PutRepositoryParamsType = {
 
 async function putWorkTableRepository(params: PutRepositoryParamsType) {
   const { data, id } = params;
-  const { communities, id: _, ...workTableObject } = workTableSchema.partial().parse(data);
+  const { communities, id: _id, ...workTableObject } = workTableSchema.partial().parse(data);
   const { cleanWorkRecords, copeWorkRecords, kitchenWorkRecords, ...restWorkTable } =
     workTableObject;
 

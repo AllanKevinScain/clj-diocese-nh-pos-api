@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { loginController, refreshTokenController } from '../../controllers';
+
+import { loginController, refreshTokenController } from '@/controllers';
 
 const routes = Router();
 

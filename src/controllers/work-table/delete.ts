@@ -1,8 +1,9 @@
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { Request, Response } from 'express';
-import { IdSchema } from '../../schemas';
-import { unauthorizedException } from '../../exception';
+import type { Request, Response } from 'express';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import { IdSchema } from '@/schemas';
 
 async function deleteWorkTableRepository(id: string) {
   const prismaRequest = await prisma.workTableEntity.delete({

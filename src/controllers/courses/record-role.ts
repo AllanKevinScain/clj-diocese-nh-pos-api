@@ -1,5 +1,7 @@
-import { Course, RecordRoleType } from '@prisma/client';
-import { prisma } from '../../database';
+import type { Course} from '@prisma/client';
+import { RecordRoleType } from '@prisma/client';
+
+import { prisma } from '@/database';
 
 export async function createRecordRoleByCreateCourseResponse(prismaRequest: Course) {
   if (!prismaRequest) return;

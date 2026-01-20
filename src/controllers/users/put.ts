@@ -1,10 +1,12 @@
-import { z } from 'zod';
-import { prisma } from '../../database';
-import { HttpStatus } from '../../constants';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { isEmpty } from 'lodash';
-import { IdSchema, UserSchema } from '../../schemas';
-import { unauthorizedException } from '../../exception';
+import type { z } from 'zod';
+
+import { HttpStatus } from '@/constants';
+import { prisma } from '@/database';
+import { unauthorizedException } from '@/exception';
+import { IdSchema, UserSchema } from '@/schemas';
+
 import { getUserRepository } from './get';
 
 const UserPartialSchema = UserSchema.omit({ email: true, loginType: true }).partial();
